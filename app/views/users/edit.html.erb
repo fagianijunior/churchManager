@@ -1,8 +1,14 @@
-<div class="mx-auto md:w-2/3 w-full">
-  <h1 class="font-bold text-4xl">Editing user</h1>
-
+<div class="grid grid-cols-1 xl:gap-4 my-4">
+  <div class="bg-white shadow rounded-lg p-4 sm:p-6 h-full">
+    <div class="flex items-center justify-between">
+      <h3 class="text-xl font-bold leading-none text-gray-900"><%= @user.full_name %></h3>
+      <%= link_to 'Exibir membro', @user, class: "text-sm font-medium text-cyan-600 hover:bg-gray-100 rounded-lg inline-flex items-center p-2" %>
+      <%= link_to "Lista de membros", users_path, class: "text-sm font-medium text-cyan-600 hover:bg-gray-100 rounded-lg inline-flex items-center p-2" %>
+    </div>
+  </div>
+</div>
+<div class="grid grid-cols-1 gap-4">
   <%= render "form", user: @user %>
 
-  <%= link_to "Show this user", @user, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
-  <%= link_to "Back to users", users_path, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+
 </div>

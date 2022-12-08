@@ -1,22 +1,57 @@
-<div id="<%= dom_id user %>">
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Name:</strong>
-    <%= user.name %>
-  </p>
-
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Birth date:</strong>
-    <%= user.birth_date %>
-  </p>
-
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Church:</strong>
-    <%= user.church_id %>
-  </p>
-
-  <% if action_name != "show" %>
-    <%= link_to "Show this user", user, class: "rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
-    <%= link_to 'Edit this user', edit_user_path(user), class: "rounded-lg py-3 ml-2 px-5 bg-gray-100 inline-block font-medium" %>
-    <hr class="mt-6">
-  <% end %>
+<div id="<%= dom_id user %>" class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 ">
+  <div class="flex items-center space-x-2 font-semibold text-gray-900 leading-8">
+    <span clas="text-green-500">
+      <i class="fa-regular fa-user"></i>
+    </span>
+    <span class="tracking-wide"><%= user.full_name %></span>
+  </div>
+  <div class="text-gray-700">
+    <div class="grid md:grid-cols-2 text-sm">
+      <div class="grid grid-cols-2">
+        <div class="px-4 py-2 font-semibold">Nome</div>
+        <div class="px-4 py-2"><%= user.first_name %></div>
+      </div>
+      <div class="grid grid-cols-2">
+        <div class="px-4 py-2 font-semibold">Sobrenome</div>
+        <div class="px-4 py-2"><%= user.last_name %></div>
+      </div>
+      <div class="grid grid-cols-2">
+        <div class="px-4 py-2 font-semibold">Gênero</div>
+        <div class="px-4 py-2"><%= user.gender ? "Masculino" : "Feminino" %></div>
+      </div>
+      <div class="grid grid-cols-2">
+        <div class="px-4 py-2 font-semibold">Número de contato</div>
+        <div class="px-4 py-2"><%= user.contact_number %></div>
+      </div>
+      <div class="grid grid-cols-2">
+        <div class="px-4 py-2 font-semibold">Email</div>
+        <div class="px-4 py-2">
+          <%= link_to user.email, user.email, class: "text-blue-800" %>
+        </div>
+      </div>
+      <div class="grid grid-cols-2">
+        <div class="px-4 py-2 font-semibold">Nascimento</div>
+        <div class="px-4 py-2"><%= user.birth_date %></div>
+      </div>
+    </div>
+    <div class="grid md:grid-cols-1 text-sm">
+      <div class="grid grid-cols-1">
+        <div class="px-4 py-2 font-semibold">Endereço</div>
+        <div class="px-4 py-2"><%= user.address %></div>
+      </div>
+    </div>
+    <div class="grid md:grid-cols-1 text-sm">
+      <div class="grid grid-cols-3">
+        <% if action_name != "show" %>
+          <%= link_to "Show this user", user, class: "rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+          <%= link_to 'Edit this user', edit_user_path(user), class: "rounded-lg py-3 ml-2 px-5 bg-gray-100 inline-block font-medium" %>
+        <% else %>
+          <%= link_to 'Edit this user', edit_user_path(user), class: "rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+          <%= button_to 'Destroy this user', user_path(user), method: :delete, class: "rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+          <%= link_to 'Back to users', users_path, class: "rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+        <% end %>
+      </div>
+    </div>
+  </div>
 </div>
+<!-- End of about section -->

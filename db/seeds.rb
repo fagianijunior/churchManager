@@ -10,8 +10,12 @@ church = Church.create ({
   fundation_date: "1980-11-10"
 })
 user = User.create([{
-  name: "Carlos Fagiani Junior",
+  first_name: "Carlos",
+  last_name: "Fagiani Junior",
+  gender: true,
+  address: "Rua 03H, 199 - Monte Prince II, B.J, C.03 - Fortaleza - CE",
   birth_date: "1985-10-28",
+  contact_number: "(85) 98595-2866",
   church: church,
   email: 'adm@adm.com',
   password: '1qaz2wsx',
