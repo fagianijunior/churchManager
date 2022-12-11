@@ -1,14 +1,4 @@
-<div class="grid grid-cols-1 xl:gap-4 my-4">
-  <div class="bg-white shadow rounded-lg p-4 sm:p-6 h-full">
-    <div class="flex items-center justify-between">
-      <h3 class="text-xl font-bold leading-none text-gray-900"><%= @user.full_name %></h3>
-      <%= link_to 'Exibir membro', @user, class: "text-sm font-medium text-cyan-600 hover:bg-gray-100 rounded-lg inline-flex items-center p-2" %>
-      <%= link_to "Lista de membros", users_path, class: "text-sm font-medium text-cyan-600 hover:bg-gray-100 rounded-lg inline-flex items-center p-2" %>
-    </div>
-  </div>
-</div>
-<div class="grid grid-cols-1 gap-4">
-  <%= render "form", user: @user %>
-
-
-</div>
+<h3>Editar Membro</h3>
+<%= link_to 'Exibir membro', @user %> | 
+<%= link_to "Lista de membros", users_path %>
+<%= render "form", user: @user %>

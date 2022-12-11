@@ -1,12 +1,27 @@
 <div id="<%= dom_id transaction %>">
   <p class="my-5">
-    <strong class="block font-medium mb-1">Kind of:</strong>
+    <strong class="block font-medium mb-1">Tipo de transação:</strong>
     <%= transaction.kind_of %>
   </p>
 
   <p class="my-5">
-    <strong class="block font-medium mb-1">Wallet:</strong>
-    <%= transaction.wallet_id %>
+    <strong class="block font-medium mb-1">Valor:</strong>
+    <%= transaction.amount %>
+  </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Data do pagamento:</strong>
+    <%= transaction.payment_date %>
+  </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Conta:</strong>
+    <%= "#{transaction.wallet.name} - #{transaction.wallet.kind_of}" %>
+  </p>
+
+    <p class="my-5">
+    <strong class="block font-medium mb-1">Descrição:</strong>
+    <%= transaction.description %>
   </p>
 
   <% if action_name != "show" %>

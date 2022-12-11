@@ -17,7 +17,7 @@
       </div>
       <div class="grid grid-cols-2">
         <div class="px-4 py-2 font-semibold">Gênero</div>
-        <div class="px-4 py-2"><%= user.gender ? "Masculino" : "Feminino" %></div>
+        <div class="px-4 py-2"><%= user.gender.capitalize %></div>
       </div>
       <div class="grid grid-cols-2">
         <div class="px-4 py-2 font-semibold">Número de contato</div>
@@ -32,6 +32,14 @@
       <div class="grid grid-cols-2">
         <div class="px-4 py-2 font-semibold">Nascimento</div>
         <div class="px-4 py-2"><%= user.birth_date %></div>
+      </div>
+      <div class="grid grid-cols-2">
+        <div class="px-4 py-2 font-semibold">Data de batismo</div>
+        <div class="px-4 py-2"><%= user.baptism_date %></div>
+      </div>
+            <div class="grid grid-cols-2">
+        <div class="px-4 py-2 font-semibold">Membro desde</div>
+        <div class="px-4 py-2"><%= user.member_since %></div>
       </div>
     </div>
     <div class="grid md:grid-cols-1 text-sm">

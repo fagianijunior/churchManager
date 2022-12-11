@@ -1,17 +1,12 @@
 <div id="<%= dom_id wallet %>">
   <p class="my-5">
-    <strong class="block font-medium mb-1">Name:</strong>
+    <strong class="block font-medium mb-1">Nome:</strong>
     <%= wallet.name %>
   </p>
 
   <p class="my-5">
-    <strong class="block font-medium mb-1">Kind of:</strong>
+    <strong class="block font-medium mb-1">Tipo de conta:</strong>
     <%= wallet.kind_of %>
-  </p>
-
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Church:</strong>
-    <%= wallet.church_id %>
   </p>
 
   <% if action_name != "show" %>

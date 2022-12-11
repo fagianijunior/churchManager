@@ -1,4 +1,175 @@
-<div>
-  <h1 class="font-bold text-4xl">Dashboard#index</h1>
-  <p>Find me in app/views/dashboard/index.html.erb</p>
+<div class="mt-4 w-full grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-4">
+  <div class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 ">
+    <div class="flex items-center">
+      <div class="flex-shrink-0">
+        <span class="text-2xl sm:text-3xl leading-none font-bold text-gray-900"><%= @monthTransactionsIn %></span>
+        <h3 class="text-base font-normal text-gray-500">Entradas no mês</h3>
+      </div>
+      <div class="ml-5 w-0 flex items-center justify-end flex-1 text-green-500 text-base font-bold">
+        14.6%
+        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L6.707 7.707a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+        </svg>
+      </div>
+    </div>
+  </div>
+  <div class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 ">
+    <div class="flex items-center">
+      <div class="flex-shrink-0">
+        <span class="text-2xl sm:text-3xl leading-none font-bold text-gray-900"><%= @monthTransactionsOut %></span>
+        <h3 class="text-base font-normal text-gray-500">Saídas no mês</h3>
+      </div>
+      <div class="ml-5 w-0 flex items-center justify-end flex-1 text-green-500 text-base font-bold">
+        14.6%
+        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L6.707 7.707a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+        </svg>
+      </div>
+    </div>
+  </div>
+  <div class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 ">
+    <div class="flex items-center">
+      <div class="flex-shrink-0">
+        <span class="text-2xl sm:text-3xl leading-none font-bold text-gray-900"><%= @monthTransactionsBalance %></span>
+        <h3 class="text-base font-normal text-gray-500">Saldo até o mês</h3>
+      </div>
+      <div class="ml-5 w-0 flex items-center justify-end flex-1 text-red-500 text-base font-bold">
+        -2.7%
+        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" d="M14.707 12.293a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 111.414-1.414L9 14.586V3a1 1 0 012 0v11.586l2.293-2.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+        </svg>
+      </div>
+    </div>
+  </div>
+  <div class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8">
+    <div class="flex items-center">
+      <div class="flex-shrink-0">
+        <%= form_with url: "/", method: :get do |f| %>
+          <%= f.select(:month, options_for_select([
+            ['Janeiro',1],['Fevereiro',2],['Março',3],['Abriu',4],['Maio',5],['Junho',6],['Julho',7],['Agosto',8],
+            ['Setembro',9],['Outubro',10],['Novembro',11],['Dezembro',12]
+          ], selected: @month)) %>
+          <%= f.select(:year, options_for_select([Transaction.first.created_at.year..Date.today.year], selected: @year)) %>
+          <%= f.submit 'Trocar Mês' %>
+        <% end %>
+        <%= link_to "Mês atual", root_path, class: "text-base font-normal text-gray-500" %>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="mt-4 w-full grid grid-cols-2 gap-4">
+  <div class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 ">
+    <div class="flex items-center justify-between mb-4">
+      <h3 class="text-xl font-bold leading-none text-gray-900">Entradas e Saídas no mês</h3>
+    </div>
+    <div class="flex items-center">
+      <%= line_chart @monthTransactionsChart %>
+    </div>
+  </div>
+  <div class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 ">
+    <div class="flex items-center justify-between mb-4">
+      <h3 class="text-xl font-bold leading-none text-gray-900">Saldo até o mês</h3>
+    </div>
+    <div class="flex items-center">
+      <%= line_chart @monthTransactionsBalanceChart %>
+    </div>
+  </div>
+</div>
+<div class="grid grid-cols-1 2xl:grid-cols-3 xl:gap-4 my-4">
+  <div class="bg-white shadow rounded-lg mb-4 p-4 sm:p-6 h-full">
+    <div class="flex items-center justify-between mb-4">
+      <h3 class="text-xl font-bold leading-none text-gray-900">Últimos membros</h3>
+      <%= link_to users_path, class: "text-sm font-medium text-cyan-600 hover:bg-gray-100 rounded-lg inline-flex items-center p-2" do %>
+        Ver todos
+      <% end %>
+    </div>
+    <div class="flow-root">
+      <ul role="list" class="divide-y divide-gray-200">
+        <% @latestUsers.each do |user| %>
+          <li class="py-3 sm:py-4">
+            <div class="flex items-center space-x-4">
+              <div class="flex-shrink-0">
+                <img class="h-8 w-8 rounded-full" src="https://demo.themesberg.com/windster/images/users/neil-sims.png" alt="Neil image">
+              </div>
+              <div class="flex-1 min-w-0">
+                <p class="text-sm font-medium text-gray-900 truncate">
+                  <%= user.full_name %>
+                </p>
+                <p class="text-sm text-gray-500 truncate">
+                  <%= user.contact_number %>
+                </p>
+              </div>
+              <div class="inline-flex items-center text-base font-semibold text-gray-900">
+                $320
+              </div>
+            </div>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+  <div class="bg-white shadow rounded-lg mb-4 p-4 sm:p-6 h-full">
+    <div class="flex items-center justify-between mb-4">
+      <h3 class="text-xl font-bold leading-none text-gray-900">Aniversariantes do mês</h3>
+      <%= link_to users_path, class: "text-sm font-medium text-cyan-600 hover:bg-gray-100 rounded-lg inline-flex items-center p-2" do %>
+        Ver todos
+      <% end %>
+    </div>
+    <div class="flow-root">
+      <ul role="list" class="divide-y divide-gray-200">
+        <% @monthBirthdays.each do |user| %>
+          <li class="py-3 sm:py-4">
+            <div class="flex items-center space-x-4">
+              <div class="flex-shrink-0">
+                <img class="h-8 w-8 rounded-full" src="https://demo.themesberg.com/windster/images/users/neil-sims.png" alt="Neil image">
+              </div>
+              <div class="flex-1 min-w-0">
+                <p class="text-sm font-medium text-gray-900 truncate">
+                  <%= user.full_name %>
+                </p>
+                <p class="text-sm text-gray-500 truncate">
+                  <%= user.birth_date %>
+                </p>
+              </div>
+              <div class="inline-flex items-center text-base font-semibold text-gray-900">
+                <%= Date.today.year - user.birth_date.year %> anos
+              </div>
+            </div>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+  <div class="bg-white shadow rounded-lg mb-4 p-4 sm:p-6 h-full">
+    <div class="flex items-center justify-between mb-4">
+      <h3 class="text-xl font-bold leading-none text-gray-900">Próximos aniversariantes</h3>
+      <%= link_to users_path, class: "text-sm font-medium text-cyan-600 hover:bg-gray-100 rounded-lg inline-flex items-center p-2" do %>
+        Ver todos
+      <% end %>
+    </div>
+    <div class="flow-root">
+      <ul role="list" class="divide-y divide-gray-200">
+        <% @upcomingBirthdays.each do |user| %>
+          <li class="py-3 sm:py-4 <%= (15.days.before.yday()..Date.today.yday()).include?(user.birth_date.yday()) ? 'bg-slate-200' : '' %>">
+            <div class="flex items-center space-x-4">
+              <div class="flex-shrink-0">
+                <img class="h-8 w-8 rounded-full" src="https://demo.themesberg.com/windster/images/users/neil-sims.png" alt="Neil image">
+              </div>
+              <div class="flex-1 min-w-0">
+                <p class="text-sm font-medium text-gray-900 truncate">
+                  <%= user.full_name %>
+                </p>
+                <p class="text-sm text-gray-500 truncate">
+                  <%= user.birth_date %>
+                </p>
+              </div>
+              <div class="inline-flex items-center text-base font-semibold text-gray-900">
+                <%= Date.today.year - user.birth_date.year %> anos
+              </div>
+            </div>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
 </div>

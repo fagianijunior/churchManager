@@ -5,7 +5,10 @@ class User < ApplicationRecord
   devise :database_authenticatable, :recoverable, :rememberable, :validatable
   belongs_to :church
 
+  validates :first_name, :last_name, :gender, :contact_number, :email, :birth_date, :church_id, :address, presence: true
+
   # Gender enum
+  enum gender: [:masculino, :feminino]
 
   def full_name
     "#{first_name} #{last_name}"

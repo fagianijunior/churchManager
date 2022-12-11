@@ -4,7 +4,7 @@ class TransactionsController < ApplicationController
 
   # GET /transactions or /transactions.json
   def index
-    @transactions = Transaction.all
+    @transactions = Transaction.all.order(:payment_date)
   end
 
   # GET /transactions/1 or /transactions/1.json
@@ -66,6 +66,6 @@ class TransactionsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def transaction_params
-      params.require(:transaction).permit(:kind_of, :wallet_id)
+      params.require(:transaction).permit(:kind_of, :wallet_id, :amount, :payment_date, :description)
     end
 end

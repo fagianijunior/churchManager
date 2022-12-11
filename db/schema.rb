@@ -22,7 +22,10 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_03_235224) do
   end
 
   create_table "transactions", force: :cascade do |t|
-    t.boolean "kind_of"
+    t.integer "kind_of"
+    t.decimal "amount", precision: 8, scale: 2
+    t.date "payment_date"
+    t.text "description"
     t.bigint "wallet_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -32,9 +35,11 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_03_235224) do
   create_table "users", force: :cascade do |t|
     t.string "first_name"
     t.string "last_name"
-    t.boolean "gender"
+    t.integer "gender"
     t.string "contact_number"
     t.string "address"
+    t.date "baptism_date"
+    t.date "member_since"
     t.date "birth_date"
     t.bigint "church_id", null: false
     t.datetime "created_at", null: false
