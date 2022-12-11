@@ -1,5 +1,6 @@
 class Transaction < ApplicationRecord
   belongs_to :wallet
+  belongs_to :user
 
   enum kind_of: [:entrada, :saida] # :entre_contas cria saida na primeira conta e entrada na segunda conta
 

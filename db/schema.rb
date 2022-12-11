@@ -26,9 +26,11 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_03_235224) do
     t.decimal "amount", precision: 8, scale: 2
     t.date "payment_date"
     t.text "description"
+    t.bigint "user_id"
     t.bigint "wallet_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_transactions_on_user_id"
     t.index ["wallet_id"], name: "index_transactions_on_wallet_id"
   end
 
@@ -63,6 +65,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_03_235224) do
     t.index ["church_id"], name: "index_wallets_on_church_id"
   end
 
+  add_foreign_key "transactions", "users"
   add_foreign_key "transactions", "wallets"
   add_foreign_key "users", "churches"
   add_foreign_key "wallets", "churches"

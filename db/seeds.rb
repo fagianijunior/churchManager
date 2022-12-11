@@ -9,6 +9,21 @@ church = Church.create ({
   name: "Maranata",
   fundation_date: "1980-11-10"
 })
+
+wallet = Wallet.create({
+  name: "Dízimos",
+  kind_of: :caixa,
+  church: church
+})
+
+transaction = Transaction.create({
+  kind_of: :entrada,
+  wallet: wallet,
+  amount: 0.0,
+  payment_date: Date.today,
+  description: "Primeira transação..."
+})
+
 user = User.create([{
   first_name: "Carlos",
   last_name: "Fagiani Junior",

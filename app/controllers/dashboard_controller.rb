@@ -21,8 +21,8 @@ class DashboardController < ApplicationController
       val += accumulator
       accumulator = val
     end
-    puts @monthTransactionsBalanceChart
-
+    
+    @monthTithe = Wallet.dizimo.transactions.entrada.(payment_date: date_range)
 
 
     # Show latest ten users
