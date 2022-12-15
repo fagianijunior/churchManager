@@ -1,10 +1,10 @@
-<%= simple_form_for(@transaction, class: "contents") do |f| %>
-  <% if transaction.errors.any? %>
+<%= simple_form_for(@movement, class: "contents") do |f| %>
+  <% if movement.errors.any? %>
     <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
-      <h2><%= pluralize(transaction.errors.count, "error") %> prohibited this transaction from being saved:</h2>
+      <h2><%= pluralize(movement.errors.count, "error") %> prohibited this movement from being saved:</h2>
 
       <ul>
-        <% transaction.errors.each do |error| %>
+        <% movement.errors.each do |error| %>
           <li><%= error.full_message %></li>
         <% end %>
       </ul>
@@ -15,12 +15,12 @@
     <%= f.input :wallet_id, collection: Wallet.all, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
   </div>
 
-    <div class="my-5" id="transaction_user_id_group">
+    <div class="my-5" id="movement_user_id_group">
     <%= f.input :user_id, collection: User.all, label_method: :full_name, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
   </div>
 
   <div class="my-5">
-    <%= f.input :kind_of, collection: Transaction.kind_ofs.keys, include_blank: false, class: "block mt-2 h-5 w-5" %>
+    <%= f.input :kind_of, collection: Movement.kind_ofs.keys, include_blank: false, class: "block mt-2 h-5 w-5" %>
   </div>
 
   <div class="my-5">

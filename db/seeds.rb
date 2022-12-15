@@ -12,12 +12,12 @@ church = Church.create ({
 
 wallet = Wallet.create({
   name: "Dízimos",
-  kind_of: :caixa,
+  kind_of: :dizimo,
   church: church
 })
 
-transaction = Transaction.create({
-  kind_of: :entrada,
+movement = Movement.create({
+  kind_of: :saida,
   wallet: wallet,
   amount: 0.0,
   payment_date: Date.today,

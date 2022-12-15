@@ -21,7 +21,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_03_235224) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "transactions", force: :cascade do |t|
+  create_table "movements", force: :cascade do |t|
     t.integer "kind_of"
     t.decimal "amount", precision: 8, scale: 2
     t.date "payment_date"
@@ -30,8 +30,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_03_235224) do
     t.bigint "wallet_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_transactions_on_user_id"
-    t.index ["wallet_id"], name: "index_transactions_on_wallet_id"
+    t.index ["user_id"], name: "index_movements_on_user_id"
+    t.index ["wallet_id"], name: "index_movements_on_wallet_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -65,8 +65,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_03_235224) do
     t.index ["church_id"], name: "index_wallets_on_church_id"
   end
 
-  add_foreign_key "transactions", "users"
-  add_foreign_key "transactions", "wallets"
+  add_foreign_key "movements", "users"
+  add_foreign_key "movements", "wallets"
   add_foreign_key "users", "churches"
   add_foreign_key "wallets", "churches"
 end

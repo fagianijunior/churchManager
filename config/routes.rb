@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   get 'dashboard/index'
   get 'home/index'
-  resources :transactions
+  resources :movements
   resources :wallets
   devise_for :users
   resources :users

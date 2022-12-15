@@ -1,32 +1,32 @@
-<div id="<%= dom_id transaction %>">
+<div id="<%= dom_id movement %>">
   <p class="my-5">
     <strong class="block font-medium mb-1">Tipo de transação:</strong>
-    <%= transaction.kind_of %>
+    <%= movement.kind_of %>
   </p>
 
   <p class="my-5">
     <strong class="block font-medium mb-1">Valor:</strong>
-    <%= transaction.amount %>
+    <%= movement.amount %>
   </p>
 
   <p class="my-5">
     <strong class="block font-medium mb-1">Data do pagamento:</strong>
-    <%= transaction.payment_date %>
+    <%= movement.payment_date %>
   </p>
 
   <p class="my-5">
     <strong class="block font-medium mb-1">Conta:</strong>
-    <%= "#{transaction.wallet.name} - #{transaction.wallet.kind_of}" %>
+    <%= "#{movement.wallet.name} - #{movement.wallet.kind_of}" %>
   </p>
 
     <p class="my-5">
     <strong class="block font-medium mb-1">Descrição:</strong>
-    <%= transaction.description %>
+    <%= movement.description %>
   </p>
 
   <% if action_name != "show" %>
-    <%= link_to "Show this transaction", transaction, class: "rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
-    <%= link_to 'Edit this transaction', edit_transaction_path(transaction), class: "rounded-lg py-3 ml-2 px-5 bg-gray-100 inline-block font-medium" %>
+    <%= link_to "Show this movement", movement, class: "rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+    <%= link_to 'Edit this movement', edit_movement_path(movement), class: "rounded-lg py-3 ml-2 px-5 bg-gray-100 inline-block font-medium" %>
     <hr class="mt-6">
   <% end %>
 </div>

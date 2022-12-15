@@ -1,7 +1,6 @@
 class Wallet < ApplicationRecord
   belongs_to :church
-
-  has_many :transactions
+  has_many :movements
 
   enum kind_of: [:corrente, :poupanca, :caixa, :investimento, :dizimo]
 
