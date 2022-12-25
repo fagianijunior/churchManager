@@ -42,8 +42,12 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_03_235224) do
     t.string "address"
     t.date "baptism_date"
     t.date "member_since"
+    t.integer "marital_status"
+    t.string "cpf"
+    t.string "rg"
     t.date "birth_date"
     t.bigint "church_id", null: false
+    t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "email", default: "", null: false
@@ -57,6 +61,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_03_235224) do
   end
 
   create_table "wallets", force: :cascade do |t|
+    t.string "icon"
     t.string "name"
     t.integer "kind_of"
     t.bigint "church_id", null: false

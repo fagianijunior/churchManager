@@ -38,6 +38,8 @@ gem 'simple_form-tailwind', '~> 0.1.1'
 gem 'devise', '~> 4.8', '>= 4.8.1'
 gem "chartkick"
 gem "groupdate"
+gem 'i18n', '~> 1.12'
+
 # Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]
 # gem "kredis"
 

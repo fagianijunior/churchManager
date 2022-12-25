@@ -82,5 +82,5 @@ test:
 production:
   <<: *default
   database: churchManager_production
-  username: churchManager
-  password: <%= ENV["CHURCHMANAGER_DATABASE_PASSWORD"] %>
+#  username: churchManager
+#  password: <%= ENV["CHURCHMANAGER_DATABASE_PASSWORD"] %>

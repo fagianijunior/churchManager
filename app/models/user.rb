@@ -7,10 +7,14 @@ class User < ApplicationRecord
 
   validates :first_name, :last_name, :gender, :contact_number, :email, :birth_date, :church_id, :address, presence: true
 
-  # Gender enum
   enum gender: [:masculino, :feminino]
+  enum marital_status: [:solteiro, :casado, :divorciado, :viuvo]
 
   def full_name
     "#{first_name} #{last_name}"
+  end
+
+  def age
+    ((Time.zone.now - birth_date.to_time) / 1.year.seconds).floor
   end
 end

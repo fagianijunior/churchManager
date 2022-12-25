@@ -1,4 +1,17 @@
-<h3>Editar Membro</h3>
-<%= link_to 'Exibir membro', @user %> | 
-<%= link_to "Lista de membros", users_path %>
-<%= render "form", user: @user %>
+<% button_classes="text-sm font-medium text-cyan-600 hover:bg-gray-100 rounded-lg inline-flex items-center p-2" %>
+<div class="grid grid-cols-1 my-4">
+  <div class="bg-white shadow rounded-lg p-6">
+    <div class="flex items-center justify-between">
+      <h3 class="text-xl font-bold leading-none text-gray-900">Editar integrante</h3>
+      <div class="grid grid-cols2-2 my-4">
+        <div class="flex items-center justify-between">
+          <%= link_to 'Exibir integrante', @user, class: button_classes %>
+          <%= link_to 'Integrantes', users_path, class: button_classes %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="grid grid-cols-1 gap-4">
+  <%= render "form", user: @user %>
+</div>

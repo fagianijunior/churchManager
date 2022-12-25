@@ -1,4 +1,4 @@
-<%= simple_form_for(user) do |form| %>
+<%= simple_form_for(user, html: { class: 'bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4'}) do |f| %>
   <% if user.errors.any? %>
     <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
       <h2><%= pluralize(user.errors.count, "error") %> prohibited this user from being saved:</h2>
@@ -9,15 +9,23 @@
       </ul>
     </div>
   <% end %>
-  <%= form.input :first_name %>
-  <%= form.input :last_name %>
-  <%= form.input :gender, collection: User.genders.keys %>
-  <%= form.input :contact_number %>
-  <%= form.input :email %>
-  <%= form.input :birth_date, as: :string %>
-  <%= form.input :baptism_date, as: :string %>
-  <%= form.input :member_since, as: :string %>
-  <%= form.input :church_id, collection: Church.all %>
-  <%= form.input :address %>
-  <%= form.submit %>
+  <div class="grid grid-cols-4 gap-4">
+    <%= f.input :first_name %>
+    <%= f.input :last_name %>
+    <%= f.input :gender, collection: User.genders.keys, value: user.gender %>
+    <%= f.input :marital_status, collection: User.marital_statuses.keys, value: user.marital_status %>
+    <%= f.input :contact_number %>
+    <%= f.input :cpf %>
+    <%= f.input :rg %>
+    <%= f.input :email %>
+    <%= f.input :birth_date, as: :string %>
+    <%= f.input :baptism_date, as: :string %>
+    <%= f.input :member_since, as: :string %>
+    <%= f.input :church_id, collection: Church.all, value: user.church %>
+  </div>
+  <div class="grid grid-cols-2 gap-4">
+    <%= f.input :address %>
+    <%= f.input :description %>
+  </div>
+  <%= f.submit %>
 <% end %>

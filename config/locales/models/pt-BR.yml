@@ -1,0 +1,26 @@
+pt-BR:
+  activerecord:
+    attributes:
+      user:
+        first_name: 'Primeiro nome'
+        last_name: 'Último nome'
+        gender: 'Gênero'
+        marital_status: 'Estado civil'
+        contact_number: 'Telefone'
+        email: 'E-mail'
+        birth_date: 'Data de nascimento'
+        baptism_date: 'Data de batismo'
+        member_since: 'Membro desde'
+        church_id: 'Congregação'
+        address: 'Endereço'
+        description: 'Descrição'
+      wallet:
+        name: 'Nome'
+        kind_of: 'tipo de carteira'
+        church_id: 'Congregação'
+      movement:
+        wallet_id: 'Conta'
+        kind_of: 'tipo de movimentação'
+        amount: 'Valor'
+        payment_date: 'Data de pagamento'
+        description: 'Descrição'

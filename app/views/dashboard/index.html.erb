@@ -6,10 +6,8 @@
         <h3 class="text-base font-normal text-gray-500">Entradas no mês</h3>
       </div>
       <div class="ml-5 w-0 flex items-center justify-end flex-1 text-green-500 text-base font-bold">
-        14.6%
-        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-          <path fill-rule="evenodd" d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L6.707 7.707a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
-        </svg>
+        <%# 14.6% %>
+        <%# <i class="fa fa-angle-double-right" aria-hidden="true"></i> %>
       </div>
     </div>
   </div>
@@ -20,10 +18,8 @@
         <h3 class="text-base font-normal text-gray-500">Saídas no mês</h3>
       </div>
       <div class="ml-5 w-0 flex items-center justify-end flex-1 text-green-500 text-base font-bold">
-        14.6%
-        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-          <path fill-rule="evenodd" d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L6.707 7.707a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
-        </svg>
+        <%# 14.6% %>
+        <%# <i class="fa fa-angle-double-right" aria-hidden="true"></i> %>
       </div>
     </div>
   </div>
@@ -34,10 +30,8 @@
         <h3 class="text-base font-normal text-gray-500">Saldo até o mês</h3>
       </div>
       <div class="ml-5 w-0 flex items-center justify-end flex-1 text-red-500 text-base font-bold">
-        -2.7%
-        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-          <path fill-rule="evenodd" d="M14.707 12.293a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 111.414-1.414L9 14.586V3a1 1 0 012 0v11.586l2.293-2.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-        </svg>
+        <%# -2.7% %>
+        <%# <i class="fa fa-angle-double-right" aria-hidden="true"></i> %>
       </div>
     </div>
   </div>
@@ -49,7 +43,7 @@
             ['Janeiro',1],['Fevereiro',2],['Março',3],['Abriu',4],['Maio',5],['Junho',6],['Julho',7],['Agosto',8],
             ['Setembro',9],['Outubro',10],['Novembro',11],['Dezembro',12]
           ], selected: @month)) %>
-          <%= f.select(:year, options_for_select([Movement.first.created_at.year..Date.today.year], selected: @year)) %>
+          <%= f.select(:year, options_for_select([Movement.first.created_at.year..Date.today.year], selected: @year)) unless Movement.all.empty? %>
           <%= f.submit 'Trocar Mês' %>
         <% end %>
         <%= link_to "Mês atual", root_path, class: "text-base font-normal text-gray-500" %>
@@ -75,6 +69,82 @@
     </div>
   </div>
 </div>
+<div class="mt-4 w-full grid grid-cols-2 gap-4">
+  <div class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 ">
+    <h3 class="text-xl leading-none font-bold text-gray-900 mb-10">Entradas e saídas no mês - Extrato</h3>
+    <div class="block w-full overflow-x-auto">
+      <div class="container">
+        <div class="flex flex-col md:grid grid-cols-9 mx-auto p-2 text-blue-50">
+          <% Movement.where(kind_of: ['entrada','saida']).each do |movement| %>
+              <div class="flex <% 'flex-row-reverse' if movement.entrada? %> md:contents">
+                <% unless movement.entrada? %>
+                  <div class="col-start-5 col-end-6 mr-10 md:mx-auto relative">
+                    <div class="h-full w-6 flex items-center justify-center">
+                      <div class="h-full w-1 bg-blue-800 pointer-events-none"></div>
+                    </div>
+                    <div class="w-6 h-6 absolute top-1/2 -mt-3 rounded-full bg-blue-500 shadow"></div>
+                  </div>
+                <% end %>
+                <div class="<%= movement.entrada? ? ' bg-blue-500 col-start-1 col-end-5 ml-auto' : 'bg-red-500 col-start-6 col-end-10 mr-auto' %> p-4 rounded-xl my-4 shadow-md">
+                  <p class="leading-tight text-justify">
+                    <%= link_to movement do %>
+                      <%= "#{movement.payment_date.day()} | #{number_to_currency(movement.amount, unit: 'R$')} | " %>
+                      <%= movement.wallet.dizimo? ? movement.wallet.name.downcase : movement.description.truncate(10) %>
+                    <% end %>
+                  </p>
+                </div>
+                <% if movement.entrada? %>
+                  <div class="col-start-5 col-end-6 md:mx-auto relative mr-10">
+                    <div class="h-full w-6 flex items-center justify-center">
+                      <div class="h-full w-1 bg-blue-800 pointer-events-none"></div>
+                    </div>
+                    <div class="w-6 h-6 absolute top-1/2 -mt-3 rounded-full bg-blue-500 shadow"></div>
+                  </div>
+                <% end %>
+              </div>
+          <% end %>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 ">
+    <h3 class="text-xl leading-none font-bold text-gray-900 mb-10">Dízimos no mês</h3>
+    <div class="block w-full overflow-x-auto">
+      <table class="items-center w-full bg-transparent border-collapse">
+        <thead>
+          <tr>
+            <th class="px-4 bg-gray-50 text-gray-700 align-middle py-3 text-xs font-semibold text-left uppercase border-l-0 border-r-0 whitespace-nowrap">#</th>
+            <th class="px-4 bg-gray-50 text-gray-700 align-middle py-3 text-xs font-semibold text-left uppercase border-l-0 border-r-0 whitespace-nowrap">Valor</th>
+            <th class="px-4 bg-gray-50 text-gray-700 align-middle py-3 text-xs font-semibold text-left uppercase border-l-0 border-r-0 whitespace-nowrap min-w-140-px"></th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-100">
+          <% @monthTithe.each do |tithe| %>
+            <tr class="text-gray-500">
+              <th class="border-t-0 px-4 align-middle text-sm font-normal whitespace-nowrap p-4 text-left">
+                <%= tithe.user.id %>
+              </th>
+              <td class="border-t-0 px-4 align-middle text-xs font-medium text-gray-900 whitespace-nowrap p-4">
+                <%= tithe.amount %>
+              </td>
+              <td class="border-t-0 px-4 align-middle text-xs whitespace-nowrap p-4">
+                <div class="flex items-center">
+                  <span class="mr-2 text-xs font-medium"><%= amount_percent(tithe.amount,@date_range) %></span>
+                  <div class="relative w-full">
+                    <div class="w-full bg-gray-200 rounded-sm h-2">
+                      <div class="bg-cyan-600 h-2 rounded-sm" style="width: <%= amount_percent(tithe.amount,@date_range) %>"></div>
+                    </div>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
 <div class="grid grid-cols-1 2xl:grid-cols-3 xl:gap-4 my-4">
   <div class="bg-white shadow rounded-lg mb-4 p-4 sm:p-6 h-full">
     <div class="flex items-center justify-between mb-4">
@@ -85,7 +155,7 @@
     </div>
     <div class="flow-root">
       <ul role="list" class="divide-y divide-gray-200">
-        <% @latestUsers.each do |user| %>
+        <% @lastMembers.each do |user| %>
           <li class="py-3 sm:py-4">
             <div class="flex items-center space-x-4">
               <div class="flex-shrink-0">
@@ -100,7 +170,7 @@
                 </p>
               </div>
               <div class="inline-flex items-center text-base font-semibold text-gray-900">
-                $320
+                <%= l user.member_since %>
               </div>
             </div>
           </li>
@@ -128,11 +198,11 @@
                   <%= user.full_name %>
                 </p>
                 <p class="text-sm text-gray-500 truncate">
-                  <%= user.birth_date %>
+                  <%= l user.birth_date, format: :long %>
                 </p>
               </div>
               <div class="inline-flex items-center text-base font-semibold text-gray-900">
-                <%= Date.today.year - user.birth_date.year %> anos
+                <%= user.age %> anos
               </div>
             </div>
           </li>
@@ -160,55 +230,16 @@
                   <%= user.full_name %>
                 </p>
                 <p class="text-sm text-gray-500 truncate">
-                  <%= user.birth_date %>
+                  <%= l user.birth_date, format: :long %>
                 </p>
               </div>
               <div class="inline-flex items-center text-base font-semibold text-gray-900">
-                <%= Date.today.year - user.birth_date.year %> anos
+                <%= user.age %> anos
               </div>
             </div>
           </li>
         <% end %>
       </ul>
-    </div>
-  </div>
-</div>
-<div class="grid grid-cols-2 my-4">
-  <div class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 ">
-    <h3 class="text-xl leading-none font-bold text-gray-900 mb-10">Dízimos no mês</h3>
-    <div class="block w-full overflow-x-auto">
-      <table class="items-center w-full bg-transparent border-collapse">
-        <thead>
-          <tr>
-            <th class="px-4 bg-gray-50 text-gray-700 align-middle py-3 text-xs font-semibold text-left uppercase border-l-0 border-r-0 whitespace-nowrap">#</th>
-            <th class="px-4 bg-gray-50 text-gray-700 align-middle py-3 text-xs font-semibold text-left uppercase border-l-0 border-r-0 whitespace-nowrap">Valor</th>
-            <th class="px-4 bg-gray-50 text-gray-700 align-middle py-3 text-xs font-semibold text-left uppercase border-l-0 border-r-0 whitespace-nowrap min-w-140-px"></th>
-          </tr>
-        </thead>
-        <tbody class="divide-y divide-gray-100">
-          <% @monthTithe.each do |tithe| %>
-
-            <tr class="text-gray-500">
-              <th class="border-t-0 px-4 align-middle text-sm font-normal whitespace-nowrap p-4 text-left">
-                <%= tithe.user.id %>
-              </th>
-              <td class="border-t-0 px-4 align-middle text-xs font-medium text-gray-900 whitespace-nowrap p-4">
-                <%= tithe.amount %>
-              </td>
-              <td class="border-t-0 px-4 align-middle text-xs whitespace-nowrap p-4">
-                <div class="flex items-center">
-                  <span class="mr-2 text-xs font-medium"><%= amount_percent(tithe.amount,@date_range) %></span>
-                  <div class="relative w-full">
-                    <div class="w-full bg-gray-200 rounded-sm h-2">
-                      <div class="bg-cyan-600 h-2 rounded-sm" style="width: <%= amount_percent(tithe.amount,@date_range) %>"></div>
-                    </div>
-                  </div>
-                </div>
-              </td>
-            </tr>
-          <% end %>
-        </tbody>
-      </table>
     </div>
   </div>
 </div>

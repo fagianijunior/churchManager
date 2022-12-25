@@ -238,6 +238,7 @@ DEPENDENCIES
   debug
   devise (~> 4.8, >= 4.8.1)
   groupdate
+  i18n (~> 1.12)
   importmap-rails
   jbuilder
   pg (~> 1.1)

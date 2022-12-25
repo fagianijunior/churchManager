@@ -1,9 +1,9 @@
 Rails.application.routes.draw do
+  devise_for :users
   get 'dashboard/index'
   get 'home/index'
   resources :movements
   resources :wallets
-  devise_for :users
   resources :users
   resources :churches
 

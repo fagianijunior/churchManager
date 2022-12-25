@@ -1,21 +1,28 @@
-<div id="<%= dom_id wallet %>">
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Nome:</strong>
-    <%= wallet.name %>
-  </p>
-
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Tipo de conta:</strong>
-    <%= wallet.kind_of %>
-  </p>
-
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Total:</strong>
-    <%= wallet.movements.sum(:amount) %>
-  </p>
-  <% if action_name != "show" %>
-    <%= link_to "Show this wallet", wallet, class: "rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
-    <%= link_to 'Edit this wallet', edit_wallet_path(wallet), class: "rounded-lg py-3 ml-2 px-5 bg-gray-100 inline-block font-medium" %>
-    <hr class="mt-6">
-  <% end %>
+<div id="<%= dom_id wallet %>" class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 ">
+  <div class="flex items-center space-x-2 font-semibold text-gray-900 leading-8">
+    <span clas="text-green-500">
+      <i class="fa-solid <%= kind_of_icon(wallet.kind_of) %>"></i>
+    </span>
+    <span class="tracking-wide"><%= wallet.name %></span>
+  </div>
+  <div class="text-gray-700">
+    <div class="grid md:grid-cols-1 text-sm">
+      <div class="grid grid-cols-2">
+        <div class="px-4 py-2 font-semibold">Tipo de conta:</div>
+        <div class="px-4 py-2"><%= wallet.kind_of %></div>
+      </div>
+      <div class="grid grid-cols-2">
+        <div class="px-4 py-2 font-semibold">Total:</div>
+        <div class="px-4 py-2"><%= wallet.movements.sum(:amount) %></div>
+      </div>
+      <div class="grid grid-cols-2">
+        <% if action_name != "show" %>
+          <%= link_to "Exibir", wallet, class: "rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+          <%= link_to 'Editar', edit_wallet_path(wallet), class: "rounded-lg py-3 ml-2 px-5 bg-gray-100 inline-block font-medium" %>
+        <% else %>
+          <%= link_to 'Editar', edit_wallet_path(wallet), class: "rounded-lg py-3 ml-2 px-5 bg-gray-100 inline-block font-medium" %>
+        <% end %>
+      </div>
+    </div>
+  </div>
 </div>
