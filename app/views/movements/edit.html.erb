@@ -1,8 +1,17 @@
-<div class="mx-auto md:w-2/3 w-full">
-  <h1 class="font-bold text-4xl">Editing movement</h1>
-
+<% button_classes="text-sm font-medium text-cyan-600 hover:bg-gray-100 rounded-lg inline-flex items-center p-2" %>
+<div class="grid grid-cols-1 my-4">
+  <div class="bg-white shadow rounded-lg p-6">
+    <div class="flex items-center justify-between">
+      <h3 class="text-xl font-bold leading-none text-gray-900">Editar movimentação</h3>
+      <div class="grid grid-cols2-2 my-4">
+        <div class="flex items-center justify-between">
+          <%= link_to "Exibir movimentação", @movement, class: button_classes %>
+          <%= link_to "Movimentações", movements_path, class: button_classes %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="grid grid-cols-1 gap-4">
   <%= render "form", movement: @movement %>
-
-  <%= link_to "Show this movement", @movement, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
-  <%= link_to "Back to movements", movements_path, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
 </div>

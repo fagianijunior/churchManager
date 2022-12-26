@@ -1,15 +1,11 @@
-<div class="mx-auto md:w-2/3 w-full flex">
-  <div class="mx-auto">
-    <% if notice.present? %>
-      <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg inline-block" id="notice"><%= notice %></p>
-    <% end %>
-
-    <%= render @movement %>
-
-    <%= link_to 'Edit this movement', edit_movement_path(@movement), class: "mt-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
-    <div class="inline-block ml-2">
-      <%= button_to 'Destroy this movement', movement_path(@movement), method: :delete, class: "mt-2 rounded-lg py-3 px-5 bg-gray-100 font-medium" %>
+<div class="grid grid-cols-1 my-4">
+  <div class="bg-white shadow rounded-lg p-6">
+    <div class="flex items-center justify-between">
+      <h3 class="text-xl font-bold leading-none text-gray-900">Movimentação</h3>
+      <%= link_to 'Movimentações', movements_path, class: "text-sm font-medium text-cyan-600 hover:bg-gray-100 rounded-lg inline-flex items-center p-2" %>
     </div>
-    <%= link_to 'Back to movements', movements_path, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
   </div>
+</div>
+<div class="grid grid-cols-2 gap-4">
+  <%= render @movement %>
 </div>

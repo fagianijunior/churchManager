@@ -1,4 +1,4 @@
-<%= simple_form_for(@wallet) do |f| %>
+<%= simple_form_for(@wallet, html: { class: 'bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4'}) do |f| %>
   <% if wallet.errors.any? %>
     <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
       <h2><%= pluralize(wallet.errors.count, "error") %> prohibited this wallet from being saved:</h2>
@@ -10,21 +10,12 @@
       </ul>
     </div>
   <% end %>
-
-  <div class="my-5">
+  <div class="grid grid-cols-3 gap-4">
     <%= f.input :name, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
-  </div>
-
-  <div class="my-5">
     <%= f.input :kind_of, collection: Wallet.kind_ofs.keys, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
-  </div>
-
-  <%# Remover %>
-  <div class="my-5">
     <%= f.input :church_id, collection: Church.all, value: wallet.church, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
   </div>
-
-  <div class="inline">
+  <div class="grid grid-cols-1 gap-4">
     <%= f.submit class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer" %>
   </div>
 <% end %>

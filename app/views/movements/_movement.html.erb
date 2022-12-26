@@ -1,32 +1,39 @@
-<div id="<%= dom_id movement %>">
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Tipo de transação:</strong>
-    <%= movement.kind_of %>
-  </p>
-
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Valor:</strong>
-    <%= movement.amount %>
-  </p>
-
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Data do pagamento:</strong>
-    <%= movement.payment_date %>
-  </p>
-
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Conta:</strong>
-    <%= "#{movement.wallet.name} - #{movement.wallet.kind_of}" %>
-  </p>
-
-    <p class="my-5">
-    <strong class="block font-medium mb-1">Descrição:</strong>
-    <%= movement.description %>
-  </p>
-
-  <% if action_name != "show" %>
-    <%= link_to "Show this movement", movement, class: "rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
-    <%= link_to 'Edit this movement', edit_movement_path(movement), class: "rounded-lg py-3 ml-2 px-5 bg-gray-100 inline-block font-medium" %>
-    <hr class="mt-6">
-  <% end %>
+<div id="<%= dom_id movement %>" class="<%= movement.entrada? ? 'bg-blue-300' : 'bg-red-100' %> shadow rounded-lg p-4 sm:p-6 xl:p-8 ">
+  <div class="text-gray-700">
+    <div class="grid md:grid-cols-1 text-sm">
+      <div class="grid grid-cols-2">
+        <div class="px-4 py-2 font-semibold">Tipo de transação:</div>
+        <div class="px-4 py-2"><%= movement.kind_of %></div>
+      </div>
+      <div class="grid grid-cols-2">
+        <div class="px-4 py-2 font-semibold">Valor:</div>
+        <div class="px-4 py-2"><%= movement.amount %></div>
+      </div>
+      <div class="grid grid-cols-2">
+        <div class="px-4 py-2 font-semibold">Data do pagamento:</div>
+        <div class="px-4 py-2"><%= l movement.payment_date %></div>
+      </div>
+      <div class="grid grid-cols-2">
+        <div class="px-4 py-2 font-semibold">Conta:</div>
+        <div class="px-4 py-2"><%= movement.wallet.name %></div>
+      </div>
+      <div class="grid grid-cols-2">
+        <div class="px-4 py-2 font-semibold">Tipo de conta:</div>
+        <div class="px-4 py-2"><%= movement.wallet.kind_of %></div>
+      </div>
+      <div class="grid grid-cols-1">
+        <div class="px-4 py-2 font-semibold">Descrição:</div>
+        <div class="px-4 py-2"><%= movement.description %></div>
+      </div>
+      <div class="grid grid-cols-2">
+        <% if action_name != "show" %>
+          <%= link_to "Exibir", movement, class: "text-center border border-indigo-500 bg-indigo-500 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-indigo-600 focus:outline-none focus:shadow-outline" %>
+          <%= link_to 'Editar', edit_movement_path(movement), class: "text-center border border-teal-500 bg-teal-500 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-teal-600 focus:outline-none focus:shadow-outline" %>
+        <% else %>
+          <%= link_to 'Editar', edit_movement_path(movement), class: "text-center border border-teal-500 bg-teal-500 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-teal-600 focus:outline-none focus:shadow-outline" %>
+          <%= link_to 'Remover', movement_path(movement), method: :delete, class: "text-center border border-red-500 bg-red-500 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-red-600 focus:outline-none focus:shadow-outline" %>
+      <% end %>
+      </div>
+    </div>
+  </div>
 </div>

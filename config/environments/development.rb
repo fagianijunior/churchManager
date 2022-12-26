@@ -41,6 +41,7 @@ Rails.application.configure do
 
   config.action_mailer.perform_caching = false
 
+  routes.default_url_options[:only_path] = true
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
 
   # Print deprecation notices to the Rails logger.

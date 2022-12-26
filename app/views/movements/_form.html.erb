@@ -1,4 +1,4 @@
-<%= simple_form_for(@movement, class: "contents") do |f| %>
+<%= simple_form_for(@movement, html: { class: 'bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4'}) do |f| %>
   <% if movement.errors.any? %>
     <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
       <h2><%= pluralize(movement.errors.count, "error") %> prohibited this movement from being saved:</h2>
@@ -11,31 +11,18 @@
     </div>
   <% end %>
 
-  <div class="my-5">
-    <%= f.input :wallet_id, collection: Wallet.all, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
+  <div class="grid grid-cols-2 gap-4">
+    <%= f.input :wallet_id, collection: Wallet.all %>
+    <%= f.input :user_id, collection: User.all, label_method: :full_name %>
+    <%= f.input :kind_of, collection: Movement.kind_ofs.keys, include_blank: false %>
+    <%= f.input :amount, input_html: { min: '0', step: 'any' } %>
+    <%= f.input :payment_date, class: "h-full" %>
+  </div>
+  <div class="grid grid-cols-1 gap-4">
+    <%= f.input :description %>
   </div>
 
-    <div class="my-5" id="movement_user_id_group">
-    <%= f.input :user_id, collection: User.all, label_method: :full_name, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
-  </div>
-
-  <div class="my-5">
-    <%= f.input :kind_of, collection: Movement.kind_ofs.keys, include_blank: false, class: "block mt-2 h-5 w-5" %>
-  </div>
-
-  <div class="my-5">
-    <%= f.input :amount, class: "block mt-2 h-5 w-5", input_html: { min: '0', step: 'any' } %>
-  </div>
-
-  <div class="my-5">
-    <%= f.input :payment_date %>
-  </div>
-
-  <div class="my-5">
-    <%= f.input :description, class: "block mt-2 h-5 w-5" %>
-  </div>
-
-  <div class="inline">
+  <div class="grid grid-cols-1 gap-4">
     <%= f.submit class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer" %>
   </div>
 <% end %>

@@ -16,7 +16,7 @@ pt-BR:
         description: 'Descrição'
       wallet:
         name: 'Nome'
-        kind_of: 'tipo de carteira'
+        kind_of: 'tipo de conta'
         church_id: 'Congregação'
       movement:
         wallet_id: 'Conta'

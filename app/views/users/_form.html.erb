@@ -1,4 +1,4 @@
-<%= simple_form_for(user, html: { class: 'bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4'}) do |f| %>
+<%= simple_form_for(@user, html: { class: 'bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4'}) do |f| %>
   <% if user.errors.any? %>
     <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
       <h2><%= pluralize(user.errors.count, "error") %> prohibited this user from being saved:</h2>
@@ -27,5 +27,7 @@
     <%= f.input :address %>
     <%= f.input :description %>
   </div>
-  <%= f.submit %>
+  <div class="grid grid-cols-1 gap-4">
+    <%= f.submit class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer" %>
+  </div>
 <% end %>
