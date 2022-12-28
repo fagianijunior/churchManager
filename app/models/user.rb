@@ -17,4 +17,12 @@ class User < ApplicationRecord
   def age
     ((Time.zone.now - birth_date.to_time) / 1.year.seconds).floor
   end
+
+  def is_member?
+    !member_since.nil?
+  end
+
+  def is_baptized?
+    !baptism_date.nil?
+  end
 end

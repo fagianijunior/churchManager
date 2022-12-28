@@ -1,9 +1,15 @@
-<div id="<%= dom_id user %>" class="<%= user.member_since ? 'bg-indigo-100' : 'bg-white' %> shadow rounded-lg p-4 sm:p-6 xl:p-8 ">
+<div id="<%= dom_id user %>" class="<%= user.is_member? ? 'bg-indigo-100' : 'bg-white' %> shadow rounded-lg p-4 sm:p-6 xl:p-8 ">
   <div class="flex items-center space-x-2 font-semibold text-gray-900 leading-8">
-    <span clas="text-green-500">
-      <i class="fa-regular fa-user"></i>
+    <span class="text-green-500">
+      <i class="fa-solid fa-user"></i>
     </span>
     <span class="tracking-wide"><%= user.full_name %></span>
+    <span class="<%= user.is_baptized? ?  'text-green-500' : 'text-slate-300' %>">
+      <i class="fa-solid fa-person-swimming" title="Batizado"></i>
+    </span>
+    <span class="<%= user.is_member? ?  'text-green-500' : 'text-slate-300' %>">
+      <i class="fa-solid fa-church" title="Membro"></i>
+    </span>
   </div>
   <div class="text-gray-700">
     <div class="grid md:grid-cols-2 text-sm">
