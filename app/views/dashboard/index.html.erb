@@ -159,7 +159,11 @@
           <li class="py-3 sm:py-4">
             <div class="flex items-center space-x-4">
               <div class="flex-shrink-0">
-                <img class="h-8 w-8 rounded-full" src="https://demo.themesberg.com/windster/images/users/neil-sims.png" alt="Neil image">
+                <% if user.avatar.attached? %>
+                  <%= image_tag user.avatar.variant(:micro), class: "h-8 w-8 rounded-full" %>
+                <% else %>
+                  <%= image_tag "users/avatar-default-micro.png", class: "h-8 w-8 rounded-full" %>
+                <% end %>
               </div>
               <div class="flex-1 min-w-0">
                 <p class="text-sm font-medium text-gray-900 truncate">
@@ -191,7 +195,11 @@
           <li class="py-3 sm:py-4">
             <div class="flex items-center space-x-4">
               <div class="flex-shrink-0">
-                <img class="h-8 w-8 rounded-full" src="https://demo.themesberg.com/windster/images/users/neil-sims.png" alt="Neil image">
+                <% if user.avatar.attached? %>
+                  <%= image_tag user.avatar.variant(:micro), class: "h-8 w-8 rounded-full" %>
+                <% else %>
+                  <%= image_tag "users/avatar-default-micro.png", class: "h-8 w-8 rounded-full" %>
+                <% end %>
               </div>
               <div class="flex-1 min-w-0">
                 <p class="text-sm font-medium text-gray-900 truncate">
@@ -223,7 +231,11 @@
           <li class="py-3 sm:py-4 <%= (15.days.before.yday()..Date.today.yday()).include?(user.birth_date.yday()) ? 'bg-slate-200' : '' %>">
             <div class="flex items-center space-x-4">
               <div class="flex-shrink-0">
-                <img class="h-8 w-8 rounded-full" src="https://demo.themesberg.com/windster/images/users/neil-sims.png" alt="Neil image">
+                <% if user.avatar.attached? %>
+                  <%= image_tag user.avatar.variant(:micro), class: "h-8 w-8 rounded-full" %>
+                <% else %>
+                  <%= image_tag "users/avatar-default-micro.png", class: "h-8 w-8 rounded-full" %>
+                <% end %>
               </div>
               <div class="flex-1 min-w-0">
                 <p class="text-sm font-medium text-gray-900 truncate">

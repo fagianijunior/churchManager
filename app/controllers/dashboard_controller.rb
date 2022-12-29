@@ -34,6 +34,5 @@ class DashboardController < ApplicationController
     
     @upcomingBirthdays = User.where('EXTRACT(DOY FROM birth_date) BETWEEN ? AND ?', daysBefore, daysAfter)
                              .order(:birth_date)
-
   end
 end

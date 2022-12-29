@@ -10,6 +10,9 @@
     </div>
   <% end %>
   <div class="grid grid-cols-4 gap-4">
+    <%= f.input :avatar %>
+  </div>
+  <div class="grid grid-cols-4 gap-4">
     <%= f.input :first_name %>
     <%= f.input :last_name %>
     <%= f.input :gender, collection: User.genders.keys, value: user.gender %>

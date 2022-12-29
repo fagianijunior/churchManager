@@ -5,6 +5,13 @@ class User < ApplicationRecord
   devise :database_authenticatable, :recoverable, :rememberable, :validatable
   belongs_to :church
 
+  has_one_attached :avatar do |attachable|
+    attachable.variant :micro, resize_to_limit: [50, 50]
+    attachable.variant :small, resize_to_limit: [150, 150]
+    attachable.variant :medium, resize_to_limit: [500, 500]
+    attachable.variant :large, resize_to_limit: [1024, 1024]
+  end
+
   validates :first_name, :last_name, :gender, :contact_number, :email, :birth_date, :church_id, :address, presence: true
 
   enum gender: [:masculino, :feminino]

@@ -11,58 +11,62 @@
       <i class="fa-solid fa-church" title="Membro"></i>
     </span>
   </div>
-  <div class="text-gray-700">
-    <div class="grid md:grid-cols-2 text-sm">
-      <div class="grid grid-cols-2">
-        <div class="px-4 py-2 font-semibold">Nome</div>
-        <div class="px-4 py-2"><%= user.first_name %></div>
-      </div>
-      <div class="grid grid-cols-2">
-        <div class="px-4 py-2 font-semibold">Sobrenome</div>
-        <div class="px-4 py-2"><%= user.last_name %></div>
-      </div>
-      <div class="grid grid-cols-2">
-        <div class="px-4 py-2 font-semibold">Gênero</div>
-        <div class="px-4 py-2"><%= user.gender.capitalize %></div>
-      </div>
-      <div class="grid grid-cols-2">
-        <div class="px-4 py-2 font-semibold">Número de contato</div>
-        <div class="px-4 py-2"><%= user.contact_number %></div>
-      </div>
-      <div class="grid grid-cols-2">
-        <div class="px-4 py-2 font-semibold">Email</div>
-        <div class="px-4 py-2">
-          <%= link_to user.email, user.email, class: "text-blue-800" %>
-        </div>
-      </div>
-      <div class="grid grid-cols-2">
-        <div class="px-4 py-2 font-semibold">Nascimento</div>
-        <div class="px-4 py-2"><%= user.birth_date %></div>
-      </div>
-      <div class="grid grid-cols-2">
-        <div class="px-4 py-2 font-semibold">Data de batismo</div>
-        <div class="px-4 py-2"><%= user.baptism_date %></div>
-      </div>
-            <div class="grid grid-cols-2">
-        <div class="px-4 py-2 font-semibold">Membro desde</div>
-        <div class="px-4 py-2"><%= user.member_since %></div>
+  <div class="grid grid-cols-2 text-sm">
+    <div class="grid grid-cols-2 text-sm">
+      <div class="px-4 py-2 font-semibold">Nome:</div>
+      <div class="px-4 py-2"><%= user.first_name %></div>
+      <div class="px-4 py-2 font-semibold">Sobrenome:</div>
+      <div class="px-4 py-2"><%= user.last_name %></div>
+      <div class="px-4 py-2 font-semibold">Gênero:</div>
+      <div class="px-4 py-2"><%= user.gender.capitalize %></div>
+      <div class="px-4 py-2 font-semibold">Nascimento:</div>
+      <div class="px-4 py-2 <%= 'text-red-500' if user.birth_date.nil? %>">
+        <%= user.birth_date.nil? ? 'Não declarado' : l(user.birth_date) %>
       </div>
     </div>
-    <div class="grid md:grid-cols-1 text-sm">
-      <div class="grid grid-cols-1">
-        <div class="px-4 py-2 font-semibold">Endereço</div>
-        <div class="px-4 py-2"><%= user.address %></div>
+    <div class="grid grid-cols-2 text-sm">
+      <div class="px-4 py-2 font-semibold">Número de contato:</div>
+      <div class="px-4 py-2"><%= user.contact_number %></div>
+      <div class="px-4 py-2 font-semibold">Email:</div>
+      <div class="px-4 py-2">
+        <%= link_to user.email, user.email, class: "text-blue-800" %>
+      </div>
+      <div class="px-4 py-2 font-semibold">Data de batismo:</div>
+      <div class="px-4 py-2 <%= 'text-red-500' if user.baptism_date.nil? %>">
+        <%= user.baptism_date.nil? ? 'Não declarado' : l(user.baptism_date) %>
+      </div>
+      <div class="px-4 py-2 font-semibold">Membro desde:</div>
+      <div class="px-4 py-2 <%= 'text-red-500' if user.member_since.nil? %>">
+        <%= user.member_since.nil? ? 'Não declarado' : l(user.member_since) %>
       </div>
     </div>
-    <div class="grid grid-cols-2">
-      <% if action_name != "show" %>
-        <%= link_to "Exibir", user, class: "text-center border border-indigo-500 bg-indigo-500 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-indigo-600 focus:outline-none focus:shadow-outline" %>
-        <%= link_to 'Editar', edit_user_path(user), class: "text-center border border-teal-500 bg-teal-500 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-teal-600 focus:outline-none focus:shadow-outline" %>
-      <% else %>
-        <%= link_to 'Editar', edit_user_path(user), class: "text-center border border-teal-500 bg-teal-500 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-teal-600 focus:outline-none focus:shadow-outline" %>
-        <%= link_to 'Remover', user_path(user), method: :delete, class: "text-center border border-red-500 bg-red-500 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-red-600 focus:outline-none focus:shadow-outline" %>
-      <% end %>
+  </div>
+  <div class="grid md:grid-cols-2 text-sm">
+    <div class="grid grid-cols-1">
+      <div class="px-4 py-2 font-semibold">Endereço:</div>
+      <div class="px-4 py-2"><%= user.address %></div>
+      <div class="px-4 py-2 font-semibold">Descrição:</div>
+      <div class="px-4 py-2"><%= user.description %></div>
     </div>
+    <div class="grid grid-cols-1">
+      <div class="px-4 py-2 font-semibold">avatar:</div>
+      <div class="px-4 py-2">
+        <% if user.avatar.attached? %>
+          <%= image_tag(user.avatar.variant(:small), class: 'p-1 bg-white border rounded max-w-sm shadow-lg') if user.avatar.attached? %>
+        <% else %>
+          <%= image_tag('users/avatar-default-small.png', class: 'p-1 bg-white border rounded max-w-sm shadow-lg') %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+  <div class="grid grid-cols-2">
+    <% if action_name != "show" %>
+      <%= link_to "Exibir", user, class: "text-center border border-indigo-500 bg-indigo-500 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-indigo-600 focus:outline-none focus:shadow-outline" %>
+      <%= link_to 'Editar', edit_user_path(user), class: "text-center border border-teal-500 bg-teal-500 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-teal-600 focus:outline-none focus:shadow-outline" %>
+    <% else %>
+      <%= link_to 'Editar', edit_user_path(user), class: "text-center border border-teal-500 bg-teal-500 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-teal-600 focus:outline-none focus:shadow-outline" %>
+      <%= link_to 'Remover', user_path(user), method: :delete, class: "text-center border border-red-500 bg-red-500 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-red-600 focus:outline-none focus:shadow-outline" %>
+    <% end %>
   </div>
 </div>
 <!-- End of about section -->
