@@ -2,8 +2,8 @@ pt-BR:
   activerecord:
     attributes:
       user:
-        first_name: 'Primeiro nome'
-        last_name: 'Último nome'
+        first_name: 'Nome'
+        last_name: 'Sobrenome'
         gender: 'Gênero'
         marital_status: 'Estado civil'
         contact_number: 'Telefone'
@@ -16,11 +16,17 @@ pt-BR:
         description: 'Descrição'
       wallet:
         name: 'Nome'
-        kind_of: 'tipo de conta'
+        kind_of: 'Tipo de conta'
         church_id: 'Congregação'
       movement:
         wallet_id: 'Conta'
-        kind_of: 'tipo de movimentação'
+        kind_of: 'Tipo de movimentação'
         amount: 'Valor'
         payment_date: 'Data de pagamento'
+        description: 'Descrição'
+      event:
+        title: 'Título'
+        user_id: 'Responsável'
+        start_date: 'Data de início'
+        end_date: 'Data de finalização'
         description: 'Descrição'

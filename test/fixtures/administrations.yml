@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: one
+  occupation: one
+  start_date: 2022-12-29
+  end_date: 2022-12-29
+
+two:
+  user: two
+  occupation: two
+  start_date: 2022-12-29
+  end_date: 2022-12-29

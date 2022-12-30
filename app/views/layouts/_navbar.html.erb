@@ -47,7 +47,13 @@
           </button>
           <div class="dropdown relative">
             <a class="dropdown-toggle flex items-center hidden-arrow" href="#" id="dropdownMenuButton2" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              <img src="https://mdbootstrap.com/img/new/avatars/2.jpg" class="rounded-full" style="height: 25px; width: 25px" alt="" loading="lazy" />
+            <% unless current_user.nil? %>
+              <% if current_user.avatar.attached? %>
+                <%= image_tag current_user.avatar.variant(:micro), class: "rounded-full" %>
+              <% else %>
+                <%= image_tag 'users/avatar-default-micro.png', class: 'rounded-full', style: "height: 25px; width: 25px" %>
+              <% end %>
+            <% end %>
             </a>
             <ul class="dropdown-menu min-w-max absolute hidden bg-white text-base z-50 float-left py-2 list-none text-left rounded-lg shadow-lg mt-1 hidden m-0 bg-clip-padding border-none left-auto right-0" aria-labelledby="dropdownMenuButton2">
               <li>

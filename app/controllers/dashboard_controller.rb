@@ -1,4 +1,5 @@
 class DashboardController < ApplicationController
+  before_action :authenticate_user!
   def index
     month = params[:month] ? params[:month].to_i : nil
     year = params[:year] ? params[:year].to_i : nil
@@ -34,5 +35,11 @@ class DashboardController < ApplicationController
     
     @upcomingBirthdays = User.where('EXTRACT(DOY FROM birth_date) BETWEEN ? AND ?', daysBefore, daysAfter)
                              .order(:birth_date)
+
+    @monthEvents = Event.where(start_date: @date_range).order("start_date DESC")
+    @upcomigEvents = Event.where("start_date >= ?", DateTime.now-1.day).order(:start_date).limit(5)
+
+    @administration = Administration.where('(EXTRACT(YEAR FROM start_date) <= ?) AND (EXTRACT(YEAR FROM end_date) >= ? OR end_date IS NULL)', @year, @year)
+
   end
 end

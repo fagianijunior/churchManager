@@ -12,13 +12,20 @@ class User < ApplicationRecord
     attachable.variant :large, resize_to_limit: [1024, 1024]
   end
 
-  validates :first_name, :last_name, :gender, :contact_number, :email, :birth_date, :church_id, :address, presence: true
+  has_many :administrations
+  has_many :occupations, through: :administrations
+
+  validates :first_name, :last_name, :gender, :marital_status, :contact_number, :email, :birth_date, :church_id, :address, presence: true
 
   enum gender: [:masculino, :feminino]
-  enum marital_status: [:solteiro, :casado, :divorciado, :viuvo]
+  enum marital_status: [:solteiro, :casado, :separado, :divorciado, :viuvo]
 
   def full_name
     "#{first_name} #{last_name}"
+  end
+  
+  def name
+    full_name
   end
 
   def age

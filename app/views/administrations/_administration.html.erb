@@ -1,0 +1,32 @@
+<div id="<%= dom_id administration %>">
+  <p class="my-5">
+    <strong class="block font-medium mb-1">User:</strong>
+    <%= administration.user.full_name %>
+  </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Occupation:</strong>
+    <%= administration.occupation.title %>
+  </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Occupation:</strong>
+    <%= administration.titular ? 'Titular' : 'Vice' %>
+  </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">Start date:</strong>
+    <%= administration.start_date %>
+  </p>
+
+  <p class="my-5">
+    <strong class="block font-medium mb-1">End date:</strong>
+    <%= administration.end_date %>
+  </p>
+
+  <% if action_name != "show" %>
+    <%= link_to "Show this administration", administration, class: "rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+    <%= link_to 'Edit this administration', edit_administration_path(administration), class: "rounded-lg py-3 ml-2 px-5 bg-gray-100 inline-block font-medium" %>
+    <hr class="mt-6">
+  <% end %>
+</div>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_12_28_031703) do
+ActiveRecord::Schema[7.0].define(version: 2022_12_29_191120) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -42,11 +42,34 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_28_031703) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "administrations", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "occupation_id", null: false
+    t.boolean "titular", default: false
+    t.date "start_date"
+    t.date "end_date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["occupation_id"], name: "index_administrations_on_occupation_id"
+    t.index ["user_id"], name: "index_administrations_on_user_id"
+  end
+
   create_table "churches", force: :cascade do |t|
     t.string "name"
     t.date "fundation_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "events", force: :cascade do |t|
+    t.string "title"
+    t.bigint "user_id"
+    t.datetime "start_date"
+    t.datetime "end_date"
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_events_on_user_id"
   end
 
   create_table "movements", force: :cascade do |t|
@@ -60,6 +83,13 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_28_031703) do
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_movements_on_user_id"
     t.index ["wallet_id"], name: "index_movements_on_wallet_id"
+  end
+
+  create_table "occupations", force: :cascade do |t|
+    t.string "title"
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "users", force: :cascade do |t|
@@ -99,6 +129,9 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_28_031703) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "administrations", "occupations"
+  add_foreign_key "administrations", "users"
+  add_foreign_key "events", "users"
   add_foreign_key "movements", "users"
   add_foreign_key "movements", "wallets"
   add_foreign_key "users", "churches"

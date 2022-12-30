@@ -1,0 +1,37 @@
+<%= simple_form_for(@event, class: 'bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4') do |f| %>
+  <% if event.errors.any? %>
+    <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
+      <h2><%= pluralize(event.errors.count, "error") %> prohibited this event from being saved:</h2>
+
+      <ul>
+        <% event.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="my-5">
+    <%= f.input :title %>
+  </div>
+
+  <div class="my-5">
+    <%= f.input :user_id, collection: User.all, value: event.user_id %>
+  </div>
+
+  <div class="my-5">
+    <%= f.input :start_date %>
+  </div>
+
+  <div class="my-5">
+    <%= f.input :end_date %>
+  </div>
+
+  <div class="my-5">
+    <%= f.input :description, rows: 4 %>
+  </div>
+
+  <div class="inline">
+    <%= f.submit class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer" %>
+  </div>
+<% end %>

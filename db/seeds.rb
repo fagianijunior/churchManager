@@ -16,7 +16,45 @@ wallet = Wallet.create({
   church: church
 })
 
-user = User.create([
+Occupations = Occupation.create([
+  {
+    title: 'Presidente'
+  }, {
+    title: 'Diácono'
+  }, {
+    title: 'Secretaria'
+  }, {
+    title: 'Tesouraria'
+  }, {
+    title: 'Conselho fiscal'
+  }, {
+    title: 'Diretor (E.B.D.)'
+  }, {
+    title: 'Secretaria (E.B.D.)'
+  }, {
+    title: 'Mídia'
+  }, {
+    title: 'Departamento infantil (E.B.D.)'
+  }, {
+    title: 'Professor dos adultos'
+  }, {
+    title: 'Professor dos Jovens'
+  }, {
+    title: 'Mocidade'
+  }, {
+    title: 'Evangelismo'
+  }, {
+    title: 'Diretor do louvor'
+  }, {
+    title: 'Departamento infantil (Noite)'
+  }, {
+    title: 'Sociabilidade'
+  }, {
+    title: 'Encontro de casais'
+  }
+])
+
+users = User.create([
   {
     first_name: "Carlos",
     last_name: "Fagiani Junior",
