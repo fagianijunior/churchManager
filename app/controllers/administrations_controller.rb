@@ -68,6 +68,6 @@ class AdministrationsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def administration_params
-      params.require(:administration).permit(:user_id, :occupation_id, :titular, :start_date, :end_date)
+      params.require(:administration).permit(:user_id, :occupation_id, :titular, :start_date, :end_date, :salary, :payment_day)
     end
 end

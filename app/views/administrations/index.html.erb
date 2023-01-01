@@ -16,7 +16,7 @@
       </div>
     </div>
     <div class="grid grid-cols-4 gap-4">
-      <% @administrations = occupation.administrations %>
+      <% @administrations = occupation.administrations.order('titular DESC') %>
       <%= render @administrations %>
     </div>
   <% end %>

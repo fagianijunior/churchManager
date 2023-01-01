@@ -10,45 +10,47 @@ church = Church.create ({
   fundation_date: "1980-11-10"
 })
 
-Occupations = Occupation.create([
-  {
-    title: 'Presidente'
-  }, {
-    title: 'Diácono'
-  }, {
-    title: 'Secretaria'
-  }, {
-    title: 'Tesouraria'
-  }, {
-    title: 'Conselho fiscal'
-  }, {
-    title: 'Diretor (E.B.D.)'
-  }, {
-    title: 'Secretaria (E.B.D.)'
-  }, {
-    title: 'Mídia'
-  }, {
-    title: 'Departamento infantil (E.B.D.)'
-  }, {
-    title: 'Professor dos adultos'
-  }, {
-    title: 'Professor dos Jovens'
-  }, {
-    title: 'Mocidade'
-  }, {
-    title: 'Evangelismo'
-  }, {
-    title: 'Diretor do louvor'
-  }, {
-    title: 'Departamento infantil (Noite)'
-  }, {
-    title: 'Sociabilidade'
-  }, {
-    title: 'Encontro de casais'
-  }
-])
-
 if Rails.env.development?
+  Occupations = Occupation.create([
+    {
+      title: 'Presidente'
+    }, {
+      title: 'Diácono'
+    }, {
+      title: 'Secretaria'
+    }, {
+      title: 'Tesouraria'
+    }, {
+      title: 'Conselho fiscal'
+    }, {
+      title: 'Diretor (E.B.D.)'
+    }, {
+      title: 'Secretaria (E.B.D.)'
+    }, {
+      title: 'Mídia'
+    }, {
+      title: 'Departamento infantil (E.B.D.)'
+    }, {
+      title: 'Professor dos adultos'
+    }, {
+      title: 'Professor dos Jovens'
+    }, {
+      title: 'Mocidade'
+    }, {
+      title: 'Evangelismo'
+    }, {
+      title: 'Diretor do louvor'
+    }, {
+      title: 'Departamento infantil (Noite)'
+    }, {
+      title: 'Sociabilidade'
+    }, {
+      title: 'Encontro de casais'
+    }, {
+      title: 'Zeladoria'
+    }
+  ])
+  
   users = User.create([
     {
       first_name: "Carlos",

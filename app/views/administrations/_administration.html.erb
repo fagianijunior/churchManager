@@ -12,6 +12,12 @@
     <%= l administration.start_date unless administration.start_date.nil? %>
     <strong class="block font-medium mb-1">Término:</strong>
     <%= administration.end_date.nil? ? 'Vigente' : l(administration.end_date) %>
+    <% unless administration.salary.nil? %>
+      <strong class="block font-medium mb-1">Salário:</strong>
+      <%= administration.salary %>
+      <strong class="block font-medium mb-1">Dia de pagamento:</strong>
+      <%= administration.payment_day %>
+    <% end %>
   </div>
   <div class="grid grid-cols-2">
       <%= link_to 'Editar', edit_administration_path(administration), class: "text-center border border-teal-500 bg-teal-500 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-teal-600 focus:outline-none focus:shadow-outline" %>
