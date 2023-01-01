@@ -14,17 +14,6 @@
           <img src="https://demo.themesberg.com/windster/images/logo.svg" class="h-6 mr-2" alt="Windster Logo">
           <span class="self-center whitespace-nowrap">Windster</span>
         </a>
-        <form action="#" method="GET" class="hidden lg:block lg:pl-32">
-          <label for="topbar-search" class="sr-only">Search</label>
-          <div class="mt-1 relative lg:w-64">
-            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <svg class="w-5 h-5 text-gray-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path>
-              </svg>
-            </div>
-            <input type="text" name="email" id="topbar-search" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full pl-10 p-2.5" placeholder="Search">
-          </div>
-        </form>
       </div>
       <div class="flex items-center">
         <button id="toggleSidebarMobileSearch" type="button" class="lg:hidden text-gray-500 hover:text-gray-900 hover:bg-gray-100 p-2 rounded-lg">
@@ -49,7 +38,7 @@
             <a class="dropdown-toggle flex items-center hidden-arrow" href="#" id="dropdownMenuButton2" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             <% unless current_user.nil? %>
               <% if current_user.avatar.attached? %>
-                <%= image_tag current_user.avatar.variant(:micro), class: "rounded-full" %>
+                <%= image_tag current_user.avatar.variant(:micro), class: "rounded-full", style: "height: 25px; width: 25px" %>
               <% else %>
                 <%= image_tag 'users/avatar-default-micro.png', class: 'rounded-full', style: "height: 25px; width: 25px" %>
               <% end %>

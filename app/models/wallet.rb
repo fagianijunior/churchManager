@@ -2,7 +2,7 @@ class Wallet < ApplicationRecord
   belongs_to :church
   has_many :movements
 
-  enum kind_of: [:corrente, :poupanca, :caixa, :investimento, :dizimo]
+  enum kind_of: [:corrente, :poupanca, :caixa, :investimento]
 
   validates :name, :kind_of, :church_id, presence: true
 

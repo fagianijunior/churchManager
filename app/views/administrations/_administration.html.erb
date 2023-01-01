@@ -1,32 +1,24 @@
-<div id="<%= dom_id administration %>">
-  <p class="my-5">
-    <strong class="block font-medium mb-1">User:</strong>
+<div id="<%= dom_id administration %>" class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 ">
+  <div class="flex items-center space-x-2 font-semibold text-gray-900 leading-8">
+    <span class="text-green-500">
+      <i class="fa-solid fa-user"></i>
+    </span>
+    <span class="tracking-wide"><%= administration.occupation.title %> - <%= administration.titular ? 'Titular' : 'Vice' %></span>
+  </div>
+  <div class="grid grid-cols-2 text-sm">
+    <strong class="block font-medium mb-1">Integrante:</strong>
     <%= administration.user.full_name %>
-  </p>
-
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Occupation:</strong>
-    <%= administration.occupation.title %>
-  </p>
-
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Occupation:</strong>
-    <%= administration.titular ? 'Titular' : 'Vice' %>
-  </p>
-
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Start date:</strong>
-    <%= administration.start_date %>
-  </p>
-
-  <p class="my-5">
-    <strong class="block font-medium mb-1">End date:</strong>
-    <%= administration.end_date %>
-  </p>
-
-  <% if action_name != "show" %>
-    <%= link_to "Show this administration", administration, class: "rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
-    <%= link_to 'Edit this administration', edit_administration_path(administration), class: "rounded-lg py-3 ml-2 px-5 bg-gray-100 inline-block font-medium" %>
-    <hr class="mt-6">
-  <% end %>
+    <strong class="block font-medium mb-1">Início:</strong>
+    <%= l administration.start_date unless administration.start_date.nil? %>
+    <strong class="block font-medium mb-1">Término:</strong>
+    <%= administration.end_date.nil? ? 'Vigente' : l(administration.end_date) %>
+  </div>
+  <div class="grid grid-cols-2">
+      <%= link_to 'Editar', edit_administration_path(administration), class: "text-center border border-teal-500 bg-teal-500 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-teal-600 focus:outline-none focus:shadow-outline" %>
+    <% if action_name != "show" %>
+      <%= link_to "Exibir", administration, class: "text-center border border-indigo-500 bg-indigo-500 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-indigo-600 focus:outline-none focus:shadow-outline" %>
+    <% else %>
+      <%= link_to 'Remover', administration_path(administration), method: :delete, class: "text-center border border-red-500 bg-red-500 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-red-600 focus:outline-none focus:shadow-outline" %>
+    <% end %>
+  </div>
 </div>

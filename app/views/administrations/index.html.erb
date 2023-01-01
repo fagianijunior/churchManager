@@ -1,14 +1,23 @@
-<div class="w-full">
-  <% if notice.present? %>
-    <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg inline-block" id="notice"><%= notice %></p>
+<div class="grid grid-cols-1 my-4">
+  <div class="bg-white shadow rounded-lg p-6">
+    <div class="flex items-center justify-between">
+      <h3 class="text-xl font-bold leading-none text-gray-900">Administração</h3>
+      <%= link_to 'Nova administração', new_administration_path, class: "rounded-lg py-3 px-5 bg-blue-600 text-white block font-medium" %>
+    </div>
+  </div>
+</div>
+<div class="grid grid-cols-1 gap-4">
+  <% @occupations.each do |occupation| %>
+    <div class="grid grid-cols-1 my-4">
+      <div class="bg-gray-200 shadow rounded-lg p-6">
+        <div class="flex items-center justify-between">
+          <h3 class="text-xl font-bold leading-none text-gray-900"><%= occupation.title %></h3>
+        </div>
+      </div>
+    </div>
+    <div class="grid grid-cols-4 gap-4">
+      <% @administrations = occupation.administrations %>
+      <%= render @administrations %>
+    </div>
   <% end %>
-
-  <div class="flex justify-between items-center">
-    <h1 class="font-bold text-4xl">Administrations</h1>
-    <%= link_to 'New administration', new_administration_path, class: "rounded-lg py-3 px-5 bg-blue-600 text-white block font-medium" %>
-  </div>
-
-  <div id="administrations" class="min-w-full">
-    <%= render @administrations %>
-  </div>
 </div>
