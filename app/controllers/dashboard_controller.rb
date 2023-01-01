@@ -16,6 +16,8 @@ class DashboardController < ApplicationController
     @monthMovementsBalance = Movement.where("payment_date <= ?", date.end_of_month).sum(:amount)
     @monthMovementsChart   = Movement.where.not(kind_of: 'entre_contas').group(:kind_of).group_by_day(:payment_date).where(payment_date: @date_range).sum(:amount)
 
+    @monthlyStatement      = Movement.where.not(kind_of: 'entre_contas').where(payment_date: @date_range)
+
     @monthMovementsBalanceChart = Movement.group_by_month(:payment_date).where('payment_date <= ?', date.end_of_month).sum(:amount)
     accumulator = 0
     @monthMovementsBalanceChart.transform_values! do |val|
