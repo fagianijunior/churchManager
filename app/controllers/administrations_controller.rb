@@ -4,7 +4,9 @@ class AdministrationsController < ApplicationController
 
   # GET /administrations or /administrations.json
   def index
-    @administrations = Administration.all
+    @occupations = Occupation.all
+    # @administrations = Administration.where(
+    #   '(EXTRACT(YEAR FROM start_date) <= ?) AND (EXTRACT(YEAR FROM end_date) >= ? OR end_date IS NULL)', Date.today.year, Date.today.year)
   end
 
   # GET /administrations/1 or /administrations/1.json

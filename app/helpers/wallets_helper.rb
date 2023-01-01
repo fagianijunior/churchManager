@@ -9,8 +9,6 @@ module WalletsHelper
       'fa-piggy-bank'
     when 'investimento'
       'fa-arrow-trend-up'
-    when 'dizimo'
-      'fa-hand-holding-dollar'
     else
       'fa-sack-dollar'
     end

@@ -10,11 +10,11 @@ class DashboardController < ApplicationController
     date  = Date.strptime("#{@month},#{@year}","%m,%Y")
     @date_range = date.beginning_of_month..date.end_of_month
 
-    @monthMovementsIn      = Movement.entrada.where(payment_date: @date_range).sum(:amount)
+    @monthMovementsIn      = Movement.where.not(kind_of: ['saida', 'entre_contas']).where(payment_date: @date_range).sum(:amount)
     @monthMovementsOut     = Movement.saida.where(payment_date: @date_range).sum(:amount)
 
     @monthMovementsBalance = Movement.where("payment_date <= ?", date.end_of_month).sum(:amount)
-    @monthMovementsChart   = Movement.group(:kind_of).group_by_day(:payment_date).where(payment_date: @date_range).sum(:amount)
+    @monthMovementsChart   = Movement.where.not(kind_of: 'entre_contas').group(:kind_of).group_by_day(:payment_date).where(payment_date: @date_range).sum(:amount)
 
     @monthMovementsBalanceChart = Movement.group_by_month(:payment_date).where('payment_date <= ?', date.end_of_month).sum(:amount)
     accumulator = 0
@@ -23,7 +23,7 @@ class DashboardController < ApplicationController
       accumulator = val
     end
     
-    @monthTithe = Wallet.dizimo.first.movements.entrada.where(payment_date: @date_range).order("amount DESC")
+    @monthTithe = Movement.dizimo.where(payment_date: @date_range).order("amount DESC")
 
     # Show latest five users
     @lastMembers = User.where.not(member_since: nil).order("member_since DESC").take(5)
