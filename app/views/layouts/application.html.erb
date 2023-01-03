@@ -12,13 +12,13 @@
   <body class="h-screen" style="background: #edf2f7;">
     <div>
       <%= render "layouts/navbar" %>
-      <div class="flex overflow-hidden bg-white pt-16">
+      <div class="flex overflow-hidden bg-white pt-14">
         <%= render "layouts/menu" %>
         <div id="main-content" class="h-full w-full bg-gray-50 relative overflow-y-auto lg:ml-64">
           <main>
             <p class="notice"><%= notice %></p>
             <p class="alert"><%= alert %></p>
-            <div class="pt-6 px-4">
+            <div class="pt-4 px-4">
               <%= yield %>
             </div>
           </main>

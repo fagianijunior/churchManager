@@ -1,52 +1,56 @@
-<div class="mt-4 w-full grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-4">
-  <div class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 ">
-    <div class="flex items-center">
-      <div class="flex-shrink-0">
-        <span class="text-2xl sm:text-3xl leading-none font-bold text-gray-900"><%= @monthMovementsIn %></span>
-        <h3 class="text-base font-normal text-gray-500">Entradas no mês</h3>
+<div class="w-full grid grid-cols-2 gap-4">
+  <div class="w-full grid grid-cols-1 md:grid-cols-3 xl:grid-cols-3 gap-4">
+    <div class="bg-green-300 shadow rounded-lg p-4 sm:p-6 xl:p-8 ">
+      <div class="flex items-center">
+        <div class="flex-shrink-0">
+          <span class="text-2xl sm:text-3xl leading-none font-bold text-gray-900"><%= number_to_currency(@monthMovementsIn) %></span>
+          <h3 class="text-base font-normal text-gray-500">Entradas no mês</h3>
+        </div>
       </div>
-      <div class="ml-5 w-0 flex items-center justify-end flex-1 text-green-500 text-base font-bold">
-        <%# 14.6% %>
-        <%# <i class="fa fa-angle-double-right" aria-hidden="true"></i> %>
+    </div>
+    <div class="bg-red-300 shadow rounded-lg p-4 sm:p-6 xl:p-8 ">
+      <div class="flex items-center">
+        <div class="flex-shrink-0">
+          <span class="text-2xl sm:text-3xl leading-none font-bold text-gray-900"><%= number_to_currency(@monthMovementsOut) %></span>
+          <h3 class="text-base font-normal text-gray-500">Saídas no mês</h3>
+        </div>
+      </div>
+    </div>
+    <div class="bg-yellow-300 shadow rounded-lg p-4 sm:p-6 xl:p-8 ">
+      <div class="flex items-center">
+        <div class="flex-shrink-0">
+          <span class="text-2xl sm:text-3xl leading-none font-bold text-gray-900"><%= number_to_currency(@monthMovementsBalance) %></span>
+          <h3 class="text-base font-normal text-gray-500">Saldo até o mês</h3>
+        </div>
       </div>
     </div>
   </div>
-  <div class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 ">
-    <div class="flex items-center">
-      <div class="flex-shrink-0">
-        <span class="text-2xl sm:text-3xl leading-none font-bold text-gray-900"><%= @monthMovementsOut %></span>
-        <h3 class="text-base font-normal text-gray-500">Saídas no mês</h3>
-      </div>
-      <div class="ml-5 w-0 flex items-center justify-end flex-1 text-green-500 text-base font-bold">
-        <%# 14.6% %>
-        <%# <i class="fa fa-angle-double-right" aria-hidden="true"></i> %>
-      </div>
-    </div>
-  </div>
-  <div class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 ">
-    <div class="flex items-center">
-      <div class="flex-shrink-0">
-        <span class="text-2xl sm:text-3xl leading-none font-bold text-gray-900"><%= @monthMovementsBalance %></span>
-        <h3 class="text-base font-normal text-gray-500">Saldo até o mês</h3>
-      </div>
-      <div class="ml-5 w-0 flex items-center justify-end flex-1 text-red-500 text-base font-bold">
-        <%# -2.7% %>
-        <%# <i class="fa fa-angle-double-right" aria-hidden="true"></i> %>
-      </div>
-    </div>
-  </div>
-  <div class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8">
-    <div class="flex items-center">
-      <div class="flex-shrink-0">
-        <%= form_with url: "/", method: :get do |f| %>
-          <%= f.select(:month, options_for_select([
-            ['Janeiro',1],['Fevereiro',2],['Março',3],['Abriu',4],['Maio',5],['Junho',6],['Julho',7],['Agosto',8],
-            ['Setembro',9],['Outubro',10],['Novembro',11],['Dezembro',12]
-          ], selected: @month)) %>
-          <%= f.select(:year, options_for_select(list_2022_to_today, selected: @year)) %>
-          <%= f.submit 'Carregar' %>
+  <div class="w-full grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 gap-4">
+    <div class="bg-white shadow rounded-lg p-4">
+      <div class="grid grid-cols-2">
+        <% Wallet.all.each do |wallet| %>
+          <div class="flex-shrink-0">
+            <span class="text-1lg sm:text-2lg leading-none font-bold text-gray-900">
+              <%= number_to_currency(wallet.movements.sum(:amount)) %>
+            </span>
+            <h3 class="text-base font-normal text-gray-500"><%= wallet.name %></h3>
+          </div>
         <% end %>
-        <%= link_to "Mês atual", root_path, class: "text-base font-normal text-gray-500" %>
+      </div>
+    </div>
+    <div class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8">
+      <div class="flex items-center">
+        <div class="flex-shrink-0">
+          <%= form_with url: "/", method: :get do |f| %>
+            <%= f.select(:month, options_for_select([
+              ['Janeiro',1],['Fevereiro',2],['Março',3],['Abriu',4],['Maio',5],['Junho',6],['Julho',7],['Agosto',8],
+              ['Setembro',9],['Outubro',10],['Novembro',11],['Dezembro',12]
+            ], selected: @month)) %>
+            <%= f.select(:year, options_for_select(list_2022_to_today, selected: @year)) %>
+            <%= f.submit 'Carregar' %>
+          <% end %>
+          <%= link_to "Mês atual", root_path, class: "text-base font-normal text-gray-500" %>
+        </div>
       </div>
     </div>
   </div>
@@ -54,12 +58,22 @@
 <div class="mt-4 w-full grid grid-cols-2 gap-4">
   <div class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 ">
     <div class="flex items-center justify-between mb-4">
-      <h3 class="text-xl font-bold leading-none text-gray-900">Entradas e Saídas no mês</h3>
+      <h3 class="text-xl font-bold leading-none text-gray-900">Entradas no mês</h3>
     </div>
     <div class="flex items-center">
-      <%= line_chart @monthMovementsChart, colors: ['green','blue','orange','red'] %>
+      <%= line_chart @monthMovementsInChart, colors: ['green'] %>
     </div>
   </div>
+  <div class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 ">
+    <div class="flex items-center justify-between mb-4">
+      <h3 class="text-xl font-bold leading-none text-gray-900">Saídas no mês</h3>
+    </div>
+    <div class="flex items-center">
+      <%= line_chart @monthMovementsOutChart, colors: ['red'] %>
+    </div>
+  </div>
+</div>
+<div class="mt-4 w-full grid grid-cols-1 gap-4">
   <div class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 ">
     <div class="flex items-center justify-between mb-4">
       <h3 class="text-xl font-bold leading-none text-gray-900">Saldo até o mês</h3>
@@ -89,7 +103,7 @@
                 <p class="leading-tight text-justify">
                   <%= link_to movement, title: movement.description do %>
                     <%= "#{movement.payment_date.day()} | #{number_to_currency(movement.amount, unit: 'R$')} | " %>
-                    <%= movement.dizimo? ? 'Dízimo' : movement.oferta? ? 'Oferta' : movement.description.truncate(30) %>
+                    <%= movement.dizimo? ? 'Dízimo' : movement.oferta? ? 'Oferta' : movement.description.truncate(20) %>
                   <% end %>
                 </p>
               </div>
@@ -125,7 +139,7 @@
                 <%= tithe.user.id %>
               </th>
               <td class="border-t-0 px-4 align-middle text-xs font-medium text-gray-900 whitespace-nowrap p-4">
-                <%= tithe.amount %>
+                <%= number_to_currency(tithe.amount) %>
               </td>
               <td class="border-t-0 px-4 align-middle text-xs whitespace-nowrap p-4">
                 <div class="flex items-center">
@@ -321,7 +335,7 @@
       </ul>
     </div>
   </div>
-    <div class="bg-white shadow rounded-lg mb-4 p-4 sm:p-6 h-full">
+  <div class="bg-white shadow rounded-lg mb-4 p-4 sm:p-6 h-full">
     <div class="flex items-center justify-between mb-4">
       <h3 class="text-xl font-bold leading-none text-gray-900">Administração</h3>
       <%= link_to administrations_path, class: "text-sm font-medium text-cyan-600 hover:bg-gray-100 rounded-lg inline-flex items-center p-2" do %>
@@ -330,7 +344,7 @@
     </div>
     <div class="flow-root">
       <ul role="list" class="divide-y divide-gray-200">
-        <% @administration.each do |adm| %>
+        <% @employees.each do |adm| %>
           <li class="py-3 sm:py-4">
             <div class="flex items-center space-x-4">
               <div class="flex-1 min-w-0">

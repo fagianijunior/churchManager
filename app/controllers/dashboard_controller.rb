@@ -10,11 +10,12 @@ class DashboardController < ApplicationController
     date  = Date.strptime("#{@month},#{@year}","%m,%Y")
     @date_range = date.beginning_of_month..date.end_of_month
 
-    @monthMovementsIn      = Movement.where.not(kind_of: ['saida', 'entre_contas']).where(payment_date: @date_range).sum(:amount)
-    @monthMovementsOut     = Movement.saida.where(payment_date: @date_range).sum(:amount)
+    @monthMovementsIn   = Movement.where.not(kind_of: ['saida', 'entre_contas']).where(payment_date: @date_range).sum(:amount)
+    @monthMovementsOut  = Movement.saida.where(payment_date: @date_range).sum(:amount)
 
-    @monthMovementsBalance = Movement.where("payment_date <= ?", date.end_of_month).sum(:amount)
-    @monthMovementsChart   = Movement.where.not(kind_of: 'entre_contas').group(:kind_of).group_by_day(:payment_date).where(payment_date: @date_range).sum(:amount)
+    @monthMovementsBalance  = Movement.where("payment_date <= ?", date.end_of_month).order(:id).sum(:amount)
+    @monthMovementsInChart  = Movement.where.not(kind_of: ['entre_contas', 'saida']).group_by_day(:payment_date).where(payment_date: @date_range).sum(:amount)
+    @monthMovementsOutChart = Movement.saida.group_by_day(:payment_date).where(payment_date: @date_range).sum('amount * -1')
 
     @monthlyStatement      = Movement.where.not(kind_of: 'entre_contas').where(payment_date: @date_range)
 
@@ -41,7 +42,7 @@ class DashboardController < ApplicationController
     @monthEvents = Event.where(start_date: @date_range).order("start_date DESC")
     @upcomigEvents = Event.where("start_date >= ?", DateTime.now-1.day).order(:start_date).limit(5)
 
-    @administration = Administration.where('(EXTRACT(YEAR FROM start_date) <= ?) AND (EXTRACT(YEAR FROM end_date) >= ? OR end_date IS NULL)', @year, @year)
+    @employees = Administration.where('(EXTRACT(YEAR FROM start_date) <= ?) AND (EXTRACT(YEAR FROM end_date) >= ? OR end_date IS NULL)', @year, @year).order(:id)
 
   end
 end
