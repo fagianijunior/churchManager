@@ -12,5 +12,5 @@ module WalletsHelper
     else
       'fa-sack-dollar'
     end
-end
+  end
 end
