@@ -66,6 +66,6 @@ class MovementsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def movement_params
-      params.require(:movement).permit(:kind_of, :wallet_id, :user_id, :amount, :payment_date, :description)
+      params.require(:movement).permit(:kind_of, :sub_kind_of, :wallet_id, :user_id, :amount, :payment_date, :description)
     end
 end

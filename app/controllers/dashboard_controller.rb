@@ -9,24 +9,25 @@ class DashboardController < ApplicationController
 
     date  = Date.strptime("#{@month},#{@year}","%m,%Y")
     @date_range = date.beginning_of_month..date.end_of_month
+    
+    @monthMovementsIn   = Movement.entrada.not_entre_contas.where(payment_date: @date_range).sum(:amount)
+    @monthMovementsOut  = Movement.saida.not_entre_contas.where(payment_date: @date_range).sum(:amount)
+    @monthMovementsBalance  = Movement.not_entre_contas.where("payment_date <= ?", date.end_of_month).sum(:amount)
+    @walletsBalances = Wallet.all
 
-    @monthMovementsIn   = Movement.where.not(kind_of: ['saida', 'entre_contas']).where(payment_date: @date_range).sum(:amount)
-    @monthMovementsOut  = Movement.saida.where(payment_date: @date_range).sum(:amount)
+    @monthMovementsInChart  = Movement.entrada.not_entre_contas.group_by_day(:payment_date).where(payment_date: @date_range).sum(:amount)
+    @monthMovementsOutChart = Movement.saida.not_entre_contas.group_by_day(:payment_date).where(payment_date: @date_range).sum('amount * -1')
 
-    @monthMovementsBalance  = Movement.where("payment_date <= ?", date.end_of_month).order(:id).sum(:amount)
-    @monthMovementsInChart  = Movement.where.not(kind_of: ['entre_contas', 'saida']).group_by_day(:payment_date).where(payment_date: @date_range).sum(:amount)
-    @monthMovementsOutChart = Movement.saida.group_by_day(:payment_date).where(payment_date: @date_range).sum('amount * -1')
-
-    @monthlyStatement      = Movement.where.not(kind_of: 'entre_contas').where(payment_date: @date_range)
-
-    @monthMovementsBalanceChart = Movement.group_by_month(:payment_date).where('payment_date <= ?', date.end_of_month).sum(:amount)
     accumulator = 0
+    @monthMovementsBalanceChart = Movement.group_by_day(:payment_date).where('payment_date <= ?', date.end_of_month).sum(:amount)
     @monthMovementsBalanceChart.transform_values! do |val|
       val += accumulator
       accumulator = val
     end
     
-    @monthTithe = Movement.dizimo.where(payment_date: @date_range).order("amount DESC")
+    @monthlyStatement = Movement.not_entre_contas.where(payment_date: @date_range).order(:payment_date)
+    @monthAmountTithe = Movement.entrada.dizimo.where(payment_date: @date_range).sum(:amount)
+    @monthTithe = Movement.entrada.dizimo.where(payment_date: @date_range).order("amount DESC")
 
     # Show latest five users
     @lastMembers = User.where.not(member_since: nil).order("member_since DESC").take(5)
@@ -43,6 +44,5 @@ class DashboardController < ApplicationController
     @upcomigEvents = Event.where("start_date >= ?", DateTime.now-1.day).order(:start_date).limit(5)
 
     @employees = Administration.where('(EXTRACT(YEAR FROM start_date) <= ?) AND (EXTRACT(YEAR FROM end_date) >= ? OR end_date IS NULL)', @year, @year).order(:id)
-
   end
 end
