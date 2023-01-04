@@ -28,7 +28,7 @@
   <div class="w-full grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 gap-4">
     <div class="bg-white shadow rounded-lg p-4">
       <div class="grid grid-cols-2">
-        <% Wallet.all.each do |wallet| %>
+        <% @walletsBalances.each do |wallet| %>
           <div class="flex-shrink-0">
             <span class="text-1lg sm:text-2lg leading-none font-bold text-gray-900">
               <%= number_to_currency(wallet.movements.sum(:amount)) %>
@@ -79,7 +79,7 @@
       <h3 class="text-xl font-bold leading-none text-gray-900">Saldo até o mês</h3>
     </div>
     <div class="flex items-center">
-      <%= line_chart @monthMovementsBalanceChart, colors: ['green','blue','orange','silver','red'] %>
+      <%= line_chart @monthMovementsBalanceChart, colors: ['green', 'red'] %>
     </div>
   </div>
 </div>
@@ -99,7 +99,8 @@
                   <div class="w-6 h-6 absolute top-1/2 -mt-3 rounded-full bg-blue-500 shadow"></div>
                 </div>
               <% end %>
-              <div class="<%= movement.saida? ? 'bg-red-500 col-start-6 col-end-10 mr-auto' : ' bg-blue-500 col-start-1 col-end-5 ml-auto' %> p-4 rounded-xl my-4 shadow-md">
+              <% in_out_class = movement.saida? ? 'bg-red-500 col-start-6 col-end-10 mr-auto' : ' bg-blue-500 col-start-1 col-end-5 ml-auto' %>
+              <div class="<%= in_out_class %> p-4 rounded-xl my-4 shadow-md">
                 <p class="leading-tight text-justify">
                   <%= link_to movement, title: movement.description do %>
                     <%= "#{movement.payment_date.day()} | #{number_to_currency(movement.amount, unit: 'R$')} | " %>
@@ -122,7 +123,7 @@
     </div>
   </div>
   <div class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 ">
-    <h3 class="text-xl leading-none font-bold text-gray-900 mb-10">Dízimos no mês</h3>
+    <h3 class="text-xl leading-none font-bold text-gray-900 mb-10">Dízimos no mês - <%= number_to_currency(@monthAmountTithe) %></h3>
     <div class="block w-full overflow-x-auto">
       <table class="items-center w-full bg-transparent border-collapse">
         <thead>

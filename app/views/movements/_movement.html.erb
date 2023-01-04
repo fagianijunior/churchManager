@@ -3,11 +3,11 @@
     <div class="grid md:grid-cols-1 text-sm">
       <div class="grid grid-cols-2">
         <div class="px-4 py-2 font-semibold">Tipo de transação:</div>
-        <div class="px-4 py-2"><%= movement.kind_of %></div>
+        <div class="px-4 py-2"><%= "#{movement.kind_of} - #{movement.sub_kind_of}" %></div>
       </div>
       <div class="grid grid-cols-2">
         <div class="px-4 py-2 font-semibold">Valor:</div>
-        <div class="px-4 py-2"><%= movement.amount %></div>
+        <div class="px-4 py-2"><%= number_to_currency(movement.amount) %></div>
       </div>
       <div class="grid grid-cols-2">
         <div class="px-4 py-2 font-semibold">Data do pagamento:</div>
