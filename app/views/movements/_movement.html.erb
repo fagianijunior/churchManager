@@ -13,6 +13,12 @@
         <div class="px-4 py-2 font-semibold">Data do pagamento:</div>
         <div class="px-4 py-2"><%= l movement.payment_date %></div>
       </div>
+      <% if movement.dizimo? %>
+        <div class="grid grid-cols-2">
+          <div class="px-4 py-2 font-semibold">dizimista:</div>
+          <div class="px-4 py-2" title="<%= movement.user.name %>"><%= movement.user.id %></div>
+        </div>
+      <% end %>
       <div class="grid grid-cols-2">
         <div class="px-4 py-2 font-semibold">Conta:</div>
         <div class="px-4 py-2"><%= movement.wallet.name %></div>
@@ -21,10 +27,18 @@
         <div class="px-4 py-2 font-semibold">Tipo de conta:</div>
         <div class="px-4 py-2"><%= movement.wallet.kind_of %></div>
       </div>
-      <div class="grid grid-cols-1">
-        <div class="px-4 py-2 font-semibold">Descrição:</div>
-        <div class="px-4 py-2"><%= movement.description %></div>
-      </div>
+      <% if action_name == "show" %>
+        <div class="grid grid-cols-1">
+          <div class="px-4 py-2 font-semibold">Descrição:</div>
+          <div class="px-4 py-2"><%= movement.description %></div>
+        </div>
+        <div class="grid grid-cols-1">
+          <div class="px-4 py-2 font-semibold">Recibo:</div>
+          <div class="px-4 py-2">
+            <%= image_tag(movement.receipt.variant(:thumb), class: 'p-1 bg-white border rounded max-w-sm shadow-lg') if movement.receipt.attached? %>
+          </div>
+        </div>
+      <% end %>
       <div class="grid grid-cols-2">
         <% if action_name != "show" %>
           <%= link_to "Exibir", movement, class: "text-center border border-indigo-500 bg-indigo-500 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-indigo-600 focus:outline-none focus:shadow-outline" %>

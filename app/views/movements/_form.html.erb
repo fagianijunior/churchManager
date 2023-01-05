@@ -18,6 +18,7 @@
     <%= f.input :sub_kind_of, collection: Movement.sub_kind_ofs.keys, include_blank: false %>
     <%= f.input :amount, input_html: { min: '0', step: 'any' } %>
     <%= f.input :payment_date %>
+    <%= f.input :receipt %>
   </div>
   <div class="grid grid-cols-1 gap-4">
     <%= f.input :description %>
