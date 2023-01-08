@@ -23,9 +23,7 @@
     </td>
     <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
       <% if movement.receipt.attached? %>
-        <%= link_to movement.receipt, target: '_blank' do %>
-          <%= image_tag(movement.receipt.variant(:thumb), class: 'p-1 bg-white border rounded max-w-sm shadow-lg') %>
-        <% end %>
+        <%= link_to 'Recibo', movement.receipt, target: '_blank' %>
       <% end %>
     </td>
     <td class="grid grid-cols-2">
@@ -52,7 +50,7 @@
           <div class="px-4 py-2"><%= l movement.payment_date, format: :long %></div>
           <% if movement.dizimo? %>
             <div class="px-4 py-2 font-semibold">dizimista:</div>
-            <div class="px-4 py-2" title="<%= movement.user.name %>"><%= movement.user.id %></div>
+            <div class="px-4 py-2" title="<%= movement.user.name unless movement.user.nil? %>"><%= movement.user.id unless movement.user.nil? %></div>
           <% end %>
           <div class="px-4 py-2 font-semibold">Conta:</div>
           <div class="px-4 py-2"><%= movement.wallet.name %></div>
