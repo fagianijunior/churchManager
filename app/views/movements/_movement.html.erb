@@ -1,45 +1,88 @@
-<div id="<%= dom_id movement %>" class="<%= movement.saida? ? 'bg-red-100' : 'bg-blue-100' %> shadow rounded-lg p-4 sm:p-6 xl:p-8 ">
-  <div class="text-gray-700">
-    <div class="grid md:grid-cols-<%= action_name != "show" ? '1' : '2'%> text-sm">
-      <div class="grid grid-cols-2">
-        <div class="px-4 py-2 font-semibold">Tipo de transação:</div>
-        <div class="px-4 py-2"><%= "#{movement.kind_of} - #{movement.sub_kind_of}" %></div>
-        <div class="px-4 py-2 font-semibold">Valor:</div>
-        <div class="px-4 py-2"><%= number_to_currency(movement.amount) %></div>
-        <div class="px-4 py-2 font-semibold">Data do pagamento:</div>
-        <div class="px-4 py-2"><%= l movement.payment_date %></div>
-        <% if movement.dizimo? %>
-          <div class="px-4 py-2 font-semibold">dizimista:</div>
-          <div class="px-4 py-2" title="<%= movement.user.name %>"><%= movement.user.id %></div>
+<% if action_name != "show" %>
+  <tr class="border-b">
+    <td id="<%= dom_id movement %>" class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+      <%= movement.kind_of %>
+    </td>
+    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+      <%= movement.amount %>
+    </td>
+    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+      <%= l movement.payment_date, format: :simple %>
+    </td>
+    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap" title="<%= movement.user.name unless movement.user.nil? %>">
+      <%= movement.user.id unless movement.user.nil? %>
+    </td>
+    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+      <%= movement.wallet.name %>
+    </td>
+    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+      <%= movement.wallet.kind_of %>
+    </td>
+    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap" title="<%= movement.description %>">
+      <%= movement.description.truncate(20) %>
+    </td>
+    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+      <% if movement.receipt.attached? %>
+        <%= link_to movement.receipt, target: '_blank' do %>
+          <%= image_tag(movement.receipt.variant(:thumb), class: 'p-1 bg-white border rounded max-w-sm shadow-lg') %>
         <% end %>
-        <div class="px-4 py-2 font-semibold">Conta:</div>
-        <div class="px-4 py-2"><%= movement.wallet.name %></div>
-        <div class="px-4 py-2 font-semibold">Tipo de conta:</div>
-        <div class="px-4 py-2"><%= movement.wallet.kind_of %></div>
-      </div>
-      <% if action_name == "show" %>
-        <div class="grid grid-cols-1">
-          <div class="px-4 py-2 font-semibold">Descrição:</div>
-          <div class="px-4 py-2"><%= movement.description %></div>
-          <div class="px-4 py-2 font-semibold">Recibo:</div>
-          <div class="px-4 py-2">
-            <% if movement.receipt.attached? %>
-              <%= link_to movement.receipt, target: '_blank' do %>
-                <%= image_tag(movement.receipt.variant(:thumb), class: 'p-1 bg-white border rounded max-w-sm shadow-lg') %>
-              <% end %>
-            <% end %>
-          </div>
-        </div>
       <% end %>
-    </div>
-      <div class="grid grid-cols-2">
-        <% if action_name != "show" %>
-          <%= link_to "Exibir", movement, class: "text-center border border-indigo-500 bg-indigo-500 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-indigo-600 focus:outline-none focus:shadow-outline" %>
-          <%= link_to 'Editar', edit_movement_path(movement), class: "text-center border border-teal-500 bg-teal-500 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-teal-600 focus:outline-none focus:shadow-outline" %>
-        <% else %>
-          <%= link_to 'Editar', edit_movement_path(movement), class: "text-center border border-teal-500 bg-teal-500 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-teal-600 focus:outline-none focus:shadow-outline" %>
-          <%= link_to 'Remover', movement_path(movement), method: :delete, class: "text-center border border-red-500 bg-red-500 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-red-600 focus:outline-none focus:shadow-outline" %>
+    </td>
+    <td class="grid grid-cols-2">
+      <% if action_name != "show" %>
+        <%= link_to "Exibir", movement, class: "text-center border border-indigo-500 bg-indigo-500 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-indigo-600 focus:outline-none focus:shadow-outline" %>
+        <%= link_to 'Editar', edit_movement_path(movement), class: "text-center border border-teal-500 bg-teal-500 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-teal-600 focus:outline-none focus:shadow-outline" %>
+      <% else %>
+        <%= link_to 'Editar', edit_movement_path(movement), class: "text-center border border-teal-500 bg-teal-500 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-teal-600 focus:outline-none focus:shadow-outline" %>
+        <%= link_to 'Remover', movement_path(movement), method: :delete, class: "text-center border border-red-500 bg-red-500 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-red-600 focus:outline-none focus:shadow-outline" %>
+      <% end %>
+    </td>
+  </td>
+</tr>
+<% else %>
+  <div id="<%= dom_id movement %>" class="<%= movement.saida? ? 'bg-red-100' : 'bg-blue-100' %> shadow rounded-lg p-4 sm:p-6 xl:p-8 ">
+    <div class="text-gray-700">
+      <div class="grid md:grid-cols-<%= action_name != "show" ? '1' : '2'%> text-sm">
+        <div class="grid grid-cols-2">
+          <div class="px-4 py-2 font-semibold">Tipo de transação:</div>
+          <div class="px-4 py-2"><%= "#{movement.kind_of} - #{movement.sub_kind_of}" %></div>
+          <div class="px-4 py-2 font-semibold">Valor:</div>
+          <div class="px-4 py-2"><%= number_to_currency(movement.amount) %></div>
+          <div class="px-4 py-2 font-semibold">Data do pagamento:</div>
+          <div class="px-4 py-2"><%= l movement.payment_date, format: :long %></div>
+          <% if movement.dizimo? %>
+            <div class="px-4 py-2 font-semibold">dizimista:</div>
+            <div class="px-4 py-2" title="<%= movement.user.name %>"><%= movement.user.id %></div>
+          <% end %>
+          <div class="px-4 py-2 font-semibold">Conta:</div>
+          <div class="px-4 py-2"><%= movement.wallet.name %></div>
+          <div class="px-4 py-2 font-semibold">Tipo de conta:</div>
+          <div class="px-4 py-2"><%= movement.wallet.kind_of %></div>
+        </div>
+        <% if action_name == "show" %>
+          <div class="grid grid-cols-1">
+            <div class="px-4 py-2 font-semibold">Descrição:</div>
+            <div class="px-4 py-2"><%= movement.description %></div>
+            <div class="px-4 py-2 font-semibold">Recibo:</div>
+            <div class="px-4 py-2">
+              <% if movement.receipt.attached? %>
+                <%= link_to movement.receipt, target: '_blank' do %>
+                  <%= image_tag(movement.receipt.variant(:thumb), class: 'p-1 bg-white border rounded max-w-sm shadow-lg') %>
+                <% end %>
+              <% end %>
+            </div>
+          </div>
         <% end %>
       </div>
+        <div class="grid grid-cols-2">
+          <% if action_name != "show" %>
+            <%= link_to "Exibir", movement, class: "text-center border border-indigo-500 bg-indigo-500 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-indigo-600 focus:outline-none focus:shadow-outline" %>
+            <%= link_to 'Editar', edit_movement_path(movement), class: "text-center border border-teal-500 bg-teal-500 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-teal-600 focus:outline-none focus:shadow-outline" %>
+          <% else %>
+            <%= link_to 'Editar', edit_movement_path(movement), class: "text-center border border-teal-500 bg-teal-500 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-teal-600 focus:outline-none focus:shadow-outline" %>
+            <%= link_to 'Remover', movement_path(movement), method: :delete, class: "text-center border border-red-500 bg-red-500 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-red-600 focus:outline-none focus:shadow-outline" %>
+          <% end %>
+        </div>
+    </div>
   </div>
-</div>
+<% end %>

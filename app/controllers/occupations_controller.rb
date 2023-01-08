@@ -1,14 +1,10 @@
 class OccupationsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_occupation, only: %i[ show edit update destroy ]
+  before_action :set_occupation, only: %i[ edit update destroy ]
 
   # GET /occupations or /occupations.json
   def index
     @occupations = Occupation.all
-  end
-
-  # GET /occupations/1 or /occupations/1.json
-  def show
   end
 
   # GET /occupations/new

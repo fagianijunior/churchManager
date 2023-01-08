@@ -6,6 +6,43 @@
     </div>
   </div>
 </div>
-<div class="grid grid-cols-4 gap-4">
-  <%= render @movements %>
+<div class="grid gap-4">
+  <div class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 ">
+    <table class="min-w-full">
+      <thead class="bg-white border-b">
+        <tr class="bg-gray-300">
+          <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+            Tipo
+          </th>
+          <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+            Valor
+          </th>
+          <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+           Data do pagamento
+          </th>
+          <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+            Dizimista
+          </th>
+          <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+            Conta
+          </th>
+          <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+            Tipo de conta
+          </th>
+          <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+            Descrição
+          </th>
+          <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+            Recibo
+          </th>
+          <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+            Opções
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <%= render @movements %>
+      </tbody>
+    </table>
+  </div>
 </div>
