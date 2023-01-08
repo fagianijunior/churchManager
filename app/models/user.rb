@@ -21,7 +21,7 @@ class User < ApplicationRecord
   enum marital_status: [:solteiro, :casado, :separado, :divorciado, :viuvo]
 
   before_validation :validate_password
-  
+
   def validate_password
     self.password = SecureRandom.hex(5) if encrypted_password.empty?
   end
