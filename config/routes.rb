@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   resources :administrations
-  resources :occupations
+  resources :occupations, except: :show
   resources :events
   devise_for :users
   get 'dashboard/index'

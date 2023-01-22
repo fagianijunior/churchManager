@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_01_04_011509) do
+ActiveRecord::Schema[7.0].define(version: 2023_01_08_132035) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -77,7 +77,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_04_011509) do
   create_table "movements", force: :cascade do |t|
     t.integer "kind_of"
     t.decimal "amount", precision: 8, scale: 2
-    t.date "payment_date"
+    t.datetime "payment_date", precision: nil
     t.text "description"
     t.bigint "user_id"
     t.bigint "wallet_id", null: false

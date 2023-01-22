@@ -1,4 +1,4 @@
-      
+<% occupation_counter = 0 %>
 <tr class="<%= ('bg-gray-100' unless occupation_counter%2==0) if occupation_counter %> border-b">
   <td id="<%= dom_id occupation %>" class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
     <%= occupation.title %>
@@ -8,13 +8,8 @@
   </td>
   <td>
     <div class="grid grid-cols-2">
-      <% if action_name != "show" %>
-        <%= link_to "Exibir", occupation, class: "text-center border border-indigo-500 bg-indigo-500 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-indigo-600 focus:outline-none focus:shadow-outline" %>
-        <%= link_to 'Editar', edit_occupation_path(occupation), class: "text-center border border-teal-500 bg-teal-500 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-teal-600 focus:outline-none focus:shadow-outline" %>
-      <% else %>
-        <%= link_to 'Editar', edit_occupation_path(occupation), class: "text-center border border-teal-500 bg-teal-500 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-teal-600 focus:outline-none focus:shadow-outline" %>
-        <%= link_to 'Remover', occupation_path(occupation), method: :delete, class: "text-center border border-red-500 bg-red-500 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-red-600 focus:outline-none focus:shadow-outline" %>
-      <% end %>
+      <%= link_to 'Editar', edit_occupation_path(occupation), class: "text-center border border-teal-500 bg-teal-500 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-teal-600 focus:outline-none focus:shadow-outline" %>
+      <%= link_to 'Remover', occupation_path(occupation), method: :delete, class: "text-center border border-red-500 bg-red-500 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-red-600 focus:outline-none focus:shadow-outline" %>
     </div>
   </td>
 </tr>

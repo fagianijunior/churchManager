@@ -242,7 +242,7 @@
     <div class="flow-root">
       <ul role="list" class="divide-y divide-gray-200">
         <% @upcomingBirthdays.each do |user| %>
-          <li class="py-3 sm:py-4 <%= (15.days.before.yday()..Date.today.yday()).include?(user.birth_date.yday()) ? 'bg-slate-200' : '' %>">
+          <li class="py-3 sm:py-4 <%= ((Date.today.yday()< 16 ? 0 : 15.days.before.yday())..Date.today.yday()).include?(user.birth_date.yday()) ? 'bg-slate-200' : '' %>">
             <div class="flex items-center space-x-4">
               <div class="flex-shrink-0">
                 <% if user.avatar.attached? %>

@@ -4,7 +4,21 @@ class MovementsController < ApplicationController
 
   # GET /movements or /movements.json
   def index
-    @movements = Movement.all.order(:payment_date)
+    month = params[:month] ? params[:month].to_i : nil
+    year = params[:year] ? params[:year].to_i : nil
+
+    @month = (1..12).include?(month) ? month : Date.today.month
+    @year  = (2022..Date.today.year).include?(year) ? year : Date.today.year
+
+    date  = Date.strptime("#{@month},#{@year}","%m,%Y")
+    @date_range = date.beginning_of_month..date.end_of_month
+
+    @monthMovementsIn   = Movement.entrada.not_entre_contas.where(payment_date: @date_range).sum(:amount)
+    @monthMovementsOut  = Movement.saida.not_entre_contas.where(payment_date: @date_range).sum(:amount)
+    @monthMovementsBalance  = Movement.not_entre_contas.where("payment_date <= ?", date.end_of_month).sum(:amount)
+    @walletsBalances = Wallet.all
+
+    @movements = Movement.where(payment_date: @date_range).order(:payment_date)
   end
 
   # GET /movements/1 or /movements/1.json
