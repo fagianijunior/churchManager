@@ -19,6 +19,9 @@
             <p class="notice"><%= notice %></p>
             <p class="alert"><%= alert %></p>
             <div class="pt-4 px-4">
+              <% if @header_panel == true %>
+                <%= render "layouts/header_panel" %>
+              <% end %>
               <%= yield %>
             </div>
           </main>

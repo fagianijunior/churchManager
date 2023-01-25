@@ -1,25 +1,12 @@
 class DashboardController < ApplicationController
   before_action :authenticate_user!
+  before_action :set_header_panel, only: %i[ index ]
   def index
-    month = params[:month] ? params[:month].to_i : nil
-    year = params[:year] ? params[:year].to_i : nil
-
-    @month = (1..12).include?(month) ? month : Date.today.month
-    @year  = (2022..Date.today.year).include?(year) ? year : Date.today.year
-
-    date  = Date.strptime("#{@month},#{@year}","%m,%Y")
-    @date_range = date.beginning_of_month..date.end_of_month
-    
-    @monthMovementsIn   = Movement.entrada.not_entre_contas.where(payment_date: @date_range).sum(:amount)
-    @monthMovementsOut  = Movement.saida.not_entre_contas.where(payment_date: @date_range).sum(:amount)
-    @monthMovementsBalance  = Movement.not_entre_contas.where("payment_date <= ?", date.end_of_month).sum(:amount)
-    @walletsBalances = Wallet.all
-
     @monthMovementsInChart  = Movement.entrada.not_entre_contas.group_by_day(:payment_date).where(payment_date: @date_range).sum(:amount)
     @monthMovementsOutChart = Movement.saida.not_entre_contas.group_by_day(:payment_date).where(payment_date: @date_range).sum('amount * -1')
 
     accumulator = 0
-    @monthMovementsBalanceChart = Movement.group_by_day(:payment_date).where('payment_date <= ?', date.end_of_month).sum(:amount)
+    @monthMovementsBalanceChart = Movement.group_by_day(:payment_date).where('payment_date <= ?', @date.end_of_month).sum(:amount)
     @monthMovementsBalanceChart.transform_values! do |val|
       val += accumulator
       accumulator = val
