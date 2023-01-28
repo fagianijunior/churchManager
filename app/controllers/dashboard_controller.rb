@@ -14,18 +14,18 @@ class DashboardController < ApplicationController
     
     @monthlyStatement = Movement.not_entre_contas.where(payment_date: @date_range).order(:payment_date)
     @monthAmountTithe = Movement.entrada.dizimo.where(payment_date: @date_range).sum(:amount)
-    @monthTithe = Movement.entrada.dizimo.where(payment_date: @date_range).order("amount DESC")
+    @monthTithe = Movement.entrada.dizimo.joins(:user).group('users.id').where(payment_date: @date_range)
+                    .order('sum(movements.amount) DESC').pluck('users.id, users.first_name, users.last_name, sum(movements.amount)')
 
     # Show latest five users
     @lastMembers = User.where.not(member_since: nil).order("member_since DESC").take(5)
 
-    @monthBirthdays = User.where("EXTRACT(MONTH FROM birth_date) = ?", @month).order("birth_date DESC")
+    @monthBirthdays = User.where("EXTRACT(MONTH FROM birth_date) = ?", @month).order(Arel.sql("date_part('day', birth_date)"))
 
     daysBefore = Date.today.yday() - 15 <= 1   ? 1   : 15.days.before.yday()
     daysAfter  = Date.today.yday() + 15 >= 366 ? 366 : 15.days.after.yday()
     
-    @upcomingBirthdays = User.where('EXTRACT(DOY FROM birth_date) BETWEEN ? AND ?', daysBefore, daysAfter)
-                             .order(:birth_date)
+    @upcomingBirthdays = User.where('EXTRACT(DOY FROM birth_date) BETWEEN ? AND ?', daysBefore, daysAfter).order(Arel.sql("date_part('doy', birth_date)"))
 
     @monthEvents = Event.where(start_date: @date_range).order("start_date DESC")
     @upcomigEvents = Event.where("start_date >= ?", DateTime.now-1.day).order(:start_date).limit(5)
