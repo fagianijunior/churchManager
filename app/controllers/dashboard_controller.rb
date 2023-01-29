@@ -12,6 +12,9 @@ class DashboardController < ApplicationController
       accumulator = val
     end
     
+    @monthlyInAmountByKind = Movement.entrada.not_entre_contas.where(payment_date: @date_range).group(:sub_kind_of).sum(:amount).sort
+    @monthlyOutAmountByKind = Movement.saida.not_entre_contas.where(payment_date: @date_range).group(:sub_kind_of).sum(:amount).sort
+
     @monthlyStatement = Movement.not_entre_contas.where(payment_date: @date_range).order(:payment_date)
     @monthAmountTithe = Movement.entrada.dizimo.where(payment_date: @date_range).sum(:amount)
     @monthTithe = Movement.entrada.dizimo.joins(:user).group('users.id').where(payment_date: @date_range)

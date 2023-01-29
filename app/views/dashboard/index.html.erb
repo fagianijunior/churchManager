@@ -26,47 +26,31 @@
     </div>
   </div>
 </div>
-<div class="mt-4 w-full grid grid-cols-2 gap-4">
-  <div class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 ">
-    <h3 class="text-xl leading-none font-bold text-gray-900 mb-10">Entradas e saídas no mês - Extrato</h3>
-    <div class="block w-full overflow-x-auto">
-      <div class="container">
-        <div class="flex flex-col md:grid grid-cols-9 mx-auto p-2 text-blue-50">
-          <% @monthlyStatement.each do |movement| %>
-            <div class="flex <% 'flex-row-reverse' unless movement.saida? %> md:contents">
-              <% if movement.saida? %>
-                <div class="col-start-5 col-end-6 mr-10 md:mx-auto relative">
-                  <div class="h-full w-6 flex items-center justify-center">
-                    <div class="h-full w-1 bg-blue-800 pointer-events-none"></div>
-                  </div>
-                  <div class="w-6 h-6 absolute top-1/2 -mt-3 rounded-full bg-blue-500 shadow"></div>
-                </div>
-              <% end %>
-              <% in_out_class = movement.saida? ? 'bg-red-500 col-start-6 col-end-10 mr-auto' : ' bg-blue-500 col-start-1 col-end-5 ml-auto' %>
-              <div class="<%= in_out_class %> p-4 rounded-xl my-4 shadow-md">
-                <p class="leading-tight text-justify">
-                  <%= link_to movement, title: movement.description do %>
-                    <%= "#{movement.payment_date.day()} | #{number_to_currency(movement.amount, unit: 'R$')} | " %>
-                    <%= movement.dizimo? ? 'Dízimo' : movement.oferta? ? 'Oferta' : movement.description.truncate(20) %>
-                  <% end %>
-                </p>
-              </div>
-              <% unless movement.saida? %>
-                <div class="col-start-5 col-end-6 md:mx-auto relative mr-10">
-                  <div class="h-full w-6 flex items-center justify-center">
-                    <div class="h-full w-1 bg-blue-800 pointer-events-none"></div>
-                  </div>
-                  <div class="w-6 h-6 absolute top-1/2 -mt-3 rounded-full bg-blue-500 shadow"></div>
-                </div>
-              <% end %>
-            </div>
-          <% end %>
+<div class='mt-4 w-full grid grid-cols-<%= "#{@monthlyInAmountByKind.count + @monthlyOutAmountByKind.count}" %> gap-4'>
+  <% @monthlyInAmountByKind.each do |kind| %>
+    <div class="bg-green-300 shadow rounded-lg p-4">
+      <div class="flex items-center">
+        <div class="flex-shrink-0">
+          <span class="text-1xl leading-none font-bold text-gray-900"><%= number_to_currency(kind[1]) %></span>
+          <h3 class="text-base font-normal text-gray-500"><%= kind[0].pluralize.humanize %></h3>
         </div>
       </div>
     </div>
-  </div>
+  <% end %>
+  <% @monthlyOutAmountByKind.each do |kind| %>
+    <div class="bg-red-300 shadow rounded-lg p-4">
+      <div class="flex items-center">
+        <div class="flex-shrink-0">
+          <span class="text-1xl leading-none font-bold text-gray-900"><%= number_to_currency(kind[1]) %></span>
+          <h3 class="text-base font-normal text-gray-500"><%= kind[0].pluralize.humanize %></h3>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
+<div class="mt-4 w-full grid grid-cols-2 gap-4">
   <div class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 ">
-    <h3 class="text-xl leading-none font-bold text-gray-900 mb-10">Dízimos no mês - <%= number_to_currency(@monthAmountTithe) %></h3>
+    <h3 class="text-xl leading-none font-bold text-gray-900 mb-10">Dízimos no mês</h3>
     <div class="block w-full overflow-x-auto">
       <table class="items-center w-full bg-transparent border-collapse">
         <thead>
@@ -99,6 +83,44 @@
           <% end %>
         </tbody>
       </table>
+    </div>
+  </div>
+  <div class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 ">
+    <h3 class="text-xl leading-none font-bold text-gray-900 mb-10">Entradas e saídas no mês - Extrato</h3>
+    <div class="block w-full overflow-x-auto">
+      <div class="container">
+        <div class="flex flex-col md:grid grid-cols-9 mx-auto p-2 text-blue-50">
+          <% @monthlyStatement.each do |movement| %>
+            <div class="flex <% 'flex-row-reverse' unless movement.saida? %> md:contents">
+              <% if movement.saida? %>
+                <div class="col-start-5 col-end-6 mr-10 md:mx-auto relative">
+                  <div class="h-full w-6 flex items-center justify-center">
+                    <div class="h-full w-1 bg-yellow-600 pointer-events-none"></div>
+                  </div>
+                  <div class="w-6 h-6 absolute top-1/2 -mt-3 rounded-full bg-yellow-500 shadow"></div>
+                </div>
+              <% end %>
+              <% in_out_class = movement.saida? ? 'bg-red-500 col-start-6 col-end-10 mr-auto' : ' bg-blue-500 col-start-1 col-end-5 ml-auto' %>
+              <div class="<%= in_out_class %> p-4 rounded-xl my-4 shadow-md">
+                <p class="leading-tight text-justify">
+                  <%= link_to movement, title: movement.description do %>
+                    <%= "#{movement.payment_date.day()} | #{number_to_currency(movement.amount, unit: 'R$')} | " %>
+                    <%= movement.dizimo? ? 'Dízimo' : movement.oferta? ? 'Oferta' : movement.description.truncate(20) %>
+                  <% end %>
+                </p>
+              </div>
+              <% unless movement.saida? %>
+                <div class="col-start-5 col-end-6 md:mx-auto relative mr-10">
+                  <div class="h-full w-6 flex items-center justify-center">
+                    <div class="h-full w-1 bg-yellow-600 pointer-events-none"></div>
+                  </div>
+                  <div class="w-6 h-6 absolute top-1/2 -mt-3 rounded-full bg-yellow-500 shadow"></div>
+                </div>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -185,7 +207,7 @@
     <div class="flow-root">
       <ul role="list" class="divide-y divide-gray-200">
         <% @upcomingBirthdays.each do |user| %>
-          <li class="py-3 sm:py-4 <%= ((Date.today.yday()< 16 ? 0 : 15.days.before.yday())..Date.today.yday()).include?(user.birth_date.yday()) ? 'bg-slate-200' : '' %>">
+          <li class="py-3 sm:py-4 <%= (user.birth_date.day == Date.today.day)? 'bg-yellow-200' : ((Date.today.yday()< 16 ? 0 : 15.days.before.yday())..Date.today.yday()).include?(user.birth_date.yday()) ? 'bg-slate-200' : '' %>">
             <div class="flex items-center space-x-4">
               <div class="flex-shrink-0">
                 <% if user.avatar.attached? %>
