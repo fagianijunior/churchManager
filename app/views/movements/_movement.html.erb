@@ -1,7 +1,7 @@
 <% if action_name != "show" %>
   <tr class="border-b <%= movement.saida? ? 'bg-red-100' : 'bg-blue-100' %>">
     <td id="<%= dom_id movement %>" class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-      <%= movement.kind_of %>
+      <%= movement.sub_kind_of %>
     </td>
     <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
       <%= number_to_currency(movement.amount) %>

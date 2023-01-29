@@ -1,6 +1,6 @@
 <div class="w-full grid grid-cols-2 gap-4">
   <div class="w-full grid grid-cols-1 md:grid-cols-3 xl:grid-cols-3 gap-4">
-    <div class="bg-green-300 shadow rounded-lg p-4 sm:p-6 xl:p-8 ">
+    <div class="bg-blue-300 shadow rounded-lg p-4 sm:p-6 xl:p-8 ">
       <div class="flex items-center">
         <div class="flex-shrink-0">
           <span class="text-2xl sm:text-3xl leading-none font-bold text-gray-900"><%= number_to_currency(@monthMovementsIn) %></span>
@@ -28,14 +28,19 @@
   <div class="w-full grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 gap-4">
     <div class="bg-white shadow rounded-lg p-4">
       <div class="grid grid-cols-2">
-        <% @walletsBalances.each do |wallet| %>
-          <div class="flex-shrink-0">
-            <span class="text-1lg sm:text-2lg leading-none font-bold text-gray-900">
-              <%= number_to_currency(wallet.movements.sum(:amount)) %>
-            </span>
-            <h3 class="text-base font-normal text-gray-500"><%= wallet.name %></h3>
-          </div>
-        <% end %>
+        <% @walletsBalances.each do |wallet|
+          walletAmount = wallet.movements.sum(:amount)
+          if walletAmount != 0 then
+          %>
+            <div class="flex-shrink-0">
+              <span class="text-1lg sm:text-2lg leading-none font-bold text-gray-900">
+                <%= number_to_currency(walletAmount) %>
+              </span>
+              <h3 class="text-base font-normal text-gray-500"><%= wallet.name %></h3>
+            </div>
+          <% 
+          end
+        end %>
       </div>
     </div>
     <div class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8">
