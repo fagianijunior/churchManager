@@ -6,7 +6,7 @@ class DashboardController < ApplicationController
     @monthMovementsOutChart = Movement.saida.not_entre_contas.group_by_day(:payment_date).where(payment_date: @date_range).sum('amount * -1')
 
     accumulator = 0
-    @monthMovementsBalanceChart = Movement.group_by_day(:payment_date).where('payment_date <= ?', @date.end_of_month).sum(:amount)
+    @monthMovementsBalanceChart = Movement.group_by_day(:payment_date).where('payment_date <= ?', @date.end_of_month.end_of_day).sum(:amount)
     @monthMovementsBalanceChart.transform_values! do |val|
       val += accumulator
       accumulator = val
