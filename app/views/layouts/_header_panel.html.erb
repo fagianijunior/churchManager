@@ -1,52 +1,58 @@
-<div class="w-full grid grid-cols-2 gap-4">
-  <div class="w-full grid grid-cols-1 md:grid-cols-3 xl:grid-cols-3 gap-4">
-    <div class="bg-blue-300 shadow rounded-lg p-4 sm:p-6 xl:p-8 ">
+<div class="w-full grid grid-cols-1 xl:grid-cols-2 gap-4 mt-4">
+  <div class="w-full grid grid-cols-2 md:grid-cols-3 gap-4">
+    <div class="bg-blue-300 shadow rounded-lg p-3 sm:p-6">
       <div class="flex items-center">
         <div class="flex-shrink-0">
-          <span class="text-2xl sm:text-3xl leading-none font-bold text-gray-900"><%= number_to_currency(@monthMovementsIn) %></span>
-          <h3 class="text-base font-normal text-gray-500">Entradas no mês</h3>
+          <span class="text-xl sm:text-3xl leading-none font-bold text-gray-900">
+            <%= number_to_currency(@monthMovementsIn) %>
+          </span>
+          <h3 class="text-sm sm:text-base font-normal text-gray-500">Entradas no mês</h3>
         </div>
       </div>
     </div>
-    <div class="bg-red-300 shadow rounded-lg p-4 sm:p-6 xl:p-8 ">
+    <div class="bg-red-300 shadow rounded-lg p-3 sm:p-6">
       <div class="flex items-center">
         <div class="flex-shrink-0">
-          <span class="text-2xl sm:text-3xl leading-none font-bold text-gray-900"><%= number_to_currency(@monthMovementsOut) %></span>
-          <h3 class="text-base font-normal text-gray-500">Saídas no mês</h3>
+          <span class="text-xl sm:text-3xl leading-none font-bold text-gray-900">
+            <%= number_to_currency(@monthMovementsOut) %>
+          </span>
+          <h3 class="text-sm sm:text-base font-normal text-gray-500">Saídas no mês</h3>
         </div>
       </div>
     </div>
-    <div class="bg-yellow-300 shadow rounded-lg p-4 sm:p-6 xl:p-8 ">
+    <div class="bg-yellow-300 shadow rounded-lg p-3 sm:p-6">
       <div class="flex items-center">
         <div class="flex-shrink-0">
-          <span class="text-2xl sm:text-3xl leading-none font-bold text-gray-900"><%= number_to_currency(@monthMovementsBalance) %></span>
-          <h3 class="text-base font-normal text-gray-500">Saldo até o mês</h3>
+          <span class="text-xl sm:text-3xl leading-none font-bold text-gray-900">
+            <%= number_to_currency(@monthMovementsBalance) %>
+          </span>
+          <h3 class="text-sm sm:text-base font-normal text-gray-500">Saldo até o mês</h3>
         </div>
       </div>
     </div>
   </div>
-  <div class="w-full grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 gap-4">
-    <div class="bg-white shadow rounded-lg p-4">
+  <div class="w-full grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div class="bg-white shadow rounded-lg p-3 sm:p-4">
       <div class="grid grid-cols-2">
         <% @walletsBalances.each do |wallet|
           walletAmount = wallet.movements.sum(:amount)
           if walletAmount != 0 then
           %>
             <div class="flex-shrink-0">
-              <span class="text-1lg sm:text-2lg leading-none font-bold text-gray-900">
+              <span class="text-xl sm:text-2lg leading-none font-bold text-gray-900">
                 <%= number_to_currency(walletAmount) %>
               </span>
-              <h3 class="text-base font-normal text-gray-500"><%= wallet.name %></h3>
+              <h3 class="text-sm sm:text-bases font-normal text-gray-500"><%= wallet.name %></h3>
             </div>
           <% 
           end
         end %>
       </div>
     </div>
-    <div class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8">
-      <div class="flex items-center">
+    <div class="bg-white shadow rounded-lg p-3 sm:p-4">
+      <div class="flex">
         <div class="flex-shrink-0">
-          <%= form_with url: '.', method: :get do |f| %>
+          <%= form_with url: request.url, method: :get do |f| %>
             <%= f.select(:month, options_for_select([
               ['Janeiro',1],['Fevereiro',2],['Março',3],['Abriu',4],['Maio',5],['Junho',6],['Julho',7],['Agosto',8],
               ['Setembro',9],['Outubro',10],['Novembro',11],['Dezembro',12]
@@ -54,7 +60,7 @@
             <%= f.select(:year, options_for_select(list_2022_to_today, selected: @year)) %>
             <%= f.submit 'Carregar', name: "" %>
           <% end %>
-          <%= link_to "Mês atual", root_path, class: "text-base font-normal text-gray-500" %>
+          <%= link_to "Mês atual", root_path, class: "text-sm sm:text-base font-normal text-gray-500" %>
         </div>
       </div>
     </div>
