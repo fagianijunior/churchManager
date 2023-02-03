@@ -11,7 +11,7 @@ class ApplicationController < ActionController::Base
     @year  = (2022..Date.today.year).include?(year) ? year : Date.today.year
 
     @date  = Date.strptime("#{@month},#{@year}","%m,%Y")
-    @date_range = @date.beginning_of_month..@date.end_of_month.end_of_day
+    @date_range = @date.beginning_of_month.beginning_of_day..@date.end_of_month.end_of_day
 
     @monthMovementsIn   = Movement.entrada.not_entre_contas.where(payment_date: @date_range).sum(:amount)
     @monthMovementsOut  = Movement.saida.not_entre_contas.where(payment_date: @date_range).sum(:amount)
