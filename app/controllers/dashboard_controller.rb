@@ -20,6 +20,13 @@ class DashboardController < ApplicationController
     @monthTithe = Movement.entrada.dizimo.joins(:user).group('users.id').where(payment_date: @date_range)
                     .order('sum(movements.amount) DESC').pluck('users.id, users.first_name, users.last_name, sum(movements.amount)')
 
+    @monthOffer = Movement.where(payment_date: @date_range).entrada.oferta.order(:payment_date)
+
+    @monthMovements = Movement.not_entre_contas.where(payment_date: @date_range).order(:payment_date)
+
+    @monthlyMovementsInByCategory = Movement.entrada.not_entre_contas.group(:sub_kind_of).where(payment_date: @date_range).sum(:amount)
+    @monthlyMovementsOutByCategory = Movement.saida.not_entre_contas.group(:sub_kind_of).where(payment_date: @date_range).sum(:amount)
+
     # Show latest five users
     @lastMembers = User.where.not(member_since: nil).order("member_since DESC").take(5)
 
