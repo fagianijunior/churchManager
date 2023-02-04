@@ -99,10 +99,10 @@
               </td>
               <td class="border-t-0 px-3 align-middle text-xs whitespace-nowrap p-4">
                 <div class="flex items-center">
-                  <span class="mr-2 text-xs font-medium"><%= amount_percent(tithe[3],@date_range) %></span>
+                  <span class="mr-2 text-xs font-medium"><%= tithe_amount_percent(tithe[3],@date_range) %></span>
                   <div class="relative w-full">
                     <div class="w-full bg-gray-200 rounded-sm h-2">
-                      <div class="bg-cyan-600 h-2 rounded-sm" style="width: <%= amount_percent(tithe[3],@date_range) %>"></div>
+                      <div class="bg-cyan-600 h-2 rounded-sm" style="width: <%= tithe_amount_percent(tithe[3],@date_range) %>"></div>
                     </div>
                   </div>
                 </div>
@@ -137,10 +137,10 @@
               </td>
               <td class="border-t-0 px-3 align-middle text-xs whitespace-nowrap p-4">
                 <div class="flex items-center">
-                  <span class="mr-2 text-xs font-medium"><%= amount_percent(offer.amount, @date_range) %></span>
+                  <span class="mr-2 text-xs font-medium"><%= offer_amount_percent(offer.amount, @date_range) %></span>
                   <div class="relative w-full">
                     <div class="w-full bg-gray-200 rounded-sm h-2">
-                      <div class="bg-cyan-600 h-2 rounded-sm" style="width: <%= amount_percent(offer.amount, @date_range) %>"></div>
+                      <div class="bg-cyan-600 h-2 rounded-sm" style="width: <%= offer_amount_percent(offer.amount, @date_range) %>"></div>
                     </div>
                   </div>
                 </div>
@@ -186,46 +186,6 @@
           <% end %>
         </tbody>
       </table>
-    </div>
-  </div>
-</div>
-<div class="mt-4 w-full grid grid-cols-1 gap-4">
-  <div class="bg-white shadow rounded-lg p-3 sm:p-6">
-    <h3 class="text-xl leading-none font-bold text-gray-900 mb-10">Entradas e saídas no mês - Extrato</h3>
-    <div class="block w-full overflow-x-auto">
-      <div class="container">
-        <div class="flex flex-col md:grid grid-cols-9 mx-auto p-2 text-blue-50">
-          <% @monthlyStatement.each do |movement| %>
-            <div class="flex <% 'flex-row-reverse' unless movement.saida? %> md:contents">
-              <% if movement.saida? %>
-                <div class="col-start-5 col-end-6 mr-10 md:mx-auto relative">
-                  <div class="h-full w-6 flex items-center justify-center">
-                    <div class="h-full w-1 bg-yellow-600 pointer-events-none"></div>
-                  </div>
-                  <div class="w-6 h-6 absolute top-1/2 -mt-3 rounded-full bg-yellow-500 shadow"></div>
-                </div>
-              <% end %>
-              <% in_out_class = movement.saida? ? 'bg-red-500 col-start-6 col-end-10 mr-auto' : 'bg-blue-500 col-start-1 col-end-5 ml-auto' %>
-              <div class="<%= in_out_class %> p-2 rounded-xl my-2 shadow-md">
-                <p class="leading-tight text-justify">
-                  <%= link_to movement, title: movement.description do %>
-                    <%= "#{movement.payment_date.day()} | #{number_to_currency(movement.amount, unit: 'R$')} | " %>
-                    <%= movement.dizimo? ? 'Dízimo' : movement.oferta? ? 'Oferta' : movement.description.truncate(20) %>
-                  <% end %>
-                </p>
-              </div>
-              <% unless movement.saida? %>
-                <div class="col-start-5 col-end-6 md:mx-auto relative mr-10">
-                  <div class="h-full w-6 flex items-center justify-center">
-                    <div class="h-full w-1 bg-yellow-600 pointer-events-none"></div>
-                  </div>
-                  <div class="w-6 h-6 absolute top-1/2 -mt-3 rounded-full bg-yellow-500 shadow"></div>
-                </div>
-              <% end %>
-            </div>
-          <% end %>
-        </div>
-      </div>
     </div>
   </div>
 </div>
