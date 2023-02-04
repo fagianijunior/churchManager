@@ -15,7 +15,10 @@ class ApplicationController < ActionController::Base
 
     @monthMovementsIn   = Movement.entrada.not_entre_contas.where(payment_date: @date_range).sum(:amount)
     @monthMovementsOut  = Movement.saida.not_entre_contas.where(payment_date: @date_range).sum(:amount)
-    @monthMovementsBalance  = Movement.not_entre_contas.where("payment_date <= ?", @date.end_of_month.end_of_day).sum(:amount)
+
+    @previousMonthBalance  = Movement.not_entre_contas.where("payment_date <= ?", @date.prev_month.end_of_month.end_of_day).sum(:amount)
+    
+    @monthMovementsBalance = Movement.not_entre_contas.where("payment_date <= ?", @date.end_of_month.end_of_day).sum(:amount)
     @walletsBalances = Wallet.all
   end
 end
