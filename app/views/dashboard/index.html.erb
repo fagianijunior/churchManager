@@ -32,7 +32,7 @@
       <h3 class="text-xl font-bold leading-none text-gray-900">Entradas por categoria</h3>
     </div>
     <div class="flex items-center">
-      <%= pie_chart @monthlyMovementsInByCategory, colors: ['#228B22', '#32CD32', '#00008B', '#4169E1'] %>
+      <%= pie_chart @monthlyMovementsInByCategory, colors: ['rgb(163 230 53)', 'rgb(34 211 238)', 'rgb(192 132 252)', 'rgb(74 222 128)'] %>
     </div>
   </div>
   <div class="bg-white shadow rounded-lg p-3 sm:p-6">
@@ -40,13 +40,13 @@
       <h3 class="text-xl font-bold leading-none text-gray-900">Saídas por categoria</h3>
     </div>
     <div class="flex items-center">
-      <%= pie_chart @monthlyMovementsOutByCategory, colors: ['#8B0000', '#FFFF00', '#FFA500', '#8B4513', '#696969'] %>
+      <%= pie_chart @monthlyMovementsOutByCategory, colors: ['rgb(220 38 38)', 'rgb(251 146 60)', 'rgb(251 191 36)', 'rgb(251 113 133)', 'rgb(250 204 21)'] %>
     </div>
   </div>
 </div>
 <div class='mt-4 w-full grid grid-cols-1 sm:grid-cols-7 gap-4'>
   <% @monthlyInAmountByKind.each do |kind| %>
-    <div class="bg-green-300 shadow rounded-lg p-3 sm:p-6">
+    <div class="<%= kind[0] == 'dizimo' ? 'bg-lime-300' : kind[0] == 'outras_entradas' ? 'bg-cyan-300' : kind[0] == 'oferta' ? 'bg-purple-300' : 'bg-green-300' %> shadow rounded-lg p-3 sm:p-6">
       <div class="flex items-center">
         <div class="flex-shrink-0">
           <span class="text-xl sm:text-3xl leading-none font-bold text-gray-900">
@@ -60,7 +60,7 @@
     </div>
   <% end %>
   <% @monthlyOutAmountByKind.each do |kind| %>
-    <div class="bg-red-300 shadow rounded-lg p-3 sm:p-6">
+    <div class="<%= kind[0] == 'compra' ? 'bg-rose-300' : kind[0] == 'funcionario' ? 'bg-amber-300' : kind[0] == 'outros_gastos' ? 'bg-red-500' : kind[0] == 'serviço_publico' ? 'bg-orange-300' : 'bg-yellow300' %> shadow rounded-lg p-3 sm:p-6">
       <div class="flex items-center">
         <div class="flex-shrink-0">
           <span class="text-xl sm:text-3xl leading-none font-bold text-gray-900">
