@@ -48,7 +48,7 @@
           <div class="px-4 py-2"><%= number_to_currency(movement.amount) %></div>
           <div class="px-4 py-2 font-semibold">Data do pagamento:</div>
           <div class="px-4 py-2"><%= l movement.payment_date, format: :long %></div>
-          <% if movement.dizimo? %>
+          <% if movement.dízimo? %>
             <div class="px-4 py-2 font-semibold">dizimista:</div>
             <div class="px-4 py-2" title="<%= movement.user.name unless movement.user.nil? %>"><%= movement.user.id unless movement.user.nil? %></div>
           <% end %>
