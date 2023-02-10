@@ -44,7 +44,7 @@
     </div>
   </div>
 </div>
-<div class='mt-4 w-full grid grid-cols-1 sm:grid-cols-2 gap-4'>
+<div class='mt-4 w-full grid grid-cols-2 gap-4'>
   <div class='mt-4 w-full grid grid-cols-1 sm:grid-cols-4 gap-4'>
     <% @monthlyInAmountByKind.each do |kind| %>
       <div class="<%= kind[0] == 'dizimo' ? 'bg-lime-300' : kind[0] == 'outras_entradas' ? 'bg-cyan-300' : kind[0] == 'oferta' ? 'bg-purple-300' : 'bg-green-300' %> shadow rounded-lg p-3 sm:p-6">
@@ -55,20 +55,6 @@
             </span>
             <h3 class="text-sm sm:text-base font-normal text-gray-500">
               <%= kind[0].pluralize.humanize %>
-            </h3>
-          </div>
-        </div>
-      </div>
-    <% end %>
-    <% (8 - @monthlyInAmountByKind.count).times do |fake| %>
-      <div class="rounded-lg p-3 sm:p-6">
-        <div class="flex items-center">
-          <div class="flex-shrink-0">
-            <span class="text-xl sm:text-2xl leading-none font-bold text-white">
-              .
-            </span>
-            <h3 class="text-sm sm:text-base font-normal text-white">
-              .
             </h3>
           </div>
         </div>
@@ -90,97 +76,86 @@
         </div>
       </div>
     <% end %>
-        <% (8 - @monthlyOutAmountByKind.count).times do |fake| %>
-      <div class="rounded-lg p-3 sm:p-6">
-        <div class="flex items-center">
-          <div class="flex-shrink-0">
-            <span class="text-xl sm:text-2xl leading-none font-bold text-white">
-              a
-            </span>
-            <h3 class="text-sm sm:text-base font-normal text-white">
-              b
-            </h3>
-          </div>
-        </div>
-      </div>
-    <% end %>
   </div>
 </div>
-<div class="mt-4 w-full grid grid-cols-1 sm:grid-cols-3 gap-4">
-  <div class="bg-white shadow rounded-lg p-3 sm:p-6">
-    <div class="flex items-center justify-between mb-3 sm:mb-4">
-      <h3 class="text-xl font-bold leading-none text-gray-900">Dízimos no mês</h3>
-    </div>
-    <div class="flex items-center">
-      <table class="items-center w-full bg-transparent border-collapse">
-        <thead>
-          <tr>
-            <th class="px-3 bg-gray-200 align-middle py-3 text-xs font-semibold text-left uppercase border-l-0 border-r-0 whitespace-nowrap">#</th>
-            <th class="px-3 bg-gray-200 align-middle py-3 text-xs font-semibold text-left uppercase border-l-0 border-r-0 whitespace-nowrap">Valor</th>
-            <th class="px-3 bg-gray-200 align-middle py-3 text-xs font-semibold text-left uppercase border-l-0 border-r-0 whitespace-nowrap min-w-140-px"></th>
-          </tr>
-        </thead>
-        <tbody class="divide-y divide-gray-200">
-          <% @monthTithe.each do |tithe| %>
-            <tr class="text-gray-500">
-              <th class="border-t-0 px-3 align-middle text-sm font-normal whitespace-nowrap p-4 text-left" title='<%= "#{tithe[1]} #{tithe[2]}" %>'>
-                <%= tithe[0] %>
-              </th>
-              <td class="border-t-0 px-3 align-middle text-xs font-medium text-gray-900 whitespace-nowrap p-4">
-                <%= number_to_currency(tithe[3]) %>
-              </td>
-              <td class="border-t-0 px-3 align-middle text-xs whitespace-nowrap p-4">
-                <div class="flex items-center">
-                  <span class="mr-2 text-xs font-medium"><%= tithe_amount_percent(tithe[3],@date_range) %></span>
-                  <div class="relative w-full">
-                    <div class="w-full bg-gray-200 rounded-sm h-2">
-                      <div class="bg-cyan-600 h-2 rounded-sm" style="width: <%= tithe_amount_percent(tithe[3],@date_range) %>"></div>
+<div class="mt-4 w-full grid grid-cols-1 sm:grid-cols-2 gap-4">
+  <div class="mt-4 w-full grid grid-cols-1 gap-4">
+
+    <div class="bg-white shadow rounded-lg p-3 sm:p-6">
+      <div class="flex items-center justify-between mb-3 sm:mb-4">
+        <h3 class="text-xl font-bold leading-none text-gray-900">Ofertas no mês</h3>
+      </div>
+      <div class="flex items-center">
+        <table class="items-center w-full bg-transparent border-collapse">
+          <thead>
+            <tr>
+              <th class="px-3 bg-gray-200 align-middle py-3 text-xs font-semibold text-left uppercase border-l-0 border-r-0 whitespace-nowrap">Dia</th>
+              <th class="px-3 bg-gray-200 align-middle py-3 text-xs font-semibold text-left uppercase border-l-0 border-r-0 whitespace-nowrap">Valor</th>
+              <th class="px-3 bg-gray-200 align-middle py-3 text-xs font-semibold text-left uppercase border-l-0 border-r-0 whitespace-nowrap min-w-140-px"></th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-200">
+            <% @monthOffer.each do |offer| %>
+              <tr class="text-gray-500">
+                <th class="border-t-0 px-3 align-middle text-sm font-normal whitespace-nowrap p-4 text-left">
+                  <%= l(offer.payment_date, format: "%d/%m") %>
+                </th>
+                <td class="border-t-0 px-3 align-middle text-xs font-medium text-gray-900 whitespace-nowrap p-4">
+                  <%= number_to_currency(offer.amount) %>
+                </td>
+                <td class="border-t-0 px-3 align-middle text-xs whitespace-nowrap p-4">
+                  <div class="flex items-center">
+                    <span class="mr-2 text-xs font-medium"><%= offer_amount_percent(offer.amount, @date_range) %></span>
+                    <div class="relative w-full">
+                      <div class="w-full bg-gray-200 rounded-sm h-2">
+                        <div class="bg-cyan-600 h-2 rounded-sm" style="width: <%= offer_amount_percent(offer.amount, @date_range) %>"></div>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </td>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="bg-white shadow rounded-lg p-3 sm:p-6">
+      <div class="flex items-center justify-between mb-3 sm:mb-4">
+        <h3 class="text-xl font-bold leading-none text-gray-900">Dízimos no mês</h3>
+      </div>
+      <div class="flex items-center">
+        <table class="items-center w-full bg-transparent border-collapse">
+          <thead>
+            <tr>
+              <th class="px-3 bg-gray-200 align-middle py-3 text-xs font-semibold text-left uppercase border-l-0 border-r-0 whitespace-nowrap">#</th>
+              <th class="px-3 bg-gray-200 align-middle py-3 text-xs font-semibold text-left uppercase border-l-0 border-r-0 whitespace-nowrap">Valor</th>
+              <th class="px-3 bg-gray-200 align-middle py-3 text-xs font-semibold text-left uppercase border-l-0 border-r-0 whitespace-nowrap min-w-140-px"></th>
             </tr>
-          <% end %>
-        </tbody>
-      </table>
-    </div>
-  </div>
-  <div class="bg-white shadow rounded-lg p-3 sm:p-6">
-    <div class="flex items-center justify-between mb-3 sm:mb-4">
-      <h3 class="text-xl font-bold leading-none text-gray-900">Ofertas no mês</h3>
-    </div>
-    <div class="flex items-center">
-      <table class="items-center w-full bg-transparent border-collapse">
-        <thead>
-          <tr>
-            <th class="px-3 bg-gray-200 align-middle py-3 text-xs font-semibold text-left uppercase border-l-0 border-r-0 whitespace-nowrap">Dia</th>
-            <th class="px-3 bg-gray-200 align-middle py-3 text-xs font-semibold text-left uppercase border-l-0 border-r-0 whitespace-nowrap">Valor</th>
-            <th class="px-3 bg-gray-200 align-middle py-3 text-xs font-semibold text-left uppercase border-l-0 border-r-0 whitespace-nowrap min-w-140-px"></th>
-          </tr>
-        </thead>
-        <tbody class="divide-y divide-gray-200">
-          <% @monthOffer.each do |offer| %>
-            <tr class="text-gray-500">
-              <th class="border-t-0 px-3 align-middle text-sm font-normal whitespace-nowrap p-4 text-left">
-                <%= l(offer.payment_date, format: "%d/%m") %>
-              </th>
-              <td class="border-t-0 px-3 align-middle text-xs font-medium text-gray-900 whitespace-nowrap p-4">
-                <%= number_to_currency(offer.amount) %>
-              </td>
-              <td class="border-t-0 px-3 align-middle text-xs whitespace-nowrap p-4">
-                <div class="flex items-center">
-                  <span class="mr-2 text-xs font-medium"><%= offer_amount_percent(offer.amount, @date_range) %></span>
-                  <div class="relative w-full">
-                    <div class="w-full bg-gray-200 rounded-sm h-2">
-                      <div class="bg-cyan-600 h-2 rounded-sm" style="width: <%= offer_amount_percent(offer.amount, @date_range) %>"></div>
+          </thead>
+          <tbody class="divide-y divide-gray-200">
+            <% @monthTithe.each do |tithe| %>
+              <tr class="text-gray-500">
+                <th class="border-t-0 px-3 align-middle text-sm font-normal whitespace-nowrap p-4 text-left" title='<%= "#{tithe[1]} #{tithe[2]}" %>'>
+                  <%= tithe[0] %>
+                </th>
+                <td class="border-t-0 px-3 align-middle text-xs font-medium text-gray-900 whitespace-nowrap p-4">
+                  <%= number_to_currency(tithe[3]) %>
+                </td>
+                <td class="border-t-0 px-3 align-middle text-xs whitespace-nowrap p-4">
+                  <div class="flex items-center">
+                    <span class="mr-2 text-xs font-medium"><%= tithe_amount_percent(tithe[3],@date_range) %></span>
+                    <div class="relative w-full">
+                      <div class="w-full bg-gray-200 rounded-sm h-2">
+                        <div class="bg-cyan-600 h-2 rounded-sm" style="width: <%= tithe_amount_percent(tithe[3],@date_range) %>"></div>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </td>
-            </tr>
-          <% end %>
-        </tbody>
-      </table>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
   <div class="bg-white shadow rounded-lg p-3 sm:p-6">
