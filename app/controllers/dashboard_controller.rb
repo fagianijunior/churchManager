@@ -28,6 +28,9 @@ class DashboardController < ApplicationController
     @monthlyMovementsInByCategory = Movement.entrada.not_entre_contas.where(payment_date: @date_range).group(:sub_kind_of).sum(:amount).sort
     @monthlyMovementsOutByCategory = Movement.saida.not_entre_contas.where(payment_date: @date_range).group(:sub_kind_of).sum(:amount).sort
 
+    @employeeMonthSalary = Administration.where.not(salary: nil).all
+    # Movement.saida.where(payment_date: @date_range).group(:id, :user_id)
+
     @lastMembers = User.where.not(member_since: nil).order("member_since DESC").take(5)
 
     @monthBirthdays = User.where("EXTRACT(MONTH FROM birth_date) = ?", @month).order(Arel.sql("date_part('day', birth_date)"))

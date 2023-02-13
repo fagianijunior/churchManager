@@ -14,7 +14,7 @@ class User < ApplicationRecord
 
   has_many :administrations
   has_many :occupations, through: :administrations
-
+  has_many :movements
   validates :first_name, :last_name, :gender, :marital_status, :contact_number, :email, :birth_date, :church_id, :address, presence: true
 
   enum gender: [:masculino, :feminino]
