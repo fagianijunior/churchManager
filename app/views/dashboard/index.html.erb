@@ -160,7 +160,7 @@
   <div class="mt-4 w-full grid grid-cols-1 gap-4">
     <div class="bg-white shadow rounded-lg p-3 sm:p-6">
       <div class="flex items-center justify-between mb-3 sm:mb-4">
-        <h3 class="text-xl font-bold leading-none text-gray-900">Salários no mês</h3>
+        <h3 class="text-xl font-bold leading-none text-gray-900">Fixos no mês</h3>
       </div>
       <div class="flex items-center">
         <table class="items-center w-full bg-transparent border-collapse">
@@ -175,7 +175,7 @@
               <% paid = Movement.saida.where(payment_date: @date_range).where(user: employee.user).sum(:amount) * -1 %>
               <tr class="text-gray-500 <%= (paid >= employee.salary)? 'bg-green-200' : (paid < employee.salary)? 'bg-red-200' : '' %>">
                 <th class="border-t-0 px-3 align-middle text-sm font-normal whitespace-nowrap p-4 text-left" title="<%= employee.user.name %>">
-                  <%= employee.occupation.title %>
+                  <%= employee.occupation.title %><%= employee.titular ? '' : ' - Vice'%>
                 </th>
                 <td class="border-t-0 px-3 align-middle text-xs font-medium text-gray-900 whitespace-nowrap p-4" title="<%= number_to_currency(employee.salary) %>">
                   <%= number_to_currency(paid) %>
