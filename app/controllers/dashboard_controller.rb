@@ -1,6 +1,5 @@
 class DashboardController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_header, only: %i[ index ]
   before_action :set_header_panel, only: %i[ index ]
   def index
     @monthMovementsInChart  = Movement.entrada.not_entre_contas.where(payment_date: @date_range).group_by_day(:payment_date).sum(:amount)

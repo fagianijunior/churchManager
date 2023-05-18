@@ -1,7 +1,6 @@
 class WalletsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_wallet, only: %i[ show edit update destroy ]
-  before_action :set_header, only: %i[ index show ]
   before_action :set_header_panel, only: %i[ index show ]
 
   # GET /wallets or /wallets.json
