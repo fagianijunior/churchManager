@@ -13,6 +13,7 @@ class ApplicationController < ActionController::Base
   end
 
   def set_header_panel
+    set_header
     @header_panel=true
     @date_range = @date.beginning_of_month.beginning_of_day..@date.end_of_month.end_of_day
 
