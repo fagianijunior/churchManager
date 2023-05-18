@@ -67,7 +67,7 @@
               ['Janeiro',1],['Fevereiro',2],['Março',3],['Abril',4],['Maio',5],['Junho',6],['Julho',7],['Agosto',8],
               ['Setembro',9],['Outubro',10],['Novembro',11],['Dezembro',12]
             ], selected: @month)) %>
-            <%= f.select(:year, options_for_select(list_2022_to_today, selected: @year)) %>
+            <%= f.select(:year, options_for_select(list_2022_to_next_year, selected: @year)) %>
             <%= f.submit 'Carregar', name: "" %>
           <% end %>
           <%= link_to "Mês atual", root_path, class: "text-sm sm:text-base font-normal text-gray-500" %>

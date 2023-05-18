@@ -1,6 +1,7 @@
 class AdministrationsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_administration, only: %i[ show edit update destroy ]
+  before_action :set_header, only: %i[ index ]
 
   # GET /administrations or /administrations.json
   def index

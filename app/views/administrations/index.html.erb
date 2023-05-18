@@ -1,10 +1,30 @@
-<div class="grid grid-cols-1 my-4">
-  <div class="bg-white shadow rounded-lg p-6">
+<div class="w-full grid grid-cols-1 xl:grid-cols-4 gap-4 mt-4">
+  <div class="bg-white shadow rounded-lg p-6 col-span-3">
     <div class="flex items-center justify-between">
       <h3 class="text-xl font-bold leading-none text-gray-900">Administração</h3>
       <%= link_to 'Nova administração', new_administration_path, class: "rounded-lg py-3 px-5 bg-blue-600 text-white block font-medium" %>
     </div>
   </div>
+  <div class="bg-white shadow rounded-lg p-3 sm:p-4 col-span-1">
+    <%= form_with url: request.url, method: :get do |f| %>
+      <%= f.select(:month, options_for_select([
+        ['Janeiro',1],['Fevereiro',2],['Março',3],['Abril',4],['Maio',5],['Junho',6],['Julho',7],['Agosto',8],
+        ['Setembro',9],['Outubro',10],['Novembro',11],['Dezembro',12]
+      ], selected: @month)) %>
+      <%= f.select(:year, options_for_select(list_2022_to_next_year, selected: @year)) %>
+      <%= f.submit 'Carregar', name: "" %>
+    <% end %>
+    <%= link_to "Mês atual", root_path, class: "text-sm sm:text-base font-normal text-gray-500" %>
+  </div>
+</div>
+
+
+
+
+
+<div class="grid grid-cols-2 my-4">
+  
+
 </div>
 <div class="grid grid-cols-1 gap-4">
   <% @occupations.each do |occupation| %>
@@ -16,7 +36,7 @@
       </div>
     </div>
     <div class="grid grid-cols-4 gap-4">
-      <% @administrations = occupation.administrations.order('titular DESC') %>
+      <% @administrations = occupation.administrations.where('start_date <= ? AND (end_date >= ? Or end_date is null)', @date, @date).order(titular: :DESC) %>
       <%= render @administrations %>
     </div>
   <% end %>
