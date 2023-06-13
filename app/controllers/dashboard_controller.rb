@@ -16,7 +16,7 @@ class DashboardController < ApplicationController
     @monthlyOutAmountByKind = Movement.saida.not_entre_contas.where(payment_date: @date_range).group(:sub_kind_of).sum(:amount).sort
 
     @monthMovements = Movement.not_entre_contas.where(payment_date: @date_range).order(Arel.sql("date_trunc('day', payment_date)"))
-                        .group("date_trunc('day', payment_date)", :kind_of, :sub_kind_of).sum(:amount)
+                        .group("date_trunc('day', payment_date)", :kind_of, :sub_kind_of, :description).sum(:amount)
 
     @monthAmountTithe = Movement.entrada.dízimo.where(payment_date: @date_range).sum(:amount)
     @monthTithe = Movement.entrada.dízimo.where(payment_date: @date_range).joins(:user).group('users.id')
