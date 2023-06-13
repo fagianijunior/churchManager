@@ -209,7 +209,7 @@
                   <%= number_to_currency(movement[1]) %>
                 </td>
                 <td class="border-t-0 px-3 align-middle text-xs font-medium text-gray-900 whitespace-nowrap p-4">
-                  <%= movement[0][2].pluralize.humanize %>
+                  <%= "#{movement[0][2].pluralize.humanize } - " unless movement[0][2] == 'funcionario' %><%= movement[0][3] %>
                 </td>
               </tr>
             <% end %>
