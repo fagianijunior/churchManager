@@ -32,7 +32,7 @@
       <h3 class="text-xl font-bold leading-none text-gray-900">Entradas por categoria</h3>
     </div>
     <div class="flex items-center">
-      <%= pie_chart @monthlyMovementsInByCategory, colors: ['rgb(163 230 53)', 'rgb(192 132 252)', 'rgb(34 211 238)', 'rgb(74 222 128)'] %>
+      <%= pie_chart @monthlyMovementsInByCategory, colors: @in_colors %>
     </div>
   </div>
   <div class="bg-white shadow rounded-lg p-3 sm:p-6">
@@ -40,20 +40,20 @@
       <h3 class="text-xl font-bold leading-none text-gray-900">Saídas por categoria</h3>
     </div>
     <div class="flex items-center">
-      <%= pie_chart @monthlyMovementsOutByCategory, colors: ['rgb(253 224 71)', 'rgb(251 146 60)', 'rgb(220 38 38)', 'rgb(251 191 36)', 'rgb(251 113 133)', 'rgb(250 204 21)'] %>
+      <%= pie_chart @monthlyMovementsOutByCategory, colors: @out_colors %>
     </div>
   </div>
 </div>
 <div class='mt-4 w-full grid grid-cols-2 gap-4'>
   <div class='mt-4 w-full grid grid-cols-1 sm:grid-cols-4 gap-4'>
-    <% @monthlyInAmountByKind.each do |kind| %>
-      <div class="<%= kind[0] == 'dizimo' ? 'bg-lime-300' : kind[0] == 'outras_entradas' ? 'bg-cyan-300' : kind[0] == 'oferta' ? 'bg-purple-300' : 'bg-green-300' %> shadow rounded-lg p-3 sm:p-6">
+    <% @monthlyInAmountByKind.each_with_index do |kind, index| %>
+      <div class="shadow rounded-lg p-3 sm:p-6" style="background-color: <%= @in_colors[index] %>">
         <div class="flex items-center">
           <div class="flex-shrink-0">
-            <span class="text-xl sm:text-2xl leading-none font-bold text-gray-900">
+            <span class="text-xl sm:text-2xl leading-none font-bold text-gray-300">
               <%= number_to_currency(kind[1]) %>
             </span>
-            <h3 class="text-sm sm:text-base font-normal text-gray-500">
+            <h3 class="text-sm sm:text-base font-normal text-gray-100">
               <%= kind[0].pluralize.humanize %>
             </h3>
           </div>
@@ -62,14 +62,14 @@
     <% end %>
   </div>
   <div class='mt-4 w-full grid grid-cols-1 sm:grid-cols-4 gap-4'>
-    <% @monthlyOutAmountByKind.each do |kind| %>
-      <div class="<%= kind[0] == 'chá_da_comunhão' ? 'bg-yellow-300' : kind[0] == 'compra' ? 'bg-orange-400' : kind[0] == 'funcionario' ? 'bg-red-600' : kind[0] == 'outros_gastos' ? 'bg-amber-300' : kind[0] == 'serviço_público' ? 'bg-rose-300' : '' %> shadow rounded-lg p-3 sm:p-6">
+    <% @monthlyOutAmountByKind.each_with_index do |kind, index| %>
+      <div class="shadow rounded-lg p-3 sm:p-6" style="background-color: <%= @out_colors[index] %>">
         <div class="flex items-center">
           <div class="flex-shrink-0">
             <span class="text-xl sm:text-2xl leading-none font-bold text-gray-900">
               <%= number_to_currency(kind[1]) %>
             </span>
-            <h3 class="text-sm sm:text-base font-normal text-gray-500">
+            <h3 class="text-sm sm:text-base font-normal text-gray-900">
               <%= kind[0].pluralize.humanize %>
             </h3>
           </div>

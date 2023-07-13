@@ -10,6 +10,9 @@ class ApplicationController < ActionController::Base
     @year  = (2022..(Date.today.year + 1)).include?(year) ? year : Date.today.year
 
     @date  = Date.strptime("#{@month},#{@year}","%m,%Y")
+
+    @in_colors = ['rgb(0, 204, 96)', 'rgb(0, 102, 117)', 'rgb(51, 230, 77)', 'rgb(0, 0, 139)']
+    @out_colors = ['rgb(255, 255, 0)', 'rgb(255, 204, 51)', 'rgb(255, 179, 77)', 'rgb(255, 128, 128)', 'rgb(255, 102, 153)', 'rgb(255, 77, 179)', 'rgb(255, 192, 203)']
   end
 
   def set_header_panel
