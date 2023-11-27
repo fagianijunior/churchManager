@@ -5,8 +5,11 @@ class DashboardController < ApplicationController
     @monthMovementsInChart  = Movement.entrada.not_entre_contas.where(payment_date: @date_range).group_by_day(:payment_date).sum(:amount)
     @monthMovementsOutChart = Movement.saida.not_entre_contas.where(payment_date: @date_range).group_by_day(:payment_date).sum('amount * -1')
 
+    boy = @date.beginning_of_year.beginning_of_day
+    eoy = @date.end_of_year.end_of_day
+    @yearMovementsBalanceChart = Movement.where('payment_date >= ? and payment_date <= ?', boy, eoy).group_by_day(:payment_date).sum(:amount)
+
     accumulator = 0
-    @yearMovementsBalanceChart = @MovementsBalanceChart = Movement.where('EXTRACT(YEAR FROM payment_date) = ?', @year).group_by_day(:payment_date).sum(:amount)
     @yearMovementsBalanceChart.transform_values! do |val|
       val += accumulator
       accumulator = val
