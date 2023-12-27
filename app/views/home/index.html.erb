@@ -134,7 +134,7 @@
           <tbody class="divide-y divide-gray-200">
             <% @monthTithe.each do |tithe| %>
               <tr class="text-gray-500">
-                <th class="border-t-0 px-3 align-middle text-sm font-normal whitespace-nowrap p-4 text-left">
+                <th class="border-t-0 px-3 align-middle text-sm font-normal whitespace-nowrap p-4 text-left"1>
                   <%= tithe[0] %>
                 </th>
                 <td class="border-t-0 px-3 align-middle text-xs font-medium text-gray-900 whitespace-nowrap p-4">
@@ -244,11 +244,8 @@
                   <%= user.full_name %>
                 </p>
                 <p class="text-sm text-gray-500 truncate">
-                  <%= l user.birth_date, format: :long %>
+                  <%= l user.birth_date, format: :short %>
                 </p>
-              </div>
-              <div class="inline-flex items-center text-base font-semibold text-gray-900">
-                <%= user.age %> anos
               </div>
             </div>
           </li>
@@ -280,11 +277,8 @@
                   <%= user.full_name %>
                 </p>
                 <p class="text-sm text-gray-500 truncate">
-                  <%= l user.birth_date, format: :long %>
+                  <%= l user.birth_date, format: :short %>
                 </p>
-              </div>
-              <div class="inline-flex items-center text-base font-semibold text-gray-900">
-                <%= user.age %> anos
               </div>
             </div>
           </li>
