@@ -7,8 +7,8 @@ class DashboardController < ApplicationController
 
     boy = @date.beginning_of_year.beginning_of_day
     eoy = @date.end_of_year.end_of_day
-    @yearMovementsBalanceChart = Movement.where('payment_date >= ? and payment_date <= ?', boy, eoy).group_by_day(:payment_date).sum(:amount)
-
+    @yearMovementsBalanceChart = Movement.group_by_day(:payment_date).sum(:amount)
+ 
     accumulator = 0
     @yearMovementsBalanceChart.transform_values! do |val|
       val += accumulator
