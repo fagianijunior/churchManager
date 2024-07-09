@@ -25,7 +25,8 @@ class Movement < ApplicationRecord
     dep_casais: 208,
     dep_infantil: 209,
     mocidade: 210,
-    juros_negativo: 211
+    juros_negativo: 211,
+    ebf:212
   }
   validates :kind_of, :sub_kind_of, :amount, :payment_date, :description, :wallet_id, presence: true
 end
