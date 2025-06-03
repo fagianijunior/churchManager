@@ -1,2 +1,429 @@
-  <h1 class="font-bold text-4xl">Home#index</h1>
-  <p>Find me in app/views/home/index.html.erb</p>
+<div class="mt-4 w-full grid grid-cols-1 sm:grid-cols-2 gap-4">
+  <div class="bg-white shadow rounded-lg p-3 sm:p-6">
+    <div class="flex items-center justify-between mb-3 sm:mb-4">
+      <h3 class="text-xl font-bold leading-none text-gray-900">Entradas no mês</h3>
+    </div>
+    <div class="flex items-center">
+      <%= column_chart @monthMovementsInChart, colors: ['green'] %>
+    </div>
+  </div>
+  <div class="bg-white shadow rounded-lg p-3 sm:p-6">
+    <div class="flex items-center justify-between mb-3 sm:mb-4">
+      <h3 class="text-xl font-bold leading-none text-gray-900">Saídas no mês</h3>
+    </div>
+    <div class="flex items-center">
+      <%= column_chart @monthMovementsOutChart, colors: ['red'] %>
+    </div>
+  </div>
+</div>
+<div class="mt-4 w-full grid grid-cols-1 gap-4">
+  <div class="bg-white shadow rounded-lg p-3 sm:p-6">
+    <div class="flex items-center justify-between mb-3 sm:mb-4">
+      <h3 class="text-xl font-bold leading-none text-gray-900">Saldo até o mês</h3>
+    </div>
+    <div class="flex items-center">
+      <%= line_chart @monthMovementsBalanceChart, colors: ['green'] %>
+    </div>
+  </div>
+</div>
+<div class="mt-4 w-full grid grid-cols-2 gap-4">
+  <div class="bg-white shadow rounded-lg p-3 sm:p-6">
+    <div class="flex items-center justify-between mb-3 sm:mb-4">
+      <h3 class="text-xl font-bold leading-none text-gray-900">Entradas por categoria</h3>
+    </div>
+    <div class="flex items-center">
+      <%= pie_chart @monthlyMovementsInByCategory, colors: @in_colors %>
+    </div>
+  </div>
+  <div class="bg-white shadow rounded-lg p-3 sm:p-6">
+    <div class="flex items-center justify-between mb-3 sm:mb-4">
+      <h3 class="text-xl font-bold leading-none text-gray-900">Saídas por categoria</h3>
+    </div>
+    <div class="flex items-center">
+      <%= pie_chart @monthlyMovementsOutByCategory, colors: @out_colors %>
+    </div>
+  </div>
+</div>
+<div class='mt-4 w-full grid grid-cols-2 gap-4'>
+  <div class='mt-4 w-full grid grid-cols-1 sm:grid-cols-4 gap-4'>
+    <% @monthlyInAmountByKind.each_with_index do |kind, index| %>
+      <div class="shadow rounded-lg p-3 sm:p-6" style="background-color: <%= @in_colors[index] %>">
+        <div class="flex items-center">
+          <div class="flex-shrink-0">
+            <span class="text-xl sm:text-2xl leading-none font-bold text-gray-300">
+              <%= number_to_currency(kind[1]) %>
+            </span>
+            <h3 class="text-sm sm:text-base font-normal text-gray-100">
+              <%= kind[0].pluralize.humanize %>
+            </h3>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+  <div class='mt-4 w-full grid grid-cols-1 sm:grid-cols-4 gap-4'>
+    <% @monthlyOutAmountByKind.each_with_index do |kind, index| %>
+      <div class="shadow rounded-lg p-3 sm:p-6" style="background-color: <%= @out_colors[index] %>">
+        <div class="flex items-center">
+          <div class="flex-shrink-0">
+            <span class="text-xl sm:text-2xl leading-none font-bold text-gray-900">
+              <%= number_to_currency(kind[1]) %>
+            </span>
+            <h3 class="text-sm sm:text-base font-normal text-gray-900">
+              <%= kind[0].pluralize.humanize %>
+            </h3>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+<div class="mt-4 w-full grid grid-cols-1 sm:grid-cols-2 gap-4">
+  <div class="mt-4 w-full grid grid-cols-1 gap-4">
+    <div class="bg-white shadow rounded-lg p-3 sm:p-6">
+      <div class="flex items-center justify-between mb-3 sm:mb-4">
+        <h3 class="text-xl font-bold leading-none text-gray-900">Ofertas no mês</h3>
+      </div>
+      <div class="flex items-center">
+        <table class="items-center w-full bg-transparent border-collapse">
+          <thead>
+            <tr>
+              <th class="px-3 bg-gray-200 align-middle py-3 text-xs font-semibold text-left uppercase border-l-0 border-r-0 whitespace-nowrap">Dia</th>
+              <th class="px-3 bg-gray-200 align-middle py-3 text-xs font-semibold text-left uppercase border-l-0 border-r-0 whitespace-nowrap">Valor</th>
+              <th class="px-3 bg-gray-200 align-middle py-3 text-xs font-semibold text-left uppercase border-l-0 border-r-0 whitespace-nowrap min-w-140-px"></th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-200">
+            <% @monthOffer.each do |offer| %>
+              <tr class="text-gray-500">
+                <th class="border-t-0 px-3 align-middle text-sm font-normal whitespace-nowrap p-4 text-left">
+                  <%= l(offer.payment_date, format: "%d/%m") %>
+                </th>
+                <td class="border-t-0 px-3 align-middle text-xs font-medium text-gray-900 whitespace-nowrap p-4">
+                  <%= number_to_currency(offer.amount) %>
+                </td>
+                <td class="border-t-0 px-3 align-middle text-xs whitespace-nowrap p-4">
+                  <div class="flex items-center">
+                    <span class="mr-2 text-xs font-medium"><%= offer_amount_percent(offer.amount, @date_range) %></span>
+                    <div class="relative w-full">
+                      <div class="w-full bg-gray-200 rounded-sm h-2">
+                        <div class="bg-cyan-600 h-2 rounded-sm" style="width: <%= offer_amount_percent(offer.amount, @date_range) %>"></div>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="bg-white shadow rounded-lg p-3 sm:p-6">
+      <div class="flex items-center justify-between mb-3 sm:mb-4">
+        <h3 class="text-xl font-bold leading-none text-gray-900">Dízimos no mês</h3>
+      </div>
+      <div class="flex items-center">
+        <table class="items-center w-full bg-transparent border-collapse">
+          <thead>
+            <tr>
+              <th class="px-3 bg-gray-200 align-middle py-3 text-xs font-semibold text-left uppercase border-l-0 border-r-0 whitespace-nowrap">#</th>
+              <th class="px-3 bg-gray-200 align-middle py-3 text-xs font-semibold text-left uppercase border-l-0 border-r-0 whitespace-nowrap">Valor</th>
+              <th class="px-3 bg-gray-200 align-middle py-3 text-xs font-semibold text-left uppercase border-l-0 border-r-0 whitespace-nowrap min-w-140-px"></th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-200">
+            <% @monthTithe.each do |tithe| %>
+              <tr class="text-gray-500">
+                <td class="border-t-0 px-3 align-middle text-xs font-medium text-gray-900 whitespace-nowrap p-4">
+                  <%= number_to_currency(tithe[3]) %>
+                </td>
+                <td class="border-t-0 px-3 align-middle text-xs whitespace-nowrap p-4">
+                  <div class="flex items-center">
+                    <span class="mr-2 text-xs font-medium"><%= tithe_amount_percent(tithe[3],@date_range) %></span>
+                    <div class="relative w-full">
+                      <div class="w-full bg-gray-200 rounded-sm h-2">
+                        <div class="bg-cyan-600 h-2 rounded-sm" style="width: <%= tithe_amount_percent(tithe[3],@date_range) %>"></div>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="mt-4 w-full grid grid-cols-1 gap-4">
+    <div class="bg-white shadow rounded-lg p-3 sm:p-6">
+      <div class="flex items-center justify-between mb-3 sm:mb-4">
+        <h3 class="text-xl font-bold leading-none text-gray-900">Fixos no mês</h3>
+      </div>
+      <div class="flex items-center">
+        <table class="items-center w-full bg-transparent border-collapse">
+          <thead>
+            <tr>
+              <th class="px-3 bg-gray-200 align-middle py-3 text-xs font-semibold text-left uppercase border-l-0 border-r-0 whitespace-nowrap">Cargo</th>
+              <th class="px-3 bg-gray-200 align-middle py-3 text-xs font-semibold text-left uppercase border-l-0 border-r-0 whitespace-nowrap">Valor pago</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-200">
+            <% @employeeMonthSalary.each do |employee| %>
+              <% paid = Movement.saida.where(payment_date: @date_range).where(user: employee.user).sum(:amount) * -1 %>
+              <tr class="text-gray-500 <%= (paid >= employee.salary)? 'bg-green-200' : (paid < employee.salary)? 'bg-red-200' : '' %>">
+                <th class="border-t-0 px-3 align-middle text-sm font-normal whitespace-nowrap p-4 text-left" title="<%= employee.user.name %>">
+                  <%= employee.occupation.title %><%= employee.titular ? '' : ' - Vice'%>
+                </th>
+                <td class="border-t-0 px-3 align-middle text-xs font-medium text-gray-900 whitespace-nowrap p-4" title="<%= number_to_currency(employee.salary) %>">
+                  <%= number_to_currency(paid) %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="bg-white shadow rounded-lg p-3 sm:p-6">
+      <div class="flex items-center justify-between mb-3 sm:mb-4">
+        <h3 class="text-xl font-bold leading-none text-gray-900">Extrato</h3>
+      </div>
+      <div class="flex items-center">
+        <table class="items-center w-full bg-transparent border-collapse table-auto">
+          <thead>
+            <tr>
+              <th class="px-3 bg-gray-200 align-middle py-3 text-xs font-semibold text-left uppercase border-l-0 border-r-0 whitespace-nowrap">Dia</th>
+              <th class="px-3 bg-gray-200 align-middle py-3 text-xs font-semibold text-left uppercase border-l-0 border-r-0 whitespace-nowrap">Valor</th>
+              <th class="px-3 bg-gray-200 align-middle py-3 text-xs font-semibold text-left uppercase border-l-0 border-r-0 whitespace-nowrap min-w-140-px">Descrição</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-200">
+            <% @monthMovements.each do |movement| %>
+              <tr class="text-gray-500 <%= (movement[0][1] == 'entrada')? 'bg-green-200' : (movement[0][1] == 'saida')? 'bg-red-200' : '' %>">
+                <th class="border-t-0 px-3 align-middle text-sm font-normal whitespace-nowrap p-4 text-left">
+                    <%= l(movement[0][0], format: "%d/%m") %>
+                </th>
+                <td class="border-t-0 px-3 align-middle text-xs font-medium text-gray-900 whitespace-nowrap p-4">
+                  <%= number_to_currency(movement[1]) %>
+                </td>
+                <td class="border-t-0 px-3 align-middle text-xs font-medium text-gray-900 whitespace-nowrap p-4" style="overflow: hidden; text-overflow: ellipsis; width: 100%; max-width: 0; white-space: nowrap;">
+                  <%= "#{movement[0][2].pluralize.humanize } - " unless movement[0][2] == 'funcionario' %><%= movement[0][3] %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="mt-4 w-full grid grid-cols-1 sm:grid-cols-3 gap-4">
+  <div class="bg-white shadow rounded-lg mb-4 p-3 sm:p-6 h-full">
+    <div class="flex items-center justify-between mb-3 sm:mb-4">
+      <h3 class="text-xl font-bold leading-none text-gray-900">Últimos membros</h3>
+      <%= link_to users_path, class: "text-sm font-medium text-cyan-600 hover:bg-gray-100 rounded-lg inline-flex items-center p-2" do %>
+        Ver todos
+      <% end %>
+    </div>
+    <div class="flow-root">
+      <ul role="list" class="divide-y divide-gray-200">
+        <% @lastMembers.each do |user| %>
+          <li class="py-3 sm:py-4">
+            <div class="flex items-center space-x-4">
+              <div class="flex-shrink-0">
+                <% if user.avatar.attached? %>
+                  <%= image_tag user.avatar.variant(:micro), class: "h-8 w-8 rounded-full" %>
+                <% else %>
+                  <%= image_tag "users/avatar-default-micro.png", class: "h-8 w-8 rounded-full" %>
+                <% end %>
+              </div>
+              <div class="flex-1 min-w-0">
+                <p class="text-sm font-medium text-gray-900 truncate">
+                  <%= user.full_name %>
+                </p>
+              </div>
+              <div class="inline-flex items-center text-base font-semibold text-gray-900">
+                <%= l user.member_since %>
+              </div>
+            </div>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+  <div class="bg-white shadow rounded-lg mb-3 p-4 sm:p-6 h-full">
+    <div class="flex items-center justify-between mb-3 sm:mb-4">
+      <h3 class="text-xl font-bold leading-none text-gray-900">Aniversariantes do mês</h3>
+      <%= link_to users_path, class: "text-sm font-medium text-cyan-600 hover:bg-gray-100 rounded-lg inline-flex items-center p-2" do %>
+        Ver todos
+      <% end %>
+    </div>
+    <div class="flow-root">
+      <ul role="list" class="divide-y divide-gray-200">
+        <% @monthBirthdays.each do |user| %>
+          <li class="py-3 sm:py-4">
+            <div class="flex items-center space-x-4">
+              <div class="flex-shrink-0">
+                <% if user.avatar.attached? %>
+                  <%= image_tag user.avatar.variant(:micro), class: "h-8 w-8 rounded-full" %>
+                <% else %>
+                  <%= image_tag "users/avatar-default-micro.png", class: "h-8 w-8 rounded-full" %>
+                <% end %>
+              </div>
+              <div class="flex-1 min-w-0">
+                <p class="text-sm font-medium text-gray-900 truncate">
+                  <%= user.full_name %>
+                </p>
+                <p class="text-sm text-gray-500 truncate">
+                  <%= l user.birth_date, format: :long %>
+                </p>
+              </div>
+              <div class="inline-flex items-center text-base font-semibold text-gray-900">
+                <%= user.age %> anos
+              </div>
+            </div>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+  <div class="bg-white shadow rounded-lg mb-3 p-3 sm:p-6 h-full">
+    <div class="flex items-center justify-between mb-3 sm:mb-4">
+      <h3 class="text-xl font-bold leading-none text-gray-900">Próximos aniversariantes</h3>
+      <%= link_to users_path, class: "text-sm font-medium text-cyan-600 hover:bg-gray-100 rounded-lg inline-flex items-center p-2" do %>
+        Ver todos
+      <% end %>
+    </div>
+    <div class="flow-root">
+      <ul role="list" class="divide-y divide-gray-200">
+        <% @upcomingBirthdays.each do |user| %>
+          <li class="py-3 sm:py-4 <%= (user.birth_date.day == Date.today.day)? 'bg-yellow-200' : ((Date.today.yday()< 16 ? 0 : 15.days.before.yday())..Date.today.yday()).include?(user.birth_date.yday()) ? 'bg-slate-200' : '' %>">
+            <div class="flex items-center space-x-4">
+              <div class="flex-shrink-0">
+                <% if user.avatar.attached? %>
+                  <%= image_tag user.avatar.variant(:micro), class: "h-8 w-8 rounded-full" %>
+                <% else %>
+                  <%= image_tag "users/avatar-default-micro.png", class: "h-8 w-8 rounded-full" %>
+                <% end %>
+              </div>
+              <div class="flex-1 min-w-0">
+                <p class="text-sm font-medium text-gray-900 truncate">
+                  <%= user.full_name %>
+                </p>
+                <p class="text-sm text-gray-500 truncate">
+                  <%= l user.birth_date, format: :long %>
+                </p>
+              </div>
+              <div class="inline-flex items-center text-base font-semibold text-gray-900">
+                <%= user.age %> anos
+              </div>
+            </div>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</div>
+<div class="mt-4 w-full grid grid-cols-1 sm:grid-cols-3 gap-4">
+  <div class="bg-white shadow rounded-lg mb-3 sm p-4 sm:p-6 h-full">
+    <div class="flex items-center justify-between mb-3 sm:mb-4">
+      <h3 class="text-xl font-bold leading-none text-gray-900">Eventos do mês</h3>
+      <%= link_to events_path, class: "text-sm font-medium text-cyan-600 hover:bg-gray-100 rounded-lg inline-flex items-center p-2" do %>
+        Ver todos
+      <% end %>
+    </div>
+    <div class="flow-root">
+      <ul role="list" class="divide-y divide-gray-200">
+        <% @monthEvents.each do |event| %>
+          <li class="py-3 sm:py-4">
+            <div class="flex items-center space-x-4">
+              <div class="flex-1 min-w-0">
+                <p class="text-sm font-medium text-gray-900 truncate">
+                  <%= event.title %>
+                </p>
+                <p class="text-sm text-gray-500 truncate">
+                  <%= l event.start_date, format: :long %>
+                </p>
+              </div>
+              <div class="inline-flex items-center text-base font-semibold text-gray-900">
+                <% if event.start_date > DateTime.now %>
+                  <%= distance_of_time_in_words_to_now(event.start_date) %>
+                <% else %>
+                  Finalizado
+                <% end %>
+              </div>
+            </div>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+  <div class="bg-white shadow rounded-lg mb-4 p-4 sm:p-6 h-full">
+    <div class="flex items-center justify-between mb-3 sm:mb-4">
+      <h3 class="text-xl font-bold leading-none text-gray-900">Próximos eventos</h3>
+      <%= link_to events_path, class: "text-sm font-medium text-cyan-600 hover:bg-gray-100 rounded-lg inline-flex items-center p-2" do %>
+        Ver todos
+      <% end %>
+    </div>
+    <div class="flow-root">
+      <ul role="list" class="divide-y divide-gray-200">
+        <% @upcomigEvents.each do |event| %>
+          <li class="py-3 sm:py-4">
+            <div class="flex items-center space-x-4">
+              <div class="flex-1 min-w-0">
+                <p class="text-sm font-medium text-gray-900 truncate">
+                  <%= event.title %>
+                </p>
+                <p class="text-sm text-gray-500 truncate">
+                  <%= l event.start_date, format: :long %>
+                </p>
+              </div>
+              <div class="inline-flex items-center text-base font-semibold text-gray-900">
+                <% if event.start_date > DateTime.now and event.end_date > DateTime.now %>
+                  <%= distance_of_time_in_words_to_now(event.start_date) %>
+                <% elsif event.start_date < DateTime.now and event.end_date < DateTime.now %>
+                  Finalizado
+                <% else %>
+                  Em curso
+                <% end %>
+              </div>
+            </div>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+  <div class="bg-white shadow rounded-lg mb-2 sm:mb-4 p-3 sm:p-6 h-full">
+    <div class="flex items-center justify-between mb-3 sm:mb-4">
+      <h3 class="text-xl font-bold leading-none text-gray-900">Administração</h3>
+      <%= link_to administrations_path, class: "text-sm font-medium text-cyan-600 hover:bg-gray-100 rounded-lg inline-flex items-center p-2" do %>
+        Ver todos
+      <% end %>
+    </div>
+    <div class="flow-root">
+      <ul role="list" class="divide-y divide-gray-200">
+        <% @employees.each do |adm| %>
+          <li class="py-3 sm:py-4">
+            <div class="flex items-center space-x-4">
+              <div class="flex-1 min-w-0">
+                <p class="text-sm font-medium text-gray-900 truncate">
+                  <%= adm.user.full_name %>
+                </p>
+                <p class="text-sm text-gray-500 truncate">
+                  <%= 'Vice' unless adm.titular %>
+                  <%= adm.occupation.title %>
+                </p>
+              </div>
+              <div class="inline-flex items-center text-base font-semibold text-gray-900">
+                <% if adm.start_date < DateTime.now %>
+                  <%= distance_of_time_in_words_to_now(adm.start_date) %>
+                <% else %>
+                  Não iniciado
+                <% end %>
+              </div>
+            </div>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</div>
