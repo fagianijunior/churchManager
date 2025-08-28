@@ -19,10 +19,10 @@
 <div class="mt-4 w-full grid grid-cols-1 gap-4">
   <div class="bg-white shadow rounded-lg p-3 sm:p-6">
     <div class="flex items-center justify-between mb-3 sm:mb-4">
-      <h3 class="text-xl font-bold leading-none text-gray-900">Saldo até o mês</h3>
+      <h3 class="text-xl font-bold leading-none text-gray-900">Saldo no ano</h3>
     </div>
     <div class="flex items-center">
-      <%= line_chart @monthMovementsBalanceChart, colors: ['green'] %>
+      <%= line_chart @balance_chart, colors: ['green'] %>
     </div>
   </div>
 </div>
@@ -46,7 +46,7 @@
 </div>
 <div class='mt-4 w-full grid grid-cols-2 gap-4'>
   <div class='mt-4 w-full grid grid-cols-1 sm:grid-cols-4 gap-4'>
-    <% @monthlyInAmountByKind.each_with_index do |kind, index| %>
+    <% @monthlyMovementsInByCategory.each_with_index do |kind, index| %>
       <div class="shadow rounded-lg p-3 sm:p-6" style="background-color: <%= @in_colors[index] %>">
         <div class="flex items-center">
           <div class="flex-shrink-0">
@@ -62,7 +62,7 @@
     <% end %>
   </div>
   <div class='mt-4 w-full grid grid-cols-1 sm:grid-cols-4 gap-4'>
-    <% @monthlyOutAmountByKind.each_with_index do |kind, index| %>
+    <% @monthlyMovementsOutByCategory.each_with_index do |kind, index| %>
       <div class="shadow rounded-lg p-3 sm:p-6" style="background-color: <%= @out_colors[index] %>">
         <div class="flex items-center">
           <div class="flex-shrink-0">
