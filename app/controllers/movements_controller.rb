@@ -21,13 +21,53 @@ class MovementsController < ApplicationController
   def edit
   end
 
+  # GET /movements/search_users - API endpoint for user search
+  def search_users
+    search_term = params[:q]
+    
+    begin
+      if search_term.present?
+        # Search users by name
+        users = User.search_by_name(search_term).limit(10)
+      else
+        # Return recently used members when no search term
+        users = User.recently_used_in_movements
+      end
+      
+      # Format results for JSON response
+      results = users.map(&:as_search_result)
+      
+      render json: {
+        success: true,
+        users: results,
+        count: results.length
+      }
+    rescue => e
+      render json: {
+        success: false,
+        error: 'Erro ao buscar usuários',
+        message: e.message
+      }, status: :internal_server_error
+    end
+  end
+
   # POST /movements or /movements.json
   def create
-    @movement = Movement.new(movement_params)
+    # Process amount based on movement type before creating
+    processed_params = movement_params.dup
+    if processed_params[:amount].present? && processed_params[:kind_of].present?
+      processed_params[:amount] = Movement.process_amount_by_type(
+        processed_params[:amount], 
+        processed_params[:kind_of]
+      )
+    end
+    
+    @movement = Movement.new(processed_params)
 
     respond_to do |format|
       if @movement.save
-        format.html { redirect_to movement_url(@movement), notice: "Movement was successfully created." }
+        success_message = "Movimentação criada com sucesso: #{@movement.income? ? 'Entrada' : 'Saída'} de R$ #{@movement.amount_for_display}"
+        format.html { redirect_to movement_url(@movement), notice: success_message }
         format.json { render :show, status: :created, location: @movement }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -38,9 +78,19 @@ class MovementsController < ApplicationController
 
   # PATCH/PUT /movements/1 or /movements/1.json
   def update
+    # Process amount based on movement type before updating
+    processed_params = movement_params.dup
+    if processed_params[:amount].present? && processed_params[:kind_of].present?
+      processed_params[:amount] = Movement.process_amount_by_type(
+        processed_params[:amount], 
+        processed_params[:kind_of]
+      )
+    end
+    
     respond_to do |format|
-      if @movement.update(movement_params)
-        format.html { redirect_to movement_url(@movement), notice: "Movement was successfully updated." }
+      if @movement.update(processed_params)
+        success_message = "Movimentação atualizada com sucesso: #{@movement.income? ? 'Entrada' : 'Saída'} de R$ #{@movement.amount_for_display}"
+        format.html { redirect_to movement_url(@movement), notice: success_message }
         format.json { render :show, status: :ok, location: @movement }
       else
         format.html { render :edit, status: :unprocessable_entity }

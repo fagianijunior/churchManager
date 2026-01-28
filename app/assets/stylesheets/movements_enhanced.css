@@ -1,0 +1,269 @@
+/* Enhanced Movement Form Styles */
+
+/* Form container improvements */
+.movement-form {
+  transition: all 0.3s ease;
+}
+
+/* Loading states */
+.form-loading {
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.form-loading::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 32px;
+  height: 32px;
+  border: 3px solid #f3f4f6;
+  border-top: 3px solid #3b82f6;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  z-index: 1000;
+}
+
+/* Enhanced form controls */
+.form-control {
+  transition: all 0.2s ease;
+  border: 1px solid #d1d5db;
+  border-radius: 0.375rem;
+  padding: 0.5rem 0.75rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #111827;
+  background-color: #ffffff;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.form-control:disabled {
+  background-color: #f9fafb;
+  color: #6b7280;
+  cursor: not-allowed;
+}
+
+/* Form group spacing */
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-group label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #374151;
+  margin-bottom: 0.25rem;
+}
+
+/* Success and error states */
+.form-success {
+  border-color: #10b981;
+  background-color: #f0fdf4;
+}
+
+.form-error {
+  border-color: #ef4444;
+  background-color: #fef2f2;
+}
+
+/* Enhanced button styles */
+.btn-primary {
+  background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+  border: none;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(59, 130, 246, 0.2);
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
+  box-shadow: 0 4px 8px rgba(59, 130, 246, 0.3);
+  transform: translateY(-1px);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(59, 130, 246, 0.2);
+}
+
+/* Grid improvements */
+.grid-responsive {
+  display: grid;
+  gap: 1rem;
+}
+
+@media (min-width: 768px) {
+  .grid-responsive {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .grid-responsive {
+    gap: 1.5rem;
+  }
+}
+
+/* Movement type indicators */
+.movement-type-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.movement-type-indicator.income {
+  background-color: #dcfce7;
+  color: #166534;
+  border: 1px solid #bbf7d0;
+}
+
+.movement-type-indicator.expense {
+  background-color: #fee2e2;
+  color: #991b1b;
+  border: 1px solid #fecaca;
+}
+
+/* Enhanced table styles for movement lists */
+.movements-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.movements-table th {
+  background-color: #f9fafb;
+  padding: 0.75rem 1rem;
+  text-align: left;
+  font-weight: 600;
+  color: #374151;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.movements-table td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.movements-table tr:hover {
+  background-color: #f9fafb;
+}
+
+/* Responsive improvements */
+@media (max-width: 640px) {
+  .movement-form {
+    padding: 1rem;
+  }
+  
+  .grid-responsive {
+    grid-template-columns: 1fr;
+  }
+  
+  .movements-table {
+    font-size: 0.875rem;
+  }
+  
+  .movements-table th,
+  .movements-table td {
+    padding: 0.5rem;
+  }
+  
+  /* Stack form elements on mobile */
+  .form-group {
+    margin-bottom: 1.5rem;
+  }
+  
+  /* Adjust button size on mobile */
+  .btn-primary {
+    width: 100%;
+    padding: 1rem;
+    font-size: 1.125rem;
+  }
+}
+
+/* Print styles */
+@media print {
+  .movement-form {
+    box-shadow: none;
+    border: 1px solid #000;
+  }
+  
+  .btn-primary,
+  .user-search-results,
+  .amount-validation-message {
+    display: none !important;
+  }
+  
+  .form-control {
+    border: none;
+    border-bottom: 1px solid #000;
+    background: transparent;
+  }
+}
+
+/* Accessibility improvements */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Focus indicators for keyboard navigation */
+.form-control:focus,
+.btn-primary:focus,
+.search-result-item:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .form-control {
+    border-width: 2px;
+  }
+  
+  .movement-income {
+    border-left-width: 6px;
+  }
+  
+  .movement-expense {
+    border-left-width: 6px;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .form-control,
+  .btn-primary,
+  .movement-form,
+  .user-search-results,
+  .amount-validation-message {
+    transition: none;
+    animation: none;
+  }
+}

@@ -17,6 +17,20 @@ class User < ApplicationRecord
   has_many :movements
   validates :first_name, :last_name, :gender, :marital_status, :contact_number, :email, :birth_date, :church_id, :address, presence: true
 
+  # Search scope for name-based searching
+  scope :search_by_name, ->(term) { 
+    where("CONCAT(first_name, ' ', last_name) ILIKE ?", "%#{term}%") if term.present?
+  }
+
+  # Get recently used members from movements (last 30 days)
+  scope :recently_used_in_movements, -> {
+    joins(:movements)
+      .where(movements: { created_at: 30.days.ago..Time.current })
+      .group('users.id')
+      .order('MAX(movements.created_at) DESC')
+      .limit(10)
+  }
+
   enum gender: [:masculino, :feminino]
   enum marital_status: [:solteiro, :casado, :separado, :divorciado, :viuvo]
 
@@ -45,5 +59,25 @@ class User < ApplicationRecord
 
   def is_baptized?
     !baptism_date.nil?
+  end
+
+  # Helper method for formatted display in search results
+  def search_display_info
+    info_parts = [full_name]
+    info_parts << email if email.present?
+    info_parts << "Membro desde #{member_since.strftime('%d/%m/%Y')}" if is_member?
+    info_parts.join(' - ')
+  end
+
+  # Method to get user data for JSON API responses
+  def as_search_result
+    {
+      id: id,
+      name: full_name,
+      email: email,
+      display_info: search_display_info,
+      is_member: is_member?,
+      member_since: member_since&.strftime('%d/%m/%Y')
+    }
   end
 end

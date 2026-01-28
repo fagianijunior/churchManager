@@ -1,0 +1,166 @@
+/* Amount Handler Styles */
+
+/* Movement type visual indicators */
+.movement-income {
+  border-left: 4px solid #10b981;
+}
+
+.movement-expense {
+  border-left: 4px solid #ef4444;
+}
+
+/* Amount input styling */
+.amount-input-container {
+  position: relative;
+}
+
+.currency-indicator {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #6b7280;
+  font-weight: 500;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Amount input with currency indicator */
+.amount-input-with-currency {
+  padding-left: 40px !important;
+}
+
+/* Validation message styles */
+.amount-validation-message {
+  padding: 8px 12px;
+  border: 1px solid;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  margin-top: 4px;
+  animation: slideIn 0.3s ease-out;
+}
+
+.amount-validation-message.error {
+  color: #dc2626;
+  background-color: #fef2f2;
+  border-color: #fecaca;
+}
+
+.amount-validation-message.warning {
+  color: #d97706;
+  background-color: #fffbeb;
+  border-color: #fed7aa;
+}
+
+.amount-validation-message.success {
+  color: #059669;
+  background-color: #ecfdf5;
+  border-color: #a7f3d0;
+}
+
+/* Movement type select styling */
+.movement-form select#movement_kind_of {
+  transition: all 0.3s ease;
+}
+
+.movement-income select#movement_kind_of {
+  border-color: #10b981;
+  background-color: #f0fdf4;
+}
+
+.movement-expense select#movement_kind_of {
+  border-color: #ef4444;
+  background-color: #fef2f2;
+}
+
+/* Amount input focus states */
+.movement-income input#movement_amount:focus {
+  border-color: #10b981;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+}
+
+.movement-expense input#movement_amount:focus {
+  border-color: #ef4444;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+}
+
+/* Label styling based on movement type */
+.movement-income label[for="movement_amount"] {
+  color: #059669 !important;
+}
+
+.movement-expense label[for="movement_amount"] {
+  color: #dc2626 !important;
+}
+
+/* Form section headers */
+.movement-type-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+  padding: 12px;
+  border-radius: 0.5rem;
+  font-weight: 500;
+}
+
+.movement-income .movement-type-header {
+  background-color: #f0fdf4;
+  color: #059669;
+  border: 1px solid #bbf7d0;
+}
+
+.movement-expense .movement-type-header {
+  background-color: #fef2f2;
+  color: #dc2626;
+  border: 1px solid #fecaca;
+}
+
+.movement-type-icon {
+  width: 20px;
+  height: 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.movement-income .movement-type-icon {
+  background-color: #10b981;
+  color: white;
+}
+
+.movement-expense .movement-type-icon {
+  background-color: #ef4444;
+  color: white;
+}
+
+/* Animation for smooth transitions */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .currency-indicator {
+    left: 8px;
+  }
+  
+  .amount-input-with-currency {
+    padding-left: 32px !important;
+  }
+  
+  .movement-type-header {
+    padding: 8px;
+    font-size: 0.875rem;
+  }
+}

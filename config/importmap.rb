@@ -10,3 +10,8 @@ pin "chartkick", to: "chartkick.js"
 pin "Chart.bundle", to: "Chart.bundle.js"
 
 pin_all_from "app/javascript/controllers", under: "controllers"
+
+# Pin custom JavaScript components
+pin "user_search", to: "user_search.js"
+pin "amount_handler", to: "amount_handler.js"
+pin "debug_user_search", to: "debug_user_search.js"

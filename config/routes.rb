@@ -5,7 +5,11 @@ Rails.application.routes.draw do
   devise_for :users
   get 'dashboard/index'
   get 'home/index'
-  resources :movements
+  resources :movements do
+    collection do
+      get :search_users
+    end
+  end
   resources :wallets
   resources :users
   resources :churches
