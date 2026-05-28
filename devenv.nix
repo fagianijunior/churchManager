@@ -6,7 +6,7 @@
   env.CHURCHMANAGER_DATABASE_PASSWORD = "a4qpdvb7";
   env.RAILS_ENV = "development";
   env.REDIS_URL = "redis://localhost:6379";
-  
+
   # https://devenv.sh/packages/
   packages = with pkgs; [
     postgresql
@@ -21,7 +21,7 @@
   # https://devenv.sh/languages/
   languages.ruby = {
     enable = true;
-    version = "3.1.7";
+    version = "3.3.5";
   };
 
   # https://devenv.sh/processes/
@@ -57,7 +57,7 @@
       echo "🚀 [$(date)] Iniciando serviços..."
       devenv processes up
     '';
-    
+
     setup.exec = ''
       echo "🚀 [$(date)] Iniciando configuração da aplicação Rails..."
       
@@ -128,22 +128,22 @@
       echo "✅ [$(date)] Aplicação configurada com sucesso!"
       echo "🌐 Acesse: http://localhost:3000"
     '';
-    
+
     dev.exec = ''
       echo "🚀 Iniciando aplicação em modo desenvolvimento..."
       overmind start -f Procfile.dev
     '';
-    
+
     console.exec = ''
       bundle exec rails console
     '';
-    
+
     reset-db.exec = ''
       echo "🗑️ Resetando banco de dados..."
       bundle exec rails db:drop db:create db:migrate db:seed
       echo "✅ Banco resetado com sucesso!"
     '';
-    
+
     health.exec = ''
       ./scripts/health-check.sh
     '';
