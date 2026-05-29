@@ -64,6 +64,12 @@ module FinancialReports
       @generated_files = []
       @generated_files << write_report("dizimos_por_membro.md", TithesReportGenerator.call)
       @generated_files << write_report("salarios.md", SalariesReportGenerator.call)
+
+      begin
+        @generated_files << write_report("resumo_financeiro_mensal.md", MonthlyFinancialSummaryGenerator.call)
+      rescue StandardError => e
+        puts "Erro ao gerar relatório mensal: #{e.message}"
+      end
     end
 
     def write_report(filename, content)

@@ -10,6 +10,7 @@ require "active_support/core_ext/object/blank"
 require_relative "../../../lib/financial_reports/formatter"
 require_relative "../../../lib/financial_reports/tithes_report_generator"
 require_relative "../../../lib/financial_reports/salaries_report_generator"
+require_relative "../../../lib/financial_reports/monthly_financial_summary_generator"
 
 # Stub Rails before requiring runner (which uses Rails.root at load time)
 unless defined?(Rails)
@@ -51,6 +52,7 @@ RSpec.describe FinancialReports::Runner do
     # Stub report generators
     allow(FinancialReports::TithesReportGenerator).to receive(:call).and_return("# Relatório de Dízimos\n")
     allow(FinancialReports::SalariesReportGenerator).to receive(:call).and_return("# Relatório de Salários\n")
+    allow(FinancialReports::MonthlyFinancialSummaryGenerator).to receive(:call).and_return("# Resumo Financeiro Mensal\n")
 
     # Use a temp directory for output
     @temp_dir = Dir.mktmpdir("financial_reports_test")
@@ -91,7 +93,7 @@ RSpec.describe FinancialReports::Runner do
     context "exibição do resumo final" do
       # Validates: Requirement 1.4
       it "exibe o caminho absoluto e lista de arquivos gerados" do
-        expected_output = /Relatórios gerados em: .+\n\s+- dizimos_por_membro\.md\n\s+- salarios\.md/
+        expected_output = /Relatórios gerados em: .+\n\s+- dizimos_por_membro\.md\n\s+- salarios\.md\n\s+- resumo_financeiro_mensal\.md/
 
         expect { runner.call }.to output(expected_output).to_stdout
       end
@@ -217,18 +219,49 @@ RSpec.describe FinancialReports::Runner do
   end
 
   describe "orquestração dos geradores" do
-    it "invoca TithesReportGenerator e SalariesReportGenerator" do
+    it "invoca TithesReportGenerator, SalariesReportGenerator e MonthlyFinancialSummaryGenerator" do
       expect(FinancialReports::TithesReportGenerator).to receive(:call).and_return("tithes content")
       expect(FinancialReports::SalariesReportGenerator).to receive(:call).and_return("salaries content")
+      expect(FinancialReports::MonthlyFinancialSummaryGenerator).to receive(:call).and_return("monthly summary content")
 
       expect { runner.call }.to output(/Relatórios gerados em:/).to_stdout
     end
 
-    it "gera os dois arquivos no diretório de saída" do
+    it "gera os três arquivos no diretório de saída" do
       expect { runner.call }.to output(/Relatórios gerados em:/).to_stdout
 
       expect(File.exist?(File.join(@temp_dir, "dizimos_por_membro.md"))).to be true
       expect(File.exist?(File.join(@temp_dir, "salarios.md"))).to be true
+      expect(File.exist?(File.join(@temp_dir, "resumo_financeiro_mensal.md"))).to be true
+    end
+  end
+
+  describe "integração com MonthlyFinancialSummaryGenerator" do
+    # Validates: Requirements 1.2, 8.4
+
+    context "quando MonthlyFinancialSummaryGenerator.call sucede" do
+      it "inclui resumo_financeiro_mensal.md na lista de arquivos gerados exibida no terminal" do
+        allow(FinancialReports::MonthlyFinancialSummaryGenerator).to receive(:call).and_return("# Resumo Financeiro Mensal\n")
+
+        expect { runner.call }.to output(/- resumo_financeiro_mensal\.md/).to_stdout
+      end
+    end
+
+    context "quando MonthlyFinancialSummaryGenerator.call lança StandardError" do
+      before do
+        allow(FinancialReports::MonthlyFinancialSummaryGenerator).to receive(:call).and_raise(StandardError.new("falha na consulta"))
+      end
+
+      it "não interrompe a geração dos demais relatórios (dizimos e salarios)" do
+        expect { runner.call }.to output(/Relatórios gerados em:/).to_stdout
+
+        expect(File.exist?(File.join(@temp_dir, "dizimos_por_membro.md"))).to be true
+        expect(File.exist?(File.join(@temp_dir, "salarios.md"))).to be true
+      end
+
+      it "exibe mensagem de erro no terminal com a mensagem da exceção" do
+        expect { runner.call }.to output(/Erro ao gerar relatório mensal: falha na consulta/).to_stdout
+      end
     end
   end
 end

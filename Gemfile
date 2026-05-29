@@ -81,6 +81,7 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
   gem "webdrivers"
+  gem "rspec", "~> 3.13"
   gem "rspec-rails", "~> 6.0"
   gem "rantly", "~> 2.0"
 end
